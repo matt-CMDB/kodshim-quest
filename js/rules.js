@@ -11,6 +11,7 @@ window.Rules = (function () {
 
   const isBird = sp => sp === 'turtledove' || sp === 'pigeon';
   const total = age => age.y * YEAR + age.m * 30 + age.d;
+  const R_total = a => (a.age ? total(a.age) : 0);
   const maxAge = sp => sp === 'cattle' ? 3 * YEAR : 2 * YEAR;
 
   function ageText(age) {
@@ -49,7 +50,11 @@ window.Rules = (function () {
     tzihuv:    { ok: false, label: 'No: at the start of tzihuv both are unfit', why: 'When the neck feathers just begin to turn golden, both turtledove and pigeon are unfit.', src: 'Chullin 1:5' },
     bird_mum:  { ok: true,  label: 'Yes: a blemish does not disqualify a bird', why: 'The laws of mum apply to animals, not birds. Only a missing limb, a dried wing or a blinded eye disqualifies a bird.', src: 'Issurei Mizbeach 3:1' },
     bird_limb: { ok: false, label: 'No: a bird missing a limb is unfit', why: 'Ordinary blemishes do not disqualify birds, but a missing limb (or a dried wing or a blinded eye) does.', src: 'Issurei Mizbeach 3:1' },
+    // tempting wrong reasons for birds (never the answer)
+    bird_zaken: { ok: false, label: 'No: too old (zaken)', why: '', src: '' },
+    bird_mumno: { ok: false, label: 'No: it has a mum', why: '', src: '' },
   };
+  const YES = new Set(['fit', 'bedieved', 'bird_fit', 'bird_mum']);
   function fitness(a) {
     if (isBird(a.species)) {
       if (a.limb) return 'bird_limb';
@@ -131,14 +136,20 @@ window.Rules = (function () {
   }
   function fitQuestion(a) {
     const ans = fitness(a);
-    let pool;
-    if (isBird(a.species)) pool = ['bird_fit', 'tor_young', 'yonah_old', 'tzihuv', 'bird_mum', 'bird_limb'].filter(k => k !== ans);
-    else pool = ['fit', 'bedieved', 'young', 'zaken', 'mum', ...(a.species === 'sheep' && a.sex === 'm' ? ['pilgas'] : [])].filter(k => k !== ans);
-    // keep options sensible: a bird question never offers 'bird_mum' unless a blemish is in play
-    if (isBird(a.species) && !a.mum) pool = pool.filter(k => k !== 'bird_mum');
-    if (isBird(a.species) && !a.limb) pool = pool.filter(k => k !== 'bird_limb');
-    if (!isBird(a.species) && !a.mum) pool = pool.filter(k => k !== 'mum');
-    const opts = shuffle([ans, ...shuffle(pool).slice(0, 3)]);
+    const bird = isBird(a.species);
+    // exactly one affirmative option per question; the rest are "No" reasons
+    const noPool = bird
+      ? ['tor_young', 'yonah_old', 'tzihuv', 'bird_limb', 'bird_zaken', 'bird_mumno']
+      : ['young', 'zaken', 'mum', ...(a.species === 'sheep' && a.sex === 'm' ? ['pilgas'] : [])];
+    const nos = shuffle(noPool.filter(k => k !== ans));
+    let opts;
+    if (YES.has(ans)) opts = [ans, ...nos.slice(0, 3)];
+    else {
+      // one "Yes": the tempting one when a blemish is in play, otherwise the plain one
+      const yes = bird ? (a.mum ? 'bird_mum' : 'bird_fit') : (R_total(a) >= 8 && R_total(a) < 30 ? 'bedieved' : 'fit');
+      opts = [ans, yes, ...nos.slice(0, 2)];
+    }
+    opts = shuffle(opts);
     return { kind: 'fit', prompt: 'May it be brought on the mizbeach?', opts: opts.map(k => ({ key: k, label: FIT[k].label })), answer: ans, why: FIT[ans].why, src: FIT[ans].src };
   }
 
@@ -149,7 +160,7 @@ window.Rules = (function () {
     const a = C.ANIMALS[key]; const bird = isBird(a.species);
     switch (korban) {
       case 'olah': return bird ? null : (a.sex === 'm' ? null : 'olah_female');
-      case 'chatat': if (bird) return 'chatat_bird'; if (a.species === 'cattle') return 'chatat_cattle'; return a.sex === 'f' ? null : 'chatat_male';
+      case 'chatat': if (bird) return 'chatat_bird'; if (a.species === 'cattle') return 'chatat_cattle'; if (a.sex !== 'f') return 'chatat_male'; return a.age === 'young' ? null : 'chatat_age';
       case 'asham': if (a.species !== 'sheep') return 'asham_species'; return a.sex === 'm' ? null : 'asham_female';
       case 'shelamim': return bird ? 'shelamim_bird' : null;
     }
@@ -159,6 +170,7 @@ window.Rules = (function () {
     chatat_bird: { label: 'No: his chatas is a female sheep or goat', why: 'An ordinary person\'s chatas for a sin is a se\'iras izim or a kivsah.', src: 'Vayikra 4:28' },
     chatat_cattle: { label: 'No: an individual\'s chatas is never cattle', why: 'Every individual\'s chatas is female and not from cattle, except the three bulls and the nasi\'s goat.', src: 'MK 1:15' },
     chatat_male: { label: 'No: an individual\'s chatas must be female', why: 'Every individual\'s chatas is female; only the nasi, the kohen mashiach and the kohen gadol on Yom Kippur bring males.', src: 'MK 1:15' },
+    chatat_age: { label: 'No: the chatas is a female in its first year', why: 'The Torah asks for "a she-goat in her first year" (ez bas shenasah), and a keves means a sheep in its first year; a grown ewe or she-goat is not the individual\'s chatas.', src: 'Bamidbar 15:27' },
     asham_species: { label: 'No: an asham comes only from sheep', why: 'The asham comes only from male sheep.', src: 'MK 1:10' },
     asham_female: { label: 'No: an asham must be a male sheep', why: 'The asham comes only from male sheep.', src: 'MK 1:10' },
     shelamim_bird: { label: 'No: there are no bird shelamim', why: '"No bird is brought as shelamim."', src: 'MK 1:11' },

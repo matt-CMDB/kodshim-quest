@@ -279,10 +279,10 @@ window.Game = (function () {
       <p>Valid from day 8; lechatchilah from day 30 (not bechor, pesach, maaser). Hours count, through zerikah. Any mum: pasul.<br>Turtledove: fit only grown. Pigeon: fit only young. Start of tzihuv: both unfit. Birds: sex and ordinary blemishes do not matter; a missing limb, dried wing or blinded eye does.</p>`,
     kinds: `<h3>The four kinds (Maaseh HaKorbanos 1:8–1:11, 1:15)</h3><table><tr><th></th><th>Olah <span class="he">עוֹלָה</span></th><th>Chatas <span class="he">חַטָּאת</span></th><th>Asham <span class="he">אָשָׁם</span></th><th>Shelamim <span class="he">שְׁלָמִים</span></th></tr>
       <tr><th>Cattle</th><td class="y">♂ only</td><td class="n">not for an individual*</td><td class="n">no</td><td class="y">♂ or ♀</td></tr>
-      <tr><th>Sheep</th><td class="y">♂ only</td><td class="y">♀ (kivsah)</td><td class="y">♂ only (ayil; keves for nazir, metzora)</td><td class="y">♂ or ♀</td></tr>
-      <tr><th>Goats</th><td class="y">♂ only</td><td class="y">♀ (se'irah)</td><td class="n">no</td><td class="y">♂ or ♀</td></tr>
+      <tr><th>Sheep</th><td class="y">♂ only</td><td class="y">♀ first year (kivsah)</td><td class="y">♂ only (ayil; keves for nazir, metzora)</td><td class="y">♂ or ♀</td></tr>
+      <tr><th>Goats</th><td class="y">♂ only</td><td class="y">♀ first year (se'irah)</td><td class="n">no</td><td class="y">♂ or ♀</td></tr>
       <tr><th>Birds</th><td class="y">♂ or ♀</td><td class="y">in the cases the Torah names</td><td class="n">no</td><td class="n">no</td></tr></table>
-      <p>*An individual's chatas is female and not cattle, except the nasi (male goat), the kohen mashiach (bull) and the kohen gadol on Yom Kippur (bull).</p>`,
+      <p>*An individual's chatas is a female in its first year ("ez bas shenasah", Bamidbar 15:27) and not cattle, except the nasi (male goat), the kohen mashiach (bull) and the kohen gadol on Yom Kippur (bull).</p>`,
     kedushah: `<h3>Kodshei kodashim and kodashim kalim (1:17, 5:2, 10:3–10:7)</h3><table><tr><th></th><th>Kodshei kodashim</th><th>Kodashim kalim</th></tr>
       <tr><th>Which</th><td>olah, chatas, asham, the two Shavuos lambs</td><td>an individual's shelamim (and todah), bechor, maaser, pesach</td></tr>
       <tr><th>Shechitah</th><td>north of the mizbeach only</td><td>anywhere in the Azarah</td></tr>
@@ -517,7 +517,7 @@ window.Game = (function () {
   function update() {
     tick++;
     if (!map || !player) return;
-    if (mode === 'world' && !busy) {
+    if (mode === 'world' && !busy && !modal.length) {
       if (!player.moving) {
         const dir = keys.up ? 'up' : keys.down ? 'down' : keys.left ? 'left' : keys.right ? 'right' : null;
         if (dir) { if (!tryMove(player, dir)) player.dir = dir; }
