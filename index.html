@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+<title>Kodshim Quest</title>
+<meta name="description" content="A Pokémon-style adventure for learning the laws of korbanos: name the animals, pass the gatekeepers, fill your Sefer." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Crect width='16' height='16' fill='%23223'/%3E%3Crect x='3' y='3' width='10' height='10' fill='%23f2c94c'/%3E%3Crect x='5' y='5' width='6' height='6' fill='%23223'/%3E%3Crect x='7' y='7' width='2' height='2' fill='%23f2c94c'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&family=Rubik:wght@400;500;700&display=swap" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div id="stage">
+  <div id="game">
+    <canvas id="world" width="384" height="256"></canvas>
+    <div id="fx"></div>
+    <div id="ui"></div>
+    <div id="fade"></div>
+  </div>
+  <div id="touch" aria-hidden="true">
+    <div class="dpad">
+      <button data-dir="up">▲</button>
+      <button data-dir="left">◀</button>
+      <button data-dir="right">▶</button>
+      <button data-dir="down">▼</button>
+    </div>
+    <div class="ab">
+      <button data-btn="b">B</button>
+      <button data-btn="a">A</button>
+      <button data-btn="start">☰</button>
+    </div>
+  </div>
+</div>
+<script src="js/sprites.js"></script>
+<script src="js/tiles.js"></script>
+<script src="js/content.js"></script>
+<script src="js/rules.js"></script>
+<script src="js/maps.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/battle.js"></script>
+<script src="js/sefer.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
