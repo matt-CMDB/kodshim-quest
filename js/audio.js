@@ -1,7 +1,8 @@
 /* Kodshim Quest — chiptune audio (WebAudio, no samples).
    Songs are note lists per track; a tiny scheduler loops them. */
 window.Audio2 = (function () {
-  let ctx = null, master = null, enabled = true, current = null, timer = null;
+  let ctx = null, master = null, enabled = true, current = null, timer = null, bus = null;
+  const MUSIC_GAIN = 0.32;    // music sits well under the sound effects
   const NOTE = { C: 0, 'C#': 1, Db: 1, D: 2, 'D#': 3, Eb: 3, E: 4, F: 5, 'F#': 6, Gb: 6, G: 7, 'G#': 8, Ab: 8, A: 9, 'A#': 10, Bb: 10, B: 11 };
   function freq(n) { if (typeof n === 'number') return n; const m = /^([A-G][#b]?)(\d)$/.exec(n); const midi = 12 * (+m[2] + 1) + NOTE[m[1]]; return 440 * Math.pow(2, (midi - 69) / 12); }
   function ensure() {
@@ -10,14 +11,14 @@ window.Audio2 = (function () {
     ctx = new AC(); master = ctx.createGain(); master.gain.value = enabled ? 0.5 : 0; master.connect(ctx.destination);
     return ctx;
   }
-  function tone(f, t0, dur, { wave = 'square', vol = .2, slide = 0, attack = .005, release = .03 } = {}) {
+  function tone(f, t0, dur, { wave = 'square', vol = .2, slide = 0, attack = .005, release = .03, out = null } = {}) {
     if (!ctx) return;
     const o = ctx.createOscillator(), g = ctx.createGain();
     o.type = wave; o.frequency.setValueAtTime(f, t0);
     if (slide) o.frequency.exponentialRampToValueAtTime(Math.max(20, f + slide), t0 + dur);
     g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(vol, t0 + attack);
     g.gain.setValueAtTime(vol, Math.max(t0 + attack, t0 + dur - release)); g.gain.linearRampToValueAtTime(0, t0 + dur);
-    o.connect(g); g.connect(master); o.start(t0); o.stop(t0 + dur + .01);
+    o.connect(g); g.connect(out || master); o.start(t0); o.stop(t0 + dur + .01);
   }
   function noise(t0, dur, vol = .15) {
     if (!ctx) return;
@@ -32,7 +33,7 @@ window.Audio2 = (function () {
   // a track: { wave, vol, notes: [[note|0, beats], ...] }
   const SONGS = {
     field: { bpm: 112, tracks: [
-      { wave: 'square', vol: .13, notes: [
+      { wave: 'triangle', vol: .17, notes: [
         ['E4', 1], ['G#4', .5], ['A4', .5], ['B4', 1], ['A4', .5], ['G#4', .5],
         ['F4', 1], ['E4', 1], ['D4', .5], ['E4', .5], ['F4', 1],
         ['E4', 1], ['G#4', .5], ['A4', .5], ['B4', 1], ['C5', 1],
@@ -42,7 +43,7 @@ window.Audio2 = (function () {
         ['D4', 1], ['E4', .5], ['F4', .5], ['G#4', 1], ['A4', 1],
         ['G#4', .5], ['F4', .5], ['E4', 2], [0, 1],
       ] },
-      { wave: 'triangle', vol: .22, notes: [
+      { wave: 'triangle', vol: .16, notes: [
         ['E2', 1], ['E3', .5], ['E2', .5], ['E2', 1], ['B2', 1],
         ['E2', 1], ['E3', .5], ['E2', .5], ['E2', 1], ['B2', 1],
         ['A2', 1], ['A3', .5], ['A2', .5], ['A2', 1], ['E3', 1],
@@ -122,23 +123,30 @@ window.Audio2 = (function () {
     if (!ensure() || !SONGS[name]) return;
     const song = SONGS[name];
     const beat = 60 / song.bpm;
-    const loopBeats = Math.max(...song.tracks.map(trackLen));
-    let loopStart = ctx.currentTime + .05;
+    // every song plays through its own bus, so a switch can fade the old one out
+    const myBus = ctx.createGain(); myBus.gain.setValueAtTime(0, ctx.currentTime); myBus.gain.linearRampToValueAtTime(MUSIC_GAIN, ctx.currentTime + .4); myBus.connect(master);
+    bus = myBus;
+    // per-track playheads: schedule only the notes that fall within a short lookahead
+    const heads = song.tracks.map(tr => ({ tr, i: 0, t: ctx.currentTime + .08 }));
+    const LOOKAHEAD = 0.6;
     const schedule = () => {
-      if (current !== name) return;
-      // schedule one loop ahead when within 0.5 s of its start
-      if (loopStart - ctx.currentTime < 0.5) {
-        for (const tr of song.tracks) {
-          let t = loopStart;
-          for (const [n, b] of tr.notes) { if (n) tone(freq(n), t, b * beat * .92, { wave: tr.wave, vol: tr.vol }); t += b * beat; }
+      if (current !== name || bus !== myBus) return;
+      const horizon = ctx.currentTime + LOOKAHEAD;
+      for (const h of heads) {
+        while (h.t < horizon) {
+          const [n, b] = h.tr.notes[h.i];
+          if (n) tone(freq(n), h.t, b * beat * .92, { wave: h.tr.wave, vol: h.tr.vol, out: myBus });
+          h.t += b * beat; h.i = (h.i + 1) % h.tr.notes.length;
         }
-        loopStart += loopBeats * beat;
       }
-      timer = setTimeout(schedule, 200);
+      timer = setTimeout(schedule, 150);
     };
     schedule();
   }
-  function stop() { current = null; if (timer) { clearTimeout(timer); timer = null; } }
+  function stop() {
+    current = null; if (timer) { clearTimeout(timer); timer = null; }
+    if (bus && ctx) { const old = bus; bus = null; old.gain.cancelScheduledValues(ctx.currentTime); old.gain.setValueAtTime(old.gain.value, ctx.currentTime); old.gain.linearRampToValueAtTime(0, ctx.currentTime + .35); setTimeout(() => old.disconnect(), 600); }
+  }
   function setEnabled(on) { enabled = on; if (master) master.gain.setTargetAtTime(on ? .5 : 0, ctx.currentTime, .05); }
   function resume() { if (ctx && ctx.state === 'suspended') ctx.resume(); }
 

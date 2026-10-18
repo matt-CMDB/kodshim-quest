@@ -395,7 +395,7 @@ window.Game = (function () {
     const qs = tr.questions.map(id => R.byId(id));
     const res = await window.Battle.run({ type: 'trainer', arena: map.id === 'city' ? 'city' : 'pasture', name: tr.name.toUpperCase(), kind: n.kind, questions: qs, level: map.encounters === 'l2' ? 2 : 1, intro: `${tr.name} challenges you!` });
     if (res.won) { S.beaten[n.id] = true; S.wins++; addXp(40); await say(tr.lose, { name: tr.name }); save(); }
-    else { await say('Come back when you have learned more.', { name: tr.name }); if (S.hp <= 0) await faint(); else save(); }
+    else { n.cooldown = 480; await say('Come back when you have learned more. Go on, I will give you a moment.', { name: tr.name }); if (S.hp <= 0) await faint(); else save(); }
   }
   async function wildEncounter() {
     S.encounters++; lastEncounterStep = S.steps;
@@ -467,7 +467,7 @@ window.Game = (function () {
     }
     // trainers' line of sight
     for (const n of npcs) {
-      if (!n.trainer || S.beaten[n.id]) continue;
+      if (!n.trainer || S.beaten[n.id] || n.cooldown > 0) continue;
       if (inSight(n)) { runScript(() => trainerApproach(n)); return; }
     }
     // encounters
@@ -520,6 +520,7 @@ window.Game = (function () {
     }
     // npcs
     for (const n of npcs) {
+      if (n.cooldown > 0 && !busy) n.cooldown--;
       if (n.moving) { stepEntity(n, 1); continue; }
       if (!n.wander || busy) continue;
       if (--n.timer > 0) continue;
@@ -707,7 +708,18 @@ window.Game = (function () {
     lightG.fillStyle = vg; lightG.fillRect(0, 0, lw, lh);
   }
 
-  function loop() { update(); render(); requestAnimationFrame(loop); }
+  // Fixed-step simulation at 60 Hz in wall-clock time, rendered once per frame,
+  // so movement, timers and cooldowns run at the same speed on any machine.
+  const STEP = 1000 / 60; let last = 0, acc = 0;
+  function loop(ts) {
+    if (!last) last = ts;
+    acc += Math.min(250, ts - last); last = ts;
+    let n = 0;
+    while (acc >= STEP && n < 6) { update(); acc -= STEP; n++; }
+    if (n === 6) acc = 0;
+    render();
+    requestAnimationFrame(loop);
+  }
 
   // ------------------------------------------------------------ start menu
   async function startMenu() {
@@ -794,7 +806,7 @@ window.Game = (function () {
 
   function boot() {
     if (SP.problems.length) console.warn('sprite problems', SP.problems);
-    loop();
+    requestAnimationFrame(loop);
     title();
   }
 
