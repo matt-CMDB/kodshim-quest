@@ -1,10 +1,15 @@
 /* Kodshim Quest — the engine: loop, overworld, dialogue, scripts, save. */
 window.Game = (function () {
-  const T = 16, VW = 24, VH = 16, W = VW * T, H = VH * T;
+  const T = 16;
+  let VW = 36, VH = 22, W = VW * T, H = VH * T, SCALE = 2;
   const C = window.Content, R = window.Rules, SP = window.Sprites, TL = window.Tiles.made, A = window.Audio2;
   const canvas = document.getElementById('world');
   const g = canvas.getContext('2d');
+  const glowC = document.getElementById('glow'), blurC = document.getElementById('blur'), lightC = document.getElementById('light');
+  const glowG = glowC.getContext('2d'), blurG = blurC.getContext('2d'), lightG = lightC.getContext('2d');
+  const gameEl = document.getElementById('game');
   g.imageSmoothingEnabled = false;
+  let motes = [];
   const ui = document.getElementById('ui');
   const fadeEl = document.getElementById('fade');
   const SAVE_KEY = 'kodshim.quest.v1';
@@ -104,8 +109,18 @@ window.Game = (function () {
   function resize() {
     const touch = document.getElementById('touch');
     const th = getComputedStyle(touch).display !== 'none' ? touch.offsetHeight + 8 : 0;
-    const s = Math.max(1, Math.floor(Math.min(window.innerWidth / W, (window.innerHeight - th) / H)));
-    document.documentElement.style.setProperty('--s', s);
+    const iw = window.innerWidth, ih = window.innerHeight - th;
+    SCALE = iw >= 1900 && ih >= 1000 ? 3 : iw >= 820 ? 2 : 1;
+    VW = Math.max(16, Math.min(38, Math.floor(iw / (T * SCALE)))); VH = Math.max(12, Math.min(24, Math.floor(ih / (T * SCALE))));
+    W = VW * T; H = VH * T;
+    for (const c of [canvas, glowC, blurC]) { c.width = W; c.height = H; }
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    lightC.width = W * SCALE * dpr; lightC.height = H * SCALE * dpr;
+    g.imageSmoothingEnabled = false; glowG.imageSmoothingEnabled = false; blurG.imageSmoothingEnabled = false;
+    gameEl.style.width = (W * SCALE) + 'px'; gameEl.style.height = (H * SCALE) + 'px';
+    document.documentElement.style.setProperty('--s', SCALE);
+    motes = Array.from({ length: 28 }, () => ({ x: Math.random(), y: Math.random(), r: 1.5 + Math.random() * 2.5, p: Math.random() * 6.28, v: .00008 + Math.random() * .00012 }));
+    if (player) snapCamera();
   }
   window.addEventListener('resize', resize); resize();
 
@@ -555,8 +570,50 @@ window.Game = (function () {
     }
     return t;
   }
-  function drawShadow(x, y, w = 12, h = 5) {
-    g.fillStyle = 'rgba(0,0,0,.22)'; g.beginPath(); g.ellipse(x, y, w / 2, h / 2, 0, 0, Math.PI * 2); g.fill();
+  const softCache = {};
+  function softShadow(w, h, a = .4) {
+    const key = w + 'x' + h + 'x' + a;
+    if (softCache[key]) return softCache[key];
+    const c = document.createElement('canvas'); c.width = w * 2; c.height = h * 2;
+    const cg = c.getContext('2d');
+    const gr = cg.createRadialGradient(w, h, 0, w, h, w);
+    gr.addColorStop(0, `rgba(10,8,20,${a})`); gr.addColorStop(.55, `rgba(10,8,20,${a * .45})`); gr.addColorStop(1, 'rgba(10,8,20,0)');
+    cg.fillStyle = gr; cg.save(); cg.translate(w, h); cg.scale(1, h / w); cg.beginPath(); cg.arc(0, 0, w, 0, Math.PI * 2); cg.fill(); cg.restore();
+    return (softCache[key] = c);
+  }
+  function drawShadow(x, y, w = 14, h = 6, a = .45) {
+    const c = softShadow(w, h, a);
+    g.drawImage(c, Math.round(x - w), Math.round(y - h));
+  }
+  let aoStrip = null, aoSide = null;
+  function aoStrips() {
+    if (aoStrip) return;
+    aoStrip = document.createElement('canvas'); aoStrip.width = T; aoStrip.height = 10;
+    let cg = aoStrip.getContext('2d'); let gr = cg.createLinearGradient(0, 0, 0, 10);
+    gr.addColorStop(0, 'rgba(10,8,20,.42)'); gr.addColorStop(1, 'rgba(10,8,20,0)'); cg.fillStyle = gr; cg.fillRect(0, 0, T, 10);
+    aoSide = document.createElement('canvas'); aoSide.width = 6; aoSide.height = T;
+    cg = aoSide.getContext('2d'); gr = cg.createLinearGradient(0, 0, 6, 0);
+    gr.addColorStop(0, 'rgba(10,8,20,.28)'); gr.addColorStop(1, 'rgba(10,8,20,0)'); cg.fillStyle = gr; cg.fillRect(0, 0, 6, T);
+  }
+  const WALLISH = new Set(['W', 'w', 'R', 'H', 'n', 'k', 'e', 'm', 'B', '%', '&']);
+  function ambientOcclusion(x0, y0, x1, y1, ox, oy) {
+    aoStrips();
+    for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) {
+      const ch = tileAt(x, y);
+      const below = tileAt(x, y + 1);
+      const gt = gateAt(x, y);
+      const wall = WALLISH.has(ch) || (gt && !(gt.dx === 1 && gt.dy === 2));
+      if (wall && !WALLISH.has(below) && !gateAt(x, y + 1) && below !== '#') g.drawImage(aoStrip, x * T - ox, (y + 1) * T - oy);
+      if (wall) { const right = tileAt(x + 1, y); if (!WALLISH.has(right) && !gateAt(x + 1, y) && right !== '#') g.drawImage(aoSide, (x + 1) * T - ox, y * T - oy); }
+      const info = TILE[ch];
+      if (info && info.obj && info.obj !== 'crowd' && !WALLISH.has(ch)) {
+        const big = info.tall || info.obj === 'tree' || info.obj === 'olive';
+        drawShadow(x * T + 8 - ox, y * T + 14 - oy, big ? 14 : 10, big ? 6 : 4, big ? .5 : .35);
+      }
+      if (ch === '~') { // water: soft shimmer line
+        if (((x * 7 + y * 13 + (tick >> 4)) % 9) === 0) { g.fillStyle = 'rgba(255,255,255,.18)'; g.fillRect(x * T + 3 - ox, y * T + ((tick >> 2) + x * 5) % 16 - oy, 7, 1); }
+      }
+    }
   }
   function personSprite(ent) {
     const view = ent.dir === 'left' || ent.dir === 'right' ? 'side' : ent.dir;
@@ -578,6 +635,7 @@ window.Game = (function () {
       const tex = texFor(ch, x, y);
       if (tex) g.drawImage(tex, x * T - ox, y * T - oy);
     }
+    ambientOcclusion(x0, y0, x1, y1, ox, oy);
     // drawables
     const items = [];
     for (let y = y0 - 1; y <= y1 + 1; y++) for (let x = x0; x <= x1; x++) {
@@ -585,17 +643,18 @@ window.Game = (function () {
       if (!info) continue;
       if (info.obj) {
         let img = TL[info.obj];
-        if (Array.isArray(img)) img = img[Math.floor(tick / 30) % img.length];
+        if (info.obj === 'crowd') { const h = hash(x, y); img = TL.crowd[h % TL.crowd.length][Math.floor(tick / 24 + (h % 2)) % 2]; }
+        else if (Array.isArray(img)) img = img[Math.floor(tick / 30) % img.length];
         items.push({ y: y * T + (info.tall ? 8 : 0), draw: () => g.drawImage(img, x * T - ox, y * T + T - img.height - oy) });
       }
       if (ch === 'G') { const img = TL.gate; items.push({ y: (y + 2) * T + 1, draw: () => g.drawImage(img, x * T - ox, y * T - oy) }); }
     }
     for (const a of anims) {
       const sm = SP.get('small:' + a.kind + ':' + (a.face === 'right' ? 'r' : 'l'));
-      items.push({ y: a.py + 16, draw: () => { drawShadow(a.px - ox + 8, a.py - oy + 15, 11, 4); g.drawImage(sm, a.px - ox, a.py - oy + (a.moving && Math.floor(a.prog / 4) % 2 ? -1 : 0)); } });
+      items.push({ y: a.py + 16, draw: () => { drawShadow(a.px - ox + 8, a.py - oy + 15, 11, 5, .4); g.drawImage(sm, a.px - ox, a.py - oy + (a.moving && Math.floor(a.prog / 4) % 2 ? -1 : 0)); } });
     }
-    for (const n of npcs) items.push({ y: n.py + 16, draw: () => { drawShadow(n.px - ox + 8, n.py - oy + 15); g.drawImage(personSprite(n), n.px - ox, n.py - oy - 4); } });
-    items.push({ y: player.py + 16, draw: () => { drawShadow(player.px - ox + 8, player.py - oy + 15); g.drawImage(personSprite(player), player.px - ox, player.py - oy - 4); } });
+    for (const n of npcs) items.push({ y: n.py + 16, draw: () => { drawShadow(n.px - ox + 8, n.py - oy + 15, 12, 5, .45); g.drawImage(personSprite(n), n.px - ox, n.py - oy - 4); } });
+    items.push({ y: player.py + 16, draw: () => { drawShadow(player.px - ox + 8, player.py - oy + 15, 12, 5, .45); g.drawImage(personSprite(player), player.px - ox, player.py - oy - 4); } });
     items.sort((a, b) => a.y - b.y);
     for (const it of items) it.draw();
     // particles
@@ -614,16 +673,38 @@ window.Game = (function () {
         g.fillStyle = gr; g.fillRect(c.x - c.r - ox, c.y - c.r - oy, c.r * 2, c.r * 2);
       }
       const warm = g.createLinearGradient(0, 0, 0, H);
-      warm.addColorStop(0, 'rgba(255,200,120,.10)'); warm.addColorStop(1, 'rgba(60,40,90,.12)');
+      warm.addColorStop(0, 'rgba(255,200,120,.08)'); warm.addColorStop(1, 'rgba(60,40,90,.10)');
       g.fillStyle = warm; g.fillRect(0, 0, W, H);
-    } else {
-      const vg = g.createRadialGradient(W / 2, H / 2, H * .3, W / 2, H / 2, H * .9);
-      vg.addColorStop(0, 'rgba(255,220,160,.08)'); vg.addColorStop(1, 'rgba(0,0,0,.45)');
-      g.fillStyle = vg; g.fillRect(0, 0, W, H);
     }
-    const vg = g.createRadialGradient(W / 2, H / 2, H * .45, W / 2, H / 2, H);
-    vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,.28)');
-    g.fillStyle = vg; g.fillRect(0, 0, W, H);
+    // bloom + tilt-shift copies
+    glowG.clearRect(0, 0, W, H); glowG.drawImage(canvas, 0, 0);
+    blurG.drawImage(canvas, 0, 0);
+    renderLight();
+  }
+  function renderLight() {
+    const lw = lightC.width, lh = lightC.height;
+    lightG.clearRect(0, 0, lw, lh);
+    if (map.outdoor) {
+      // sun
+      const sun = lightG.createRadialGradient(lw * .82, -lh * .1, 0, lw * .82, -lh * .1, lw * .7);
+      sun.addColorStop(0, 'rgba(255,236,190,.26)'); sun.addColorStop(.5, 'rgba(255,220,160,.07)'); sun.addColorStop(1, 'rgba(255,220,160,0)');
+      lightG.fillStyle = sun; lightG.fillRect(0, 0, lw, lh);
+      // motes
+      lightG.fillStyle = 'rgba(255,245,210,.55)';
+      for (const m of motes) {
+        m.x += Math.sin(tick * .01 + m.p) * .00025 + m.v * .4; m.y -= m.v; if (m.y < -.05) { m.y = 1.05; m.x = Math.random(); } if (m.x > 1.05) m.x = -.05;
+        const a = .18 + .22 * (0.5 + 0.5 * Math.sin(tick * .03 + m.p));
+        lightG.globalAlpha = a; lightG.beginPath(); lightG.arc(m.x * lw, m.y * lh, m.r * (lw / 1100), 0, Math.PI * 2); lightG.fill();
+      }
+      lightG.globalAlpha = 1;
+    } else {
+      const cg = lightG.createRadialGradient(lw / 2, lh * .45, 0, lw / 2, lh * .45, lw * .45);
+      cg.addColorStop(0, 'rgba(255,214,150,.16)'); cg.addColorStop(1, 'rgba(255,214,150,0)');
+      lightG.fillStyle = cg; lightG.fillRect(0, 0, lw, lh);
+    }
+    const vg = lightG.createRadialGradient(lw / 2, lh / 2, lh * .35, lw / 2, lh / 2, lw * .75);
+    vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, map.outdoor ? 'rgba(5,5,15,.42)' : 'rgba(5,5,15,.7)');
+    lightG.fillStyle = vg; lightG.fillRect(0, 0, lw, lh);
   }
 
   function loop() { update(); render(); requestAnimationFrame(loop); }
@@ -664,13 +745,17 @@ window.Game = (function () {
   async function title() {
     mode = 'title';
     const t = el('div'); t.id = 'title';
-    const art = document.createElement('canvas'); art.width = W; art.height = 96; art.style.width = `calc(${W}px * var(--s))`; art.style.height = `calc(96px * var(--s))`;
+    const art = document.createElement('canvas'); art.width = W; art.height = 96; art.style.width = (W * SCALE) + 'px'; art.style.height = (96 * SCALE) + 'px';
     const ag = art.getContext('2d'); ag.imageSmoothingEnabled = false;
     // a little diorama: grass, a pen, animals, the player
+    const cx = Math.floor(W / 2);
     for (let y = 0; y < 6; y++) for (let x = 0; x < VW; x++) ag.drawImage(y < 2 ? TL.grass[hash(x, y) % 4] : (y === 2 ? TL.tall[hash(x, y) % 3][0] : TL.grass[(x + y) % 4]), x * T, y * T);
-    ag.drawImage(TL.tree, 0, 0); ag.drawImage(TL.tree, 24 * T - 16, 2); ag.drawImage(TL.olive, 16 * T, 60);
-    ag.drawImage(SP.get('small:sheep:l'), 60, 56); ag.drawImage(SP.get('small:sheep:r'), 84, 62); ag.drawImage(SP.get('small:goat:l'), 290, 58); ag.drawImage(SP.get('small:cattle:r'), 240, 50); ag.drawImage(SP.get('small:bird:l'), 130, 40);
-    ag.drawImage(SP.person('player', 'down', 'stand'), 184, 52); ag.drawImage(SP.person('kohen', 'side', 'stand', true), 160, 48);
+    for (let x = 0; x < VW; x += 3) ag.drawImage(TL.tree, x * T + (x % 2) * 6, (x % 3) * 3 - 6);
+    ag.drawImage(TL.olive, cx - 100, 58); ag.drawImage(TL.bush, cx + 120, 70);
+    const sh = (x, y, w, h) => { const c = softShadow(w, h, .4); ag.drawImage(c, x - w, y - h); };
+    const place = (name, x, y) => { sh(x + 8, y + 15, 10, 4); ag.drawImage(SP.get(name), x, y); };
+    place('small:sheep:l', cx - 130, 56); place('small:sheep:r', cx - 104, 62); place('small:goat:l', cx + 100, 58); place('small:cattle:r', cx + 52, 50); place('small:bird:l', cx - 60, 40);
+    sh(cx + 2, 71, 12, 5); ag.drawImage(SP.person('player', 'down', 'stand'), cx - 6, 52); sh(cx - 22, 67, 12, 5); ag.drawImage(SP.person('kohen', 'side', 'stand', true), cx - 30, 48);
     t.innerHTML = `<div class="logo"><span class="he">מַסַּע קָדָשִׁים</span>KODSHIM QUEST</div><div class="tag">Name the flock. Pass the gates. Fill the Sefer.</div>`;
     t.appendChild(art);
     const menu = el('div', 'menu');

@@ -337,25 +337,28 @@ window.Tiles = (function () {
     "pppppppppppppppp",
     "PPPPPPPPPPPPPPPP",
   ], { k: K, p: '#efe3c4', P: '#b9a67e', b: '#5a7fb8', B: '#a7c4ea' });
-  const CROWD = (frame) => art([
-    "................",
-    "....kk....kk....",
-    "...khhk..kjjk...",
-    "...ksskk.kssk...",
-    "..kkkkaak.kkk...",
-    ".kaaakaaakbbbk..",
-    ".kaaakaaakbbbk..",
-    "kkkkkkkkkkkkkkkk",
-    ".kk...kk...kk...",
-    "kiik.kmmk.khhk..",
-    "kssk.kssk.kssk..",
-    "kcckkkeeekkddk..",
-    "kcck.keeek.kddk.",
-    "kccck.keek.kddk.",
-    "kkkkkkkkkkkkkkkk",
-    "................",
-  ].map((r, i) => (frame && (i === 1 || i === 2 || i === 3) ? r.replace(/hh/, 'hh') : r)),
-  { k: K, h: '#4a2f1b', j: '#9a9a9a', s: '#e8b98a', a: '#3a7bd5', b: '#d94848', i: '#1a1a1a', m: '#8a5cd6', c: '#4fae5c', e: '#e0b12b', d: '#f4efe0' });
+  // A market crowd seen from above: heads, shoulders, a basket or two.
+  function crowd(seed, frame) {
+    const c = pavement(seed + 40); const g = c.getContext('2d'); const r = rng(seed * 31 + 7);
+    const hair = ['#4a2f1b', '#1a1a1a', '#9a9a9a', '#5a2a1a', '#e0b12b', '#2a1a0a'];
+    const cloth = ['#3a7bd5', '#d94848', '#4fae5c', '#8a5cd6', '#e0b12b', '#f4efe0', '#d65a8c', '#a8784a'];
+    const wraps = ['#f4efe0', '#8a5cd6', '#3a7bd5', '#e0c89a'];
+    const n = 3 + Math.floor(r() * 2);
+    const people = [];
+    for (let i = 0; i < n; i++) people.push({ x: 1 + Math.floor(r() * 10), y: 1 + Math.floor(r() * 10), h: r() < .35 ? wraps[Math.floor(r() * 4)] : hair[Math.floor(r() * 6)], t: cloth[Math.floor(r() * 8)], b: r() < .5 ? 1 : 0 });
+    people.sort((a, b) => a.y - b.y);
+    for (const p of people) {
+      const dy = frame && p.b ? -1 : 0;
+      // shoulders
+      g.fillStyle = K; g.fillRect(p.x - 1, p.y + 4 + dy, 8, 3); g.fillStyle = p.t; g.fillRect(p.x, p.y + 4 + dy, 6, 2);
+      // head
+      g.fillStyle = K; g.fillRect(p.x, p.y - 1 + dy, 6, 6); g.fillStyle = p.h; g.fillRect(p.x + 1, p.y + dy, 4, 4);
+      g.fillStyle = '#e8b98a'; g.fillRect(p.x + 1, p.y + 3 + dy, 4, 1);
+    }
+    if (r() < .5) { const bx = 2 + Math.floor(r() * 9), by = 11; g.fillStyle = '#8a5a2b'; g.fillRect(bx, by, 4, 3); g.fillStyle = '#c99a5b'; g.fillRect(bx + 1, by + 1, 2, 1); }
+    return c;
+  }
+  const CROWD = (frame) => crowd(1, frame);
   const STALL_TOP = art([
     "kkkkkkkkkkkkkkkk",
     "krrwwrrwwrrwwrrk",
@@ -606,7 +609,7 @@ window.Tiles = (function () {
     floor_wood: floor(28, 'wood'), floor_stone: floor(29, 'stone'),
     tree: TREE, olive: OLIVE, cypress: CYPRESS, bush: BUSH, rock: ROCK,
     fence_h: FENCE_H, fence_v: FENCE_V, sign: SIGN, door: DOOR, window: WINDOW,
-    crowd: [CROWD(0), CROWD(1)], stall_top: STALL_TOP, stall: STALL, well: WELL, pot: POT, hay: HAY,
+    crowd: [[crowd(1, 0), crowd(1, 1)], [crowd(2, 0), crowd(2, 1)], [crowd(3, 0), crowd(3, 1)], [crowd(4, 0), crowd(4, 1)], [crowd(5, 0), crowd(5, 1)]], stall_top: STALL_TOP, stall: STALL, well: WELL, pot: POT, hay: HAY,
     rug: RUG, shelf: SHELF, table: TABLE, bed: BED, board: BOARD, gate: GATE,
   };
 

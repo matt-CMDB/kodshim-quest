@@ -26,11 +26,14 @@ window.Battle = (function () {
     const root = el('div'); root.id = 'battle'; root.classList.add(spec.arena || 'pasture');
     root.innerHTML = `<div class="sky"></div><canvas class="deco"></canvas><div class="plat enemy"></div><div class="plat me"></div>`;
     // scenery
-    const deco = root.querySelector('.deco'); deco.width = 384; deco.height = 256; deco.style.width = '100%'; deco.style.height = '100%'; deco.style.imageRendering = 'pixelated';
+    const deco = root.querySelector('.deco');
+    const DW = 480, DH = Math.round(480 * document.getElementById('game').clientHeight / document.getElementById('game').clientWidth);
+    deco.width = DW; deco.height = DH;
     const dg = deco.getContext('2d'); dg.imageSmoothingEnabled = false;
-    if (spec.arena === 'pasture') { for (let i = 0; i < 9; i++) dg.drawImage(TL.tree, i * 44 + (i % 2) * 10, 84 + (i % 3) * 3); dg.drawImage(TL.olive, 300, 96); for (let x = 0; x < 24; x++) dg.drawImage(TL.tall[x % 3][0], x * 16, 200); }
-    else if (spec.arena === 'city') { for (let x = 0; x < 24; x++) { dg.drawImage(TL.wall_top, x * 16, 74); dg.drawImage(TL.wall, x * 16, 90); } dg.drawImage(TL.stall_top, 40, 90); dg.drawImage(TL.stall, 40, 106); dg.drawImage(TL.cypress, 330, 60); dg.drawImage(TL.cypress, 20, 60); }
-    else { for (let x = 0; x < 24; x++) { dg.drawImage(TL.wall_top, x * 16, 60); dg.drawImage(TL.wall, x * 16, 76); dg.drawImage(TL.wall, x * 16, 92); } dg.drawImage(TL.gate, 168, 60); }
+    const hz = Math.round(DH * .40);                                       // horizon line in deco pixels
+    if (spec.arena === 'pasture') { for (let i = 0; i < 12; i++) dg.drawImage(TL.tree, i * 42 + (i % 2) * 10, hz - 26 + (i % 3) * 3); dg.drawImage(TL.olive, DW - 90, hz - 12); for (let x = 0; x < DW / 16; x++) dg.drawImage(TL.tall[x % 3][0], x * 16, DH - 36); }
+    else if (spec.arena === 'city') { for (let x = 0; x < DW / 16; x++) { dg.drawImage(TL.wall_top, x * 16, hz - 24); dg.drawImage(TL.wall, x * 16, hz - 8); } dg.drawImage(TL.stall_top, 40, hz - 8); dg.drawImage(TL.stall, 40, hz + 8); dg.drawImage(TL.cypress, DW - 60, hz - 40); dg.drawImage(TL.cypress, 20, hz - 40); }
+    else { for (let x = 0; x < DW / 16; x++) { dg.drawImage(TL.wall_top, x * 16, hz - 40); dg.drawImage(TL.wall, x * 16, hz - 24); dg.drawImage(TL.wall, x * 16, hz - 8); } dg.drawImage(TL.gate, DW / 2 - 24, hz - 40); }
 
     // enemy sprite
     let enemyImg, enemyW, enemyH;
@@ -38,13 +41,17 @@ window.Battle = (function () {
     if (isWild) { enemyImg = spriteCanvas(SP.get(C.ANIMALS[R.nameOf(spec.animal) === 'pilgas' ? 'ayil' : R.nameOf(spec.animal)].sprite), 32); enemyW = 64; enemyH = 64; }
     else if (spec.type === 'wild2') { enemyImg = SP.person(R.pick(['pilgrim', 'pilgrim2', 'pilgrim3', 'woman', 'woman2', 'merchant']), 'down', 'stand'); enemyW = 48; enemyH = 60; }
     else { enemyImg = SP.person(spec.kind || 'pilgrim', 'down', 'stand'); enemyW = 48; enemyH = 60; }
-    const enemy = el('div', 'mon enemy in'); enemy.appendChild(enemyImg); enemyImg.style.width = '100%'; enemyImg.style.height = '100%'; enemyImg.style.imageRendering = 'pixelated';
-    enemy.style.width = `calc(${enemyW}px * var(--s))`; enemy.style.height = `calc(${enemyH}px * var(--s))`;
-    enemy.style.left = `calc(${276 - enemyW / 2}px * var(--s))`; enemy.style.top = `calc(${96 - enemyH + 4}px * var(--s))`;
+    const gw = document.getElementById('game').clientWidth, gh = document.getElementById('game').clientHeight;
+    const k = Math.max(3, Math.min(5, Math.round(gh / 180)));             // sprite magnification
+    const ew = enemyImg.width * (enemyW === 64 ? k : k + 1), eh = enemyImg.height * (enemyW === 64 ? k : k + 1);
+    const enemy = el('div', 'mon enemy in'); enemy.appendChild(enemyImg);
+    enemy.style.width = ew + 'px'; enemy.style.height = eh + 'px';
+    enemy.style.left = Math.round(gw * .73 - ew / 2) + 'px'; enemy.style.top = Math.round(gh * .40 - eh) + 'px';
     root.appendChild(enemy);
     // player sprite
-    const me = el('div', 'mon me'); const meImg = SP.get('player_back'); me.appendChild(meImg); meImg.style.width = '100%'; meImg.style.height = '100%'; meImg.style.imageRendering = 'pixelated';
-    me.style.width = `calc(48px * var(--s))`; me.style.height = `calc(64px * var(--s))`; me.style.left = `calc(46px * var(--s))`; me.style.top = `calc(110px * var(--s))`;
+    const me = el('div', 'mon me'); const meImg = SP.get('player_back'); me.appendChild(meImg);
+    const mw = meImg.width * (k + 1), mh = meImg.height * (k + 1);
+    me.style.width = mw + 'px'; me.style.height = mh + 'px'; me.style.left = Math.round(gw * .22 - mw / 2) + 'px'; me.style.top = Math.round(gh * .72 - mh) + 'px';
     root.appendChild(me);
     // info panels
     const infoE = el('div', 'info enemy'); const infoM = el('div', 'info me');
