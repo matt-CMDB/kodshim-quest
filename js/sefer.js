@@ -10,7 +10,7 @@ window.Sefer = (function () {
   function quotes(srcs) { return srcs.map(s => { const q = C.SOURCES[s]; return q ? `<div class="quote"><span class="he">${q.he}</span><span class="cite">${cite(s)} &middot; ${G().esc(q.en)}</span></div>` : ''; }).join(''); }
   function sprite(name, size = 48, silhouette = false) {
     const c = document.createElement('canvas'); c.width = size; c.height = size; const g = c.getContext('2d'); g.imageSmoothingEnabled = false;
-    const s = SP.get(name); const k = Math.floor(size / Math.max(s.width, s.height));
+    const s = window.Art.get(name); const k = Math.min(name.startsWith('seal:') ? 3 : 4, Math.floor(size / Math.max(s.width, s.height)));
     g.drawImage(s, Math.floor((size - s.width * k) / 2), size - s.height * k - 2, s.width * k, s.height * k);
     if (silhouette) { g.globalCompositeOperation = 'source-in'; g.fillStyle = '#8a7a5a'; g.fillRect(0, 0, size, size); }
     return c;

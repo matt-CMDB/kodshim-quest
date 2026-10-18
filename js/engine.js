@@ -124,6 +124,10 @@ window.Game = (function () {
     g.imageSmoothingEnabled = false; glowG.imageSmoothingEnabled = false; blurG.imageSmoothingEnabled = false;
     gameEl.style.width = (W * SCALE) + 'px'; gameEl.style.height = (H * SCALE) + 'px';
     document.documentElement.style.setProperty('--s', SCALE);
+    // UI scale: full size at about 1150×700 and up, shrinking (not below 0.6) in small windows
+    const ui = Math.max(0.6, Math.min(1, Math.min((W * SCALE) / 1150, (H * SCALE) / 700)));
+    document.documentElement.style.setProperty('--ui', ui.toFixed(3));
+    document.documentElement.style.setProperty('--fb', Math.round(18 * ui) + 'px');
     motes = Array.from({ length: 28 }, () => ({ x: Math.random(), y: Math.random(), r: 1.5 + Math.random() * 2.5, p: Math.random() * 6.28, v: .00008 + Math.random() * .00012 }));
     if (player) snapCamera();
   }
@@ -735,7 +739,7 @@ window.Game = (function () {
   async function startMenu() {
     const inBattle = !!document.getElementById('battle');
     const box = el('div', 'panel'); box.id = 'startmenu';
-    const items = [['SEFER', 'animals, korbanos, seals, journal', false], ['SAVE', inBattle ? 'not during a test' : 'write progress', inBattle], ['MUSIC: ' + A.level.toUpperCase(), 'off · low · medium · loud', false], ['HOW TO PLAY', 'controls and goals', false], ['CLOSE', '', false]];
+    const items = [['SEFER', 'animals, korbanos, seals, journal', false], ['SAVE', inBattle ? 'not during a test' : 'write progress', inBattle], ['MUSIC: ' + A.level.toUpperCase(), 'off · low · medium · loud', false], ['HOW TO PLAY', 'controls and goals', false], ['CLOSE MENU', 'back to the game', false]];
     const menu = el('div', 'menu'); box.appendChild(menu);
     items.forEach(([t, d, dim], i) => menu.appendChild(el('div', 'item' + (i === 0 ? ' sel' : '') + (dim ? ' dim' : ''), `${t}<small>${d}</small>`)));
     ui.appendChild(box);

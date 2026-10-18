@@ -36,22 +36,23 @@ window.Battle = (function () {
     else { for (let x = 0; x < DW / 16; x++) { dg.drawImage(TL.wall_top, x * 16, hz - 40); dg.drawImage(TL.wall, x * 16, hz - 24); dg.drawImage(TL.wall, x * 16, hz - 8); } dg.drawImage(TL.gate, DW / 2 - 24, hz - 40); }
 
     // enemy sprite
-    let enemyImg, enemyW, enemyH;
+    let enemyImg;
     const isWild = spec.type === 'wild';
-    if (isWild) { enemyImg = spriteCanvas(SP.get(C.ANIMALS[R.nameOf(spec.animal) === 'pilgas' ? 'ayil' : R.nameOf(spec.animal)].sprite), 32); enemyW = 64; enemyH = 64; }
-    else if (spec.type === 'wild2') { enemyImg = SP.person(R.pick(['pilgrim', 'pilgrim2', 'pilgrim3', 'woman', 'woman2', 'merchant']), 'down', 'stand'); enemyW = 48; enemyH = 60; }
-    else { enemyImg = SP.person(spec.kind || 'pilgrim', 'down', 'stand'); enemyW = 48; enemyH = 60; }
+    const Art = window.Art;
+    if (isWild) enemyImg = Art.get(C.ANIMALS[R.nameOf(spec.animal) === 'pilgas' ? 'ayil' : R.nameOf(spec.animal)].sprite);
+    else if (spec.type === 'wild2') enemyImg = Art.get('person:' + R.pick(['pilgrim', 'pilgrim2', 'pilgrim3', 'woman', 'woman2', 'merchant']));
+    else enemyImg = Art.get('person:' + (spec.kind || 'pilgrim'));
     const gw = document.getElementById('game').clientWidth, gh = document.getElementById('game').clientHeight;
-    const k = Math.max(3, Math.min(5, Math.round(gh / 180)));             // sprite magnification
-    const ew = enemyImg.width * (enemyW === 64 ? k : k + 1), eh = enemyImg.height * (enemyW === 64 ? k : k + 1);
+    const ka = gh >= 900 ? 4 : gh >= 560 ? 3 : 2, kp = ka + 1;            // magnification: animals (64px art), people (32×40 art)
+    const ew = enemyImg.width * (isWild ? ka : kp), eh = enemyImg.height * (isWild ? ka : kp);
     const enemy = el('div', 'mon enemy in'); enemy.appendChild(enemyImg);
     enemy.style.width = ew + 'px'; enemy.style.height = eh + 'px';
     enemy.style.left = Math.round(gw * .73 - ew / 2) + 'px'; enemy.style.top = Math.round(gh * .40 - eh) + 'px';
     root.appendChild(enemy);
     // player sprite
-    const me = el('div', 'mon me'); const meImg = SP.get('player_back'); me.appendChild(meImg);
-    const mw = meImg.width * (k + 1), mh = meImg.height * (k + 1);
-    me.style.width = mw + 'px'; me.style.height = mh + 'px'; me.style.left = Math.round(gw * .22 - mw / 2) + 'px'; me.style.top = Math.round(gh * .72 - mh) + 'px';
+    const me = el('div', 'mon me'); const meImg = Art.get('person:player:back'); me.appendChild(meImg);
+    const mw = meImg.width * kp, mh = meImg.height * kp;
+    me.style.width = mw + 'px'; me.style.height = mh + 'px'; me.style.left = Math.round(gw * .22 - mw / 2) + 'px'; me.style.top = Math.round(gh * .68 - mh) + 'px';
     root.appendChild(me);
     // info panels
     const infoE = el('div', 'info enemy'); const infoM = el('div', 'info me');
