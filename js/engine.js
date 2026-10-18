@@ -15,7 +15,7 @@ window.Game = (function () {
   const SAVE_KEY = 'kodshim.quest.v1';
 
   // ------------------------------------------------------------ state
-  const fresh = () => ({ map: 'home', x: 5, y: 6, dir: 'up', hp: 6, maxHp: 6, xp: 0, flags: {}, seen: {}, reg: {}, seals: [], journal: [], beaten: {}, taught: {}, music: true, steps: 0, wins: 0, losses: 0, encounters: 0, moved: {} });
+  const fresh = () => ({ map: 'home', x: 5, y: 6, dir: 'up', hp: 6, maxHp: 6, xp: 0, flags: {}, seen: {}, reg: {}, seals: [], journal: [], beaten: {}, taught: {}, music: true, musicLevel: 'medium', steps: 0, wins: 0, losses: 0, encounters: 0, moved: {} });
   let S = fresh();
   let map = null, npcs = [], anims = [], player = null, cam = { x: 0, y: 0 }, tick = 0;
   let mode = 'title';          // title | world | script
@@ -735,7 +735,7 @@ window.Game = (function () {
   async function startMenu() {
     const inBattle = !!document.getElementById('battle');
     const box = el('div', 'panel'); box.id = 'startmenu';
-    const items = [['SEFER', 'animals, korbanos, seals, journal', false], ['SAVE', inBattle ? 'not during a test' : 'write progress', inBattle], [A.enabled ? 'MUSIC: ON' : 'MUSIC: OFF', 'toggle music', false], ['HOW TO PLAY', 'controls and goals', false], ['CLOSE', '', false]];
+    const items = [['SEFER', 'animals, korbanos, seals, journal', false], ['SAVE', inBattle ? 'not during a test' : 'write progress', inBattle], ['MUSIC: ' + A.level.toUpperCase(), 'off · low · medium · loud', false], ['HOW TO PLAY', 'controls and goals', false], ['CLOSE', '', false]];
     const menu = el('div', 'menu'); box.appendChild(menu);
     items.forEach(([t, d, dim], i) => menu.appendChild(el('div', 'item' + (i === 0 ? ' sel' : '') + (dim ? ' dim' : ''), `${t}<small>${d}</small>`)));
     ui.appendChild(box);
@@ -753,7 +753,7 @@ window.Game = (function () {
     box.remove();
     if (i === 0) await window.Sefer.open();
     else if (i === 1) { if (inBattle) { toast('Finish the test first.'); } else { save(); A.sfx('save'); toast('Progress saved.'); } }
-    else if (i === 2) { S.music = !A.enabled; A.setEnabled(S.music); save(); toast(S.music ? 'Music on.' : 'Music off.'); }
+    else if (i === 2) { const order = ['off', 'low', 'medium', 'loud']; const next = order[(order.indexOf(A.level) + 1) % order.length]; A.setLevel(next); S.musicLevel = next; S.music = next !== 'off'; save(); toast('Music: ' + next + '.'); if (next !== 'off' && map) A.play(map.music); }
     else if (i === 3) await helpPanel();
   }
   async function helpPanel() {
@@ -811,7 +811,7 @@ window.Game = (function () {
     await fadeOut();
     t.remove();
     if (newGame) { S = fresh(); save(); } else load();
-    A.setEnabled(S.music);
+    A.setLevel(S.musicLevel || (S.music === false ? 'off' : 'medium'));
     loadMap(S.map, S.x, S.y, S.dir);
     mode = 'world';
     await fadeIn();

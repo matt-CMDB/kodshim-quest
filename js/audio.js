@@ -1,14 +1,16 @@
 /* Kodshim Quest — chiptune audio (WebAudio, no samples).
    Songs are note lists per track; a tiny scheduler loops them. */
 window.Audio2 = (function () {
-  let ctx = null, master = null, enabled = true, current = null, timer = null, bus = null;
-  const MUSIC_GAIN = 0.32;    // music sits well under the sound effects
+  let ctx = null, master = null, musicBus = null, enabled = true, current = null, timer = null, bus = null;
+  const LEVELS = { off: 0, low: 0.28, medium: 0.5, loud: 0.8 };   // music gain by setting
+  let level = 'medium';
   const NOTE = { C: 0, 'C#': 1, Db: 1, D: 2, 'D#': 3, Eb: 3, E: 4, F: 5, 'F#': 6, Gb: 6, G: 7, 'G#': 8, Ab: 8, A: 9, 'A#': 10, Bb: 10, B: 11 };
   function freq(n) { if (typeof n === 'number') return n; const m = /^([A-G][#b]?)(\d)$/.exec(n); const midi = 12 * (+m[2] + 1) + NOTE[m[1]]; return 440 * Math.pow(2, (midi - 69) / 12); }
   function ensure() {
     if (ctx) return ctx;
     const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null;
-    ctx = new AC(); master = ctx.createGain(); master.gain.value = enabled ? 0.5 : 0; master.connect(ctx.destination);
+    ctx = new AC(); master = ctx.createGain(); master.gain.value = 0.5; master.connect(ctx.destination);
+    musicBus = ctx.createGain(); musicBus.gain.value = LEVELS[level]; musicBus.connect(master);
     return ctx;
   }
   function tone(f, t0, dur, { wave = 'square', vol = .2, slide = 0, attack = .005, release = .03, out = null } = {}) {
@@ -124,7 +126,7 @@ window.Audio2 = (function () {
     const song = SONGS[name];
     const beat = 60 / song.bpm;
     // every song plays through its own bus, so a switch can fade the old one out
-    const myBus = ctx.createGain(); myBus.gain.setValueAtTime(0, ctx.currentTime); myBus.gain.linearRampToValueAtTime(MUSIC_GAIN, ctx.currentTime + .4); myBus.connect(master);
+    const myBus = ctx.createGain(); myBus.gain.setValueAtTime(0, ctx.currentTime); myBus.gain.linearRampToValueAtTime(1, ctx.currentTime + .4); myBus.connect(musicBus);
     bus = myBus;
     // per-track playheads: schedule only the notes that fall within a short lookahead
     const heads = song.tracks.map(tr => ({ tr, i: 0, t: ctx.currentTime + .08 }));
@@ -147,7 +149,8 @@ window.Audio2 = (function () {
     current = null; if (timer) { clearTimeout(timer); timer = null; }
     if (bus && ctx) { const old = bus; bus = null; old.gain.cancelScheduledValues(ctx.currentTime); old.gain.setValueAtTime(old.gain.value, ctx.currentTime); old.gain.linearRampToValueAtTime(0, ctx.currentTime + .35); setTimeout(() => old.disconnect(), 600); }
   }
-  function setEnabled(on) { enabled = on; if (master) master.gain.setTargetAtTime(on ? .5 : 0, ctx.currentTime, .05); }
+  function setLevel(l) { if (!(l in LEVELS)) l = 'medium'; level = l; enabled = l !== 'off'; if (musicBus) musicBus.gain.setTargetAtTime(LEVELS[l], ctx.currentTime, .05); }
+  function setEnabled(on) { setLevel(on ? (level === 'off' ? 'medium' : level) : 'off'); }
   function resume() { if (ctx && ctx.state === 'suspended') ctx.resume(); }
 
   const SFX = {
@@ -169,5 +172,5 @@ window.Audio2 = (function () {
   function now() { return ctx ? ctx.currentTime : 0; }
   function sfx(name) { if (!ensure()) return; resume(); if (SFX[name]) SFX[name](); }
 
-  return { play, stop, sfx, setEnabled, ensure, resume, get enabled() { return enabled; } };
+  return { play, stop, sfx, setEnabled, setLevel, ensure, resume, LEVELS, get enabled() { return enabled; }, get level() { return level; } };
 })();
