@@ -23,6 +23,7 @@ window.Game = (function () {
   let particles = [], emotes = [], clouds = [];
   const keys = {};
   const handlers = [];         // input handler stack (topmost gets presses)
+  const modal = [];            // the menu layer: while anything is here, it gets every press
   let lastEncounterStep = -10;
 
   // ------------------------------------------------------------ tiles
@@ -91,12 +92,16 @@ window.Game = (function () {
     keys[act] = true;
   });
   window.addEventListener('keyup', e => { const act = KEYMAP[e.code]; if (act) keys[act] = false; });
+  let menuOpen = false;
   function press(act) {
-    const h = handlers[handlers.length - 1];
+    // the main menu opens on any screen except the title; nothing underneath is interrupted
+    if (act === 'start' && mode !== 'title' && !menuOpen) { openMenu(); return; }
+    const stack = modal.length ? modal : handlers;
+    const h = stack[stack.length - 1];
     if (h) h(act);
   }
-  function pushHandler(fn) { handlers.push(fn); return () => { const i = handlers.lastIndexOf(fn); if (i >= 0) handlers.splice(i, 1); }; }
-  function waitPress(accept = ['a']) { return new Promise(res => { const pop = pushHandler(act => { if (accept.includes(act)) { pop(); res(act); } }); }); }
+  function pushHandler(fn, isModal = false) { const stack = isModal ? modal : handlers; stack.push(fn); return () => { const i = stack.lastIndexOf(fn); if (i >= 0) stack.splice(i, 1); }; }
+  function waitPress(accept = ['a'], isModal = false) { return new Promise(res => { const pop = pushHandler(act => { if (accept.includes(act)) { pop(); res(act); } }, isModal); }); }
   // touch
   for (const b of document.querySelectorAll('#touch button')) {
     const dir = b.dataset.dir, btn = b.dataset.btn;
@@ -722,11 +727,17 @@ window.Game = (function () {
   }
 
   // ------------------------------------------------------------ start menu
+  async function openMenu() {
+    menuOpen = true;
+    try { await startMenu(); } catch (e) { console.error(e); }
+    menuOpen = false;
+  }
   async function startMenu() {
+    const inBattle = !!document.getElementById('battle');
     const box = el('div', 'panel'); box.id = 'startmenu';
-    const items = [['SEFER', 'animals, korbanos, seals, journal'], ['SAVE', 'write progress'], [A.enabled ? 'MUSIC: ON' : 'MUSIC: OFF', 'toggle music'], ['HOW TO PLAY', 'controls and goals'], ['CLOSE', '']];
+    const items = [['SEFER', 'animals, korbanos, seals, journal', false], ['SAVE', inBattle ? 'not during a test' : 'write progress', inBattle], [A.enabled ? 'MUSIC: ON' : 'MUSIC: OFF', 'toggle music', false], ['HOW TO PLAY', 'controls and goals', false], ['CLOSE', '', false]];
     const menu = el('div', 'menu'); box.appendChild(menu);
-    items.forEach(([t, d], i) => menu.appendChild(el('div', 'item' + (i === 0 ? ' sel' : ''), `${t}<small>${d}</small>`)));
+    items.forEach(([t, d, dim], i) => menu.appendChild(el('div', 'item' + (i === 0 ? ' sel' : '') + (dim ? ' dim' : ''), `${t}<small>${d}</small>`)));
     ui.appendChild(box);
     let sel = 0; const its = [...menu.children];
     const render = () => its.forEach((it, i) => it.classList.toggle('sel', i === sel));
@@ -737,20 +748,26 @@ window.Game = (function () {
         else if (act === 'down') { sel = (sel + 1) % 5; render(); A.sfx('blip'); }
         else if (act === 'a') { pop(); A.sfx('confirm'); resolve(sel); }
         else if (act === 'b' || act === 'start') { pop(); A.sfx('cancel'); resolve(4); }
-      });
+      }, true);
     });
     box.remove();
     if (i === 0) await window.Sefer.open();
-    else if (i === 1) { save(); A.sfx('save'); toast('Progress saved.'); }
-    else if (i === 2) { S.music = !A.enabled; A.setEnabled(S.music); save(); }
-    else if (i === 3) await say('ARROWS / WASD move. Z, SPACE or ENTER: talk, confirm (A). X: cancel (B); hold to run. ESC: this menu. Name the animals in the tall grass to fill your Sefer; hear the teachers; then face the kohen at the gate. Wrong answers cost hearts; houses restore them.');
+    else if (i === 1) { if (inBattle) { toast('Finish the test first.'); } else { save(); A.sfx('save'); toast('Progress saved.'); } }
+    else if (i === 2) { S.music = !A.enabled; A.setEnabled(S.music); save(); toast(S.music ? 'Music on.' : 'Music off.'); }
+    else if (i === 3) await helpPanel();
+  }
+  async function helpPanel() {
+    const b = el('div', 'panel', '<b>How to play</b><br>ARROWS / WASD move. Z, SPACE or ENTER: talk, confirm (A). X: cancel (B); hold to run. ESC: this menu, on any screen.<br><br>Name the animals in the tall grass to fill your Sefer; hear the teachers; then face the kohen at the gate. Wrong answers cost hearts; houses restore them. A test cannot be left once it starts.<br><br><span class="src">Press A or B to close.</span>');
+    b.id = 'board'; b.style.bottom = 'auto'; b.style.top = '50%'; b.style.transform = 'translate(-50%, -50%)'; b.style.width = 'min(700px, calc(100% - 48px))'; b.style.backgroundImage = `url(${window.Sefer.parchment()})`; b.style.backgroundSize = '512px 512px';
+    ui.appendChild(b);
+    await waitPress(['a', 'b', 'start'], true);
+    b.remove();
   }
 
   // world-mode handler
   pushHandler(act => {
     if (mode !== 'world' || busy) return;
     if (act === 'a' && !player.moving) interact();
-    else if (act === 'start') runScript(startMenu);
   });
 
   // ------------------------------------------------------------ title

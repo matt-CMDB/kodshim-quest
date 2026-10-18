@@ -58,7 +58,6 @@ window.Battle = (function () {
     root.appendChild(infoE); root.appendChild(infoM);
     const box = el('div', 'box'); box.innerHTML = `<div class="text"><span class="t"></span><div class="arrow" style="display:none"></div></div><div class="opts hidden"></div>`;
     root.appendChild(box);
-    const ref = el('div', 'ref'); root.appendChild(ref);
     document.getElementById('ui').appendChild(root);
     const textEl = box.querySelector('.text .t'), arrow = box.querySelector('.arrow'), opts = box.querySelector('.opts');
 
@@ -85,7 +84,6 @@ window.Battle = (function () {
     }
     async function ask(q) {
       run.current = q;
-      ref.textContent = '';
       await text(q.prompt, false);
       opts.innerHTML = ''; opts.classList.remove('hidden');
       const long = q.opts.some(o => o.label.length > 22);
@@ -107,7 +105,6 @@ window.Battle = (function () {
       const chosen = q.opts[pick];
       const ok = chosen.key === q.answer;
       items.forEach((it, i) => { if (q.opts[i].key === q.answer) it.classList.add('good'); else if (i === pick) it.classList.add('bad'); });
-      ref.textContent = citeText(q.src);
       done++;
       if (ok) {
         correct++; A.sfx('correct');

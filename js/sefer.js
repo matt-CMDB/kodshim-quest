@@ -96,7 +96,7 @@ window.Sefer = (function () {
         else if (act === 'up') { sel = (sel + n - 1) % n; render(); A.sfx('blip'); }
         else if (act === 'down') { sel = (sel + 1) % n; render(); A.sfx('blip'); }
         else if (act === 'b' || act === 'start') { pop(); A.sfx('cancel'); resolve(); }
-      });
+      }, true);
     });
     root.remove();
   }
