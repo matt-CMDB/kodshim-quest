@@ -194,7 +194,7 @@ window.Game = (function () {
     clearTimeout(toastTimer); toastTimer = setTimeout(() => t.remove(), 2200);
   }
   async function board(html) {
-    const b = el('div', 'panel', html); b.id = 'board'; ui.appendChild(b);
+    const b = el('div', 'panel', html); b.id = 'board'; b.style.backgroundImage = `url(${window.Sefer.parchment()})`; b.style.backgroundSize = '512px 512px'; ui.appendChild(b);
     await say('(Press A to close the board.)', { keep: true, noWait: true });
     await waitPress(['a', 'b', 'start']);
     closeDlg(); b.remove();
