@@ -57,14 +57,16 @@ window.Sefer = (function () {
             if (!seen && !reg) return { html: `<div class="head"><div class="plate"><div class="pic unknown">?</div></div><div><h2><span class="he">?</span>Unknown</h2><div class="sub">Walk the tall grass of the pastures to meet it.</div></div></div>` };
             const pic = sprite(a.sprite, 128, !reg); pic.className = 'pic';
             const head = `<div class="head"><div class="plate"><span class="picwrap"></span>${reg ? '<div class="stamp">Registered</div>' : ''}</div><div><h2><span class="he">${a.he}</span>${a.tr}</h2><div class="sub">${a.en}${a.alt ? ' · also ' + a.alt : ''}${a.sex ? ' · ' + (a.sex === 'm' ? '♂' : '♀') : ''}</div></div></div>`;
-            const facts = reg ? a.facts.map(f => `<div class="fact">${f}</div>`).join('') + quotes(a.src) : `<div class="fact">Seen, not yet registered. Name it correctly in an encounter to unlock its page.</div>`;
+            const uses = a.uses && a.uses.length ? `<div class="uses${a.never ? ' never' : ''}"><div class="uses-h">${a.never ? 'Never named for a particular korban' : 'When is it brought?'}</div>${a.uses.map(u => `<div class="fact">${u}</div>`).join('')}</div>` : '';
+          const facts = reg ? a.facts.map(f => `<div class="fact">${f}</div>`).join('') + uses + quotes(a.src) : `<div class="fact">Seen, not yet written in. Name it correctly when you meet it in the tall grass to fill in this page.</div>`;
             return { html: head + facts, pic };
           } };
       });
       if (t === 1) return C.KORBAN_ORDER.map((k, i) => {
-        const kb = C.KORBANOS[k];
+        const kb = C.KORBANOS[k]; const open = !kb.unlock || S.taught[kb.unlock];
+        if (!open) return { num: pad(i + 1), label: '<span class="nm">? ? ?</span>', cls: 'unknown', detail: () => ({ html: `<div class="head"><div class="plate"><div class="pic unknown">?</div></div><div><h2><span class="he">?</span>Not yet learned</h2><div class="sub">The kinds of korban are taught in the city, beyond the Sheep Gate (Level 2). ${S.seals.includes('egel') ? 'Ask the kohanim and the Levi in the market.' : 'Earn the Egel seal first.'}</div></div></div>` }) };
         return { num: pad(i + 1), label: `<span class="nm">${kb.tr}</span><span class="he">${kb.he}</span>`, cls: '',
-          detail: () => ({ html: `<div class="head"><div><h2><span class="he">${kb.he}</span>${kb.tr}</h2><div class="sub">${kb.en} · ${kb.kedushah === 'kk' ? 'kodshei kodashim' : 'kodashim kalim'}</div></div></div>` + kb.facts.map(f => `<div class="fact">${f}</div>`).join('') + quotes(kb.src) }) };
+          detail: () => ({ html: `<div class="head"><div><h2><span class="he">${kb.he}</span>${kb.tr}</h2><div class="sub">${kb.en} · ${kb.kedushah === 'kk' ? 'kodshei kodashim (most holy)' : 'kodashim kalim (lesser holiness)'}</div></div></div>` + kb.facts.map(f => `<div class="fact">${f}</div>`).join('') + quotes(kb.src) }) };
       });
       if (t === 2) return Object.entries(C.SEALS).map(([k, s], i) => {
         const have = S.seals.includes(k);
@@ -78,7 +80,7 @@ window.Sefer = (function () {
     function render() {
       const entries = entriesFor(tab);
       sel = Math.min(sel, entries.length - 1);
-      root.innerHTML = `<div class="book"><div class="page left" style="${paper}"><h1>${TABS[tab]} · Index</h1><div class="list"></div><div class="no">Sefer HaKorbanos · ${regN}/14 names</div></div><div class="page right" style="${paper}"><h1>Entry ${entries[sel].num}</h1><div class="detail"></div><div class="no">XP ${S.xp}</div></div><div class="tabs">${TABS.map((t, i) => `<div class="tab${i === tab ? ' on' : ''}">${t}</div>`).join('')}</div></div><div class="foot"><span>◀ ▶ chapters</span><span>▲ ▼ browse</span><span>B close</span></div>`;
+      root.innerHTML = `<div class="book"><div class="page left" style="${paper}"><h1>${TABS[tab]} · Index</h1><div class="list"></div><div class="no">Sefer HaKorbanos · ${regN}/14 names</div></div><div class="page right" style="${paper}"><h1>Entry ${entries[sel].num}</h1><div class="detail"></div><div class="no">${S.seals.length} seal${S.seals.length === 1 ? '' : 's'}</div></div><div class="tabs">${TABS.map((t, i) => `<div class="tab${i === tab ? ' on' : ''}">${t}</div>`).join('')}</div></div><div class="foot"><span>◀ ▶ chapters</span><span>▲ ▼ browse</span><span>B close</span></div>`;
       [...root.querySelectorAll('.tab')].forEach((t, i) => t.addEventListener('click', () => { tab = i; sel = 0; render(); }));
       const list = root.querySelector('.list'), detail = root.querySelector('.detail');
       entries.forEach((it, i) => { const d = el('div', 'item ' + it.cls + (i === sel ? ' sel' : ''), `<span class="num">${it.num}</span>${it.label}`); d.addEventListener('click', () => { sel = i; render(); }); list.appendChild(d); });

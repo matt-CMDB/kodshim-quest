@@ -55,7 +55,7 @@ window.Battle = (function () {
     me.style.width = mw + 'px'; me.style.height = mh + 'px'; me.style.left = Math.round(gw * .22 - mw / 2) + 'px'; me.style.top = Math.round(gh * .68 - mh) + 'px';
     root.appendChild(me);
     // info panels
-    const infoE = el('div', 'info enemy'); const infoM = el('div', 'info me');
+    const infoE = el('div', 'info enemy'); const infoM = el('div', 'status');
     root.appendChild(infoE); root.appendChild(infoM);
     const box = el('div', 'box'); box.innerHTML = `<div class="text"><span class="t"></span><div class="arrow" style="display:none"></div></div><div class="opts hidden"></div>`;
     root.appendChild(box);
@@ -63,11 +63,15 @@ window.Battle = (function () {
     const textEl = box.querySelector('.text .t'), arrow = box.querySelector('.arrow'), opts = box.querySelector('.opts');
 
     const total = spec.questions ? spec.questions.length + (spec.generated || 0) : (spec.type === 'wild2' ? 1 + (Math.random() < .4 ? 1 : 0) : 2);
-    let done = 0, correct = 0, registered = false, lost = false;
-    function hpClass() { const r = S.hp / S.maxHp; return r > .5 ? '' : r > .25 ? 'mid' : 'low'; }
+    let done = 0, correct = 0, strikes = 0, registered = false, lost = false;
+    const MAX_STRIKES = 3;
     function renderInfo(tags, title) {
       infoE.innerHTML = `<div class="row"><span class="nm">${title}</span></div><div class="tags">${(tags || []).map(t => `<span class="tag ${t.cls || ''}">${Game.esc(t.text)}</span>`).join('')}</div>` + (isWild ? '' : `<div class="lbl">QUESTIONS</div><div class="bar q"><i style="width:${100 * (1 - done / total)}%"></i></div>`);
-      infoM.innerHTML = `<div class="row"><span class="nm">TRAINEE</span><span>Lv ${1 + Math.floor(S.xp / 120)}</span></div><div class="lbl">HP ${S.hp}/${S.maxHp}</div><div class="bar hp"><i class="${hpClass()}" style="width:${100 * S.hp / S.maxHp}%"></i></div><div class="lbl">XP</div><div class="bar xp"><i style="width:${(S.xp % 120) / 1.2}%"></i></div>`;
+      let h = '<div class="hearts">';
+      for (let i = 0; i < S.maxHp; i++) h += `<img src="${(i < S.hp ? SP.get('heart') : SP.get('heart_empty')).toDataURL()}">`;
+      h += '</div>';
+      if (!isWild) h += `<div class="strikes"><span class="lbl">MISTAKES</span>${[0, 1, 2].map(i => `<i class="${i < strikes ? 'x' : ''}">${i < strikes ? '✗' : ''}</i>`).join('')}</div>`;
+      infoM.innerHTML = h;
     }
     async function text(msg, wait = true) {
       arrow.style.display = 'none';
@@ -85,11 +89,13 @@ window.Battle = (function () {
     }
     async function ask(q) {
       run.current = q;
-      await text(q.prompt, false);
+      const G_ = q.kind === 'name' ? (t => t) : (t => C.gloss(t));
+      const GO = (q.kind === 'name' || q.kind === 'fit') ? (t => t) : G_;
+      await text(G_(q.prompt), false);
       opts.innerHTML = ''; opts.classList.remove('hidden');
       const long = q.opts.some(o => o.label.length > 22);
       opts.classList.toggle('one', long);
-      q.opts.forEach((o, i) => opts.appendChild(el('div', 'item' + (i === 0 ? ' sel' : ''), Game.markup(o.label))));
+      q.opts.forEach((o, i) => opts.appendChild(el('div', 'item' + (i === 0 ? ' sel' : ''), Game.markup(GO(o.label)))));
       const items = [...opts.children];
       let sel = 0; const n = items.length;
       const render = () => items.forEach((it, i) => it.classList.toggle('sel', i === sel));
@@ -110,15 +116,15 @@ window.Battle = (function () {
       if (ok) {
         correct++; A.sfx('correct');
         if (!isWild) { enemy.classList.remove('hit'); void enemy.offsetWidth; enemy.classList.add('hit'); }
-        Game.addXp(isWild ? 10 : 15);
         renderInfo(curTags, curTitle);
-        await text('Correct! ' + q.why);
+        await text('Correct! ' + G_(q.why));
       } else {
         A.sfx('wrong'); me.classList.remove('hit'); void me.offsetWidth; me.classList.add('hit');
-        Game.damage(1); renderInfo(curTags, curTitle);
+        if (!isWild) strikes++;
+        renderInfo(curTags, curTitle);
         const right = q.opts.find(o => o.key === q.answer).label;
-        await text(`Not quite. The answer: ${right}. ${q.why}`);
-        if (S.hp <= 0) lost = true;
+        await text(`Not quite. The answer is: ${GO(right)}. ${G_(q.why)}`);
+        if (!isWild && strikes >= MAX_STRIKES) { lost = true; }
       }
       opts.classList.add('hidden');
       return ok;
@@ -132,13 +138,13 @@ window.Battle = (function () {
         curTitle = `WILD ${C.SPECIES[a.species].en.toUpperCase()}`; curTags = R.describe(a);
         Game.markSeen(nameKey);
         renderInfo(curTags, curTitle);
-        await text(`A wild ${C.SPECIES[a.species].en.toUpperCase()} appeared!`);
+        await text(`A ${C.SPECIES[a.species].en.toUpperCase()} wanders out of the grass! Look at what you can see: its kind, whether it is male or female, and its age.`);
         if (!R.isBird(a.species)) {
           const ok = await ask(R.nameQuestion(a));
           if (ok) {
             const isNew = Game.register(nameKey);
             curTitle = `${C.ANIMALS[nameKey].tr.toUpperCase()} ${C.ANIMALS[nameKey].he}`; renderInfo(curTags, curTitle);
-            if (isNew) { registered = true; A.sfx('register'); enemy.classList.add('reg'); sparkle(root, enemy); Game.addXp(15); await text(`✦ ${C.ANIMALS[nameKey].tr.toUpperCase()} ${C.ANIMALS[nameKey].he} was written into your Sefer!`); }
+            if (isNew) { registered = true; A.sfx('register'); enemy.classList.add('reg'); sparkle(root, enemy); await text(`✦ ${C.ANIMALS[nameKey].tr.toUpperCase()} ${C.ANIMALS[nameKey].he} was written into your Sefer!`); await text(usesLine(nameKey)); }
           } else if (!lost) {
             curTitle = `${C.ANIMALS[nameKey].tr.toUpperCase()} ${C.ANIMALS[nameKey].he}`; renderInfo(curTags, curTitle);
           }
@@ -148,14 +154,14 @@ window.Battle = (function () {
           if (ok) {
             const isNew = Game.register(nameKey);
             curTitle = `${C.ANIMALS[nameKey].tr.toUpperCase()} ${C.ANIMALS[nameKey].he}`; renderInfo(curTags, curTitle);
-            if (isNew) { registered = true; A.sfx('register'); enemy.classList.add('reg'); sparkle(root, enemy); Game.addXp(15); await text(`✦ ${C.ANIMALS[nameKey].tr.toUpperCase()} ${C.ANIMALS[nameKey].he} was written into your Sefer!`); }
+            if (isNew) { registered = true; A.sfx('register'); enemy.classList.add('reg'); sparkle(root, enemy); await text(`✦ ${C.ANIMALS[nameKey].tr.toUpperCase()} ${C.ANIMALS[nameKey].he} was written into your Sefer!`); await text(usesLine(nameKey)); }
           }
         }
         if (!lost) await text(registered ? 'It trots back into the grass. Your Sefer grows.' : 'It wanders off into the grass.');
       } else if (spec.type === 'wild2') {
         curTitle = 'A PILGRIM'; curTags = [{ cls: '', text: 'has a question' }];
         renderInfo(curTags, curTitle);
-        await text('A pilgrim steps out of the crowd. "Trainee! Settle something for me."');
+        await text('A pilgrim steps out of the crowd. "Trainee! Settle something for me." (A pilgrim\'s question never costs a heart.)');
         for (let i = 0; i < total && !lost; i++) await ask(R.l2Question());
         if (!lost) await text(correct === total ? '"Thank you! Elazar teaches well."' : '"Hm. Ask your teacher again, trainee."');
       } else {
@@ -171,13 +177,21 @@ window.Battle = (function () {
       }
     } catch (e) { console.error(e); }
 
-    const won = !lost && (isWild || spec.type === 'wild2' || correct >= Math.ceil(done * (spec.type === 'gate' ? 0.75 : 0.67)));
-    if (!isWild && spec.type !== 'wild2' && !lost) await text(won ? `You won! ${correct}/${done} correct.` : `${correct}/${done} correct. Not enough this time.`);
-    if (lost) await text('You have no hearts left...');
+    const won = !lost;
+    if (lost) { Game.damage(1); renderInfo(curTags, curTitle); await text(`Three mistakes. The test is over, and it costs you a heart.${S.hp <= 0 ? ' That was your last one...' : ''}`); }
+    else if (!isWild && spec.type !== 'wild2') {
+      if (correct >= 3 && S.hp < S.maxHp) { Game.healOne(); renderInfo(curTags, curTitle); A.sfx('heal'); await text(`You passed: ${correct} of ${done} right. Three right answers in one test earn a heart back!`); }
+      else await text(`You passed: ${correct} of ${done} right.`);
+    }
     root.remove();
     A.play(Game.map.music);
     Game.updateHud();
     return { won, correct, total: done, registered };
+  }
+  function usesLine(key) {
+    const a = C.ANIMALS[key];
+    if (!a.uses || !a.uses.length) return '';
+    return (a.never ? '⚠ ' : 'When is it brought? ') + a.uses.join(' ');
   }
   function sparkle(root, around) {
     const r = around.getBoundingClientRect(), p = root.getBoundingClientRect();

@@ -38,21 +38,21 @@ window.Rules = (function () {
   // ---- fitness ----
   // returns { key, ok, label, why, src }
   const FIT = {
-    fit:       { ok: true,  label: 'Yes, it is fit', why: 'Right species, right age, no blemish.', src: 'MK 1:11' },
-    bedieved:  { ok: true,  label: 'Valid, but lechatchilah wait until day 30', why: 'From the eighth day it is valid, but one does not offer it lechatchilah before day thirty.', src: 'MK 1:12' },
-    young:     { ok: false, label: 'No: younger than eight days', why: '"From the eighth day on it is acceptable." Before that it is not a korban at all.', src: 'Vayikra 22:27' },
-    zaken:     { ok: false, label: 'No: too old (zaken)', why: 'Cattle may be offered until three full years, sheep and goats until two. Older is zaken and is not offered.', src: 'MK 1:11' },
-    mum:       { ok: false, label: 'No: it has a mum', why: '"Anything that has a blemish you shall not offer."', src: 'Vayikra 22:20' },
-    pilgas:    { ok: false, label: 'No: a pilgas is fit as neither keves nor ayil', why: 'In the first thirty days of its second year a sheep is a pilgas, valid as neither.', src: 'MK 1:14' },
-    bird_fit:  { ok: true,  label: 'Yes, it is fit', why: 'Turtledoves are fit when grown; pigeons while young. Sex does not matter for birds.', src: 'Chullin 1:5' },
-    tor_young: { ok: false, label: 'No: a turtledove is fit only when grown', why: 'Grown turtledoves are fit, young ones unfit.', src: 'Chullin 1:5' },
-    yonah_old: { ok: false, label: 'No: a pigeon is fit only while young', why: 'Young pigeons are fit, grown ones unfit.', src: 'Chullin 1:5' },
-    tzihuv:    { ok: false, label: 'No: at the start of tzihuv both are unfit', why: 'When the neck feathers just begin to turn golden, both turtledove and pigeon are unfit.', src: 'Chullin 1:5' },
-    bird_mum:  { ok: true,  label: 'Yes: a blemish does not disqualify a bird', why: 'The laws of mum apply to animals, not birds. Only a missing limb, a dried wing or a blinded eye disqualifies a bird.', src: 'Issurei Mizbeach 3:1' },
-    bird_limb: { ok: false, label: 'No: a bird missing a limb is unfit', why: 'Ordinary blemishes do not disqualify birds, but a missing limb (or a dried wing or a blinded eye) does.', src: 'Issurei Mizbeach 3:1' },
+    fit:       { ok: true,  label: 'Yes, it can be offered', why: 'Right kind of animal, right age, no blemish.', src: 'MK 1:11' },
+    bedieved:  { ok: true,  label: 'Yes, but ideally one waits until it is 30 days old', why: 'From its eighth day an animal may be offered, but the proper practice is to wait until day 30 (except for a bechor, a pesach or a maaser).', src: 'MK 1:12' },
+    young:     { ok: false, label: 'No, it is under 8 days old', why: '"From the eighth day on it is acceptable." Before that it cannot be offered at all.', src: 'Vayikra 22:27' },
+    zaken:     { ok: false, label: 'No, it is too old (zaken)', why: 'Cattle may be offered until they turn three, sheep and goats until they turn two. Older than that, the animal is zaken and is not offered.', src: 'MK 1:11' },
+    mum:       { ok: false, label: 'No, it has a blemish (mum)', why: '"Anything that has a blemish you shall not offer." A visible defect rules the animal out at any age.', src: 'Vayikra 22:20' },
+    pilgas:    { ok: false, label: 'No, it is a pilgas: no longer a keves, not yet an ayil', why: 'In the first thirty days of its second year a male sheep is a pilgas. It cannot serve where the Torah asks for a keves, nor where it asks for an ayil.', src: 'MK 1:14' },
+    bird_fit:  { ok: true,  label: 'Yes, it can be offered', why: 'A turtledove is offered grown, a pigeon young. For birds it makes no difference whether it is male or female.', src: 'Chullin 1:5' },
+    tor_young: { ok: false, label: 'No, a turtledove must be grown', why: 'Turtledoves are offered only when grown; young ones are not.', src: 'Chullin 1:5' },
+    yonah_old: { ok: false, label: 'No, a pigeon must be young', why: 'Pigeons are offered only while young; grown ones are not.', src: 'Chullin 1:5' },
+    tzihuv:    { ok: false, label: 'No, when the neck just starts turning golden, neither bird is fit', why: 'At the very start of the yellowing, a turtledove is not yet grown and a pigeon is no longer young, so neither can be offered.', src: 'Chullin 1:5' },
+    bird_mum:  { ok: true,  label: 'Yes, a blemish does not disqualify a bird', why: 'The rule about blemishes applies to animals, not to birds. Only a missing limb, a dried wing or a blinded eye rules a bird out.', src: 'Issurei Mizbeach 3:1' },
+    bird_limb: { ok: false, label: 'No, a bird missing a limb cannot be offered', why: 'Ordinary blemishes do not disqualify a bird, but a missing limb, a dried wing or a blinded eye does.', src: 'Issurei Mizbeach 3:1' },
     // tempting wrong reasons for birds (never the answer)
-    bird_zaken: { ok: false, label: 'No: too old (zaken)', why: '', src: '' },
-    bird_mumno: { ok: false, label: 'No: it has a mum', why: '', src: '' },
+    bird_zaken: { ok: false, label: 'No, it is too old', why: '', src: '' },
+    bird_mumno: { ok: false, label: 'No, it has a blemish', why: '', src: '' },
   };
   const YES = new Set(['fit', 'bedieved', 'bird_fit', 'bird_mum']);
   function fitness(a) {
@@ -132,7 +132,8 @@ window.Rules = (function () {
     const why = ans === 'pilgas'
       ? 'A male sheep in the first thirty days of its second year is a pilgas: no longer a keves, not yet an ayil.'
       : C.ANIMALS[ans].facts[0];
-    return { kind: 'name', prompt: 'What is this animal called?', opts: opts.map(k => ({ key: k, label: label(k) })), answer: ans, why, src: C.ANIMALS[ans].src[0] };
+    const named = ans === 'pilgas' ? 'pilgas פִּלְגָּס' : `${C.ANIMALS[ans].tr} ${C.ANIMALS[ans].he}`;
+    return { kind: 'name', prompt: 'What does the Torah call this animal? (Esc opens your Sefer if you want to check.)', opts: opts.map(k => ({ key: k, label: label(k) })), answer: ans, why: `${named}: ${C.ANIMALS[ans].en}. ${why}`, src: C.ANIMALS[ans].src[0] };
   }
   function fitQuestion(a) {
     const ans = fitness(a);
@@ -150,12 +151,12 @@ window.Rules = (function () {
       opts = [ans, yes, ...nos.slice(0, 2)];
     }
     opts = shuffle(opts);
-    return { kind: 'fit', prompt: 'May it be brought on the mizbeach?', opts: opts.map(k => ({ key: k, label: FIT[k].label })), answer: ans, why: FIT[ans].why, src: FIT[ans].src };
+    return { kind: 'fit', prompt: 'Can this animal be offered on the mizbeach (altar)?', opts: opts.map(k => ({ key: k, label: FIT[k].label })), answer: ans, why: FIT[ans].why, src: FIT[ans].src };
   }
 
   // ---- Level 2: korban scenarios ----
   const KORBAN_SET = ['olah', 'chatat', 'asham', 'shelamim'];
-  const KNAME = { olah: 'an OLAH', chatat: 'a CHATAS (for an unintentional sin)', asham: 'an ASHAM', shelamim: 'a SHELAMIM' };
+  const KNAME = { olah: 'an OLAH (burnt-offering)', chatat: 'a CHATAS (sin-offering, for an unintentional sin)', asham: 'an ASHAM (guilt-offering)', shelamim: 'a SHELAMIM (peace-offering)' };
   function canBe(key, korban) {
     const a = C.ANIMALS[key]; const bird = isBird(a.species);
     switch (korban) {
@@ -166,15 +167,15 @@ window.Rules = (function () {
     }
   }
   const REASON = {
-    olah_female: { label: 'No: an animal olah must be male', why: 'An animal olah comes only from males; only a bird olah may be either sex.', src: 'MK 1:8' },
-    chatat_bird: { label: 'No: his chatas is a female sheep or goat', why: 'An ordinary person\'s chatas for a sin is a se\'iras izim or a kivsah.', src: 'Vayikra 4:28' },
-    chatat_cattle: { label: 'No: an individual\'s chatas is never cattle', why: 'Every individual\'s chatas is female and not from cattle, except the three bulls and the nasi\'s goat.', src: 'MK 1:15' },
-    chatat_male: { label: 'No: an individual\'s chatas must be female', why: 'Every individual\'s chatas is female; only the nasi, the kohen mashiach and the kohen gadol on Yom Kippur bring males.', src: 'MK 1:15' },
-    chatat_age: { label: 'No: the chatas is a female in its first year', why: 'The Torah asks for "a she-goat in her first year" (ez bas shenasah), and a keves means a sheep in its first year; a grown ewe or she-goat is not the individual\'s chatas.', src: 'Bamidbar 15:27' },
-    asham_species: { label: 'No: an asham comes only from sheep', why: 'The asham comes only from male sheep.', src: 'MK 1:10' },
-    asham_female: { label: 'No: an asham must be a male sheep', why: 'The asham comes only from male sheep.', src: 'MK 1:10' },
-    shelamim_bird: { label: 'No: there are no bird shelamim', why: '"No bird is brought as shelamim."', src: 'MK 1:11' },
-    yes: { label: 'Yes, it may', why: '', src: '' },
+    olah_female: { label: 'No, an olah from the herd or flock must be male', why: 'An animal olah comes only from males. Only a bird olah may be either sex.', src: 'MK 1:8' },
+    chatat_bird: { label: 'No, this chatas must be a female sheep or goat, not a bird', why: 'An ordinary person\'s chatas for a sin is a female goat or a female lamb in its first year.', src: 'Vayikra 4:28' },
+    chatat_cattle: { label: 'No, an ordinary person\'s chatas is never from cattle', why: 'Every individual\'s chatas is a female sheep or goat; the only cattle chataos are the bulls of the kohen mashiach, the community and the kohen gadol on Yom Kippur.', src: 'MK 1:15' },
+    chatat_male: { label: 'No, an ordinary person\'s chatas must be female', why: 'Every individual\'s chatas is female. Only the nasi (a male goat), the kohen mashiach and the kohen gadol on Yom Kippur (bulls) bring males.', src: 'MK 1:15' },
+    chatat_age: { label: 'No, the chatas must be a female in its first year', why: 'The Torah asks for "a she-goat in her first year", and a keves means a sheep in its first year. A grown ewe or she-goat cannot be an ordinary person\'s chatas.', src: 'Bamidbar 15:27' },
+    asham_species: { label: 'No, an asham is brought only from sheep', why: 'The asham comes only from male sheep: never a goat, a bull or a bird.', src: 'MK 1:10' },
+    asham_female: { label: 'No, an asham must be a male sheep', why: 'The asham comes only from male sheep.', src: 'MK 1:10' },
+    shelamim_bird: { label: 'No, birds are never brought as shelamim', why: 'Shelamim come from cattle, sheep or goats; "no bird is brought as shelamim."', src: 'MK 1:11' },
+    yes: { label: 'Yes, that is allowed', why: '', src: '' },
   };
   const L2_ANIMALS = C.ANIMAL_ORDER.filter(k => k !== 'pilgas');
   const art = w => (/^[aeiou]/i.test(w) ? 'an ' : 'a ') + w;
@@ -185,21 +186,21 @@ window.Rules = (function () {
     const ans = reason || 'yes';
     const distract = Object.keys(REASON).filter(k => k !== ans && k !== 'yes');
     const opts = shuffle([ans, ...(ans === 'yes' ? [] : ['yes']), ...shuffle(distract).slice(0, ans === 'yes' ? 3 : 2)]);
-    const why = ans === 'yes' ? `A ${a.tr} ${a.he} may be brought as ${KNAME[korban]}.` : REASON[ans].why;
+    const why = ans === 'yes' ? `A ${a.tr} ${a.he} (${a.en}) may be brought as ${KNAME[korban]}.` : REASON[ans].why;
     const src = ans === 'yes' ? C.KORBANOS[korban].src[0] : REASON[ans].src;
-    return { kind: 'canbe', animal: key, korban, prompt: `A pilgrim brings ${art(a.tr.toUpperCase())} ${a.he} (${a.en}) as ${KNAME[korban]}. Allowed?`, opts: opts.map(k => ({ key: k, label: REASON[k].label })), answer: ans, why, src };
+    return { kind: 'canbe', animal: key, korban, prompt: `A pilgrim brings ${art(a.tr.toUpperCase())} ${a.he} (${a.en}) as ${KNAME[korban]}. Is that allowed?`, opts: opts.map(k => ({ key: k, label: REASON[k].label })), answer: ans, why, src };
   }
   function whichQuestion() {
     for (let tries = 0; tries < 20; tries++) {
       const key = pick(L2_ANIMALS); const a = C.ANIMALS[key];
       const valid = KORBAN_SET.filter(k => !canBe(key, k));
-      const labels = { olah: 'Olah', chatat: 'Chatas of an ordinary person', asham: 'Asham', shelamim: 'Shelamim' };
+      const labels = { olah: 'Olah (burnt-offering)', chatat: 'Chatas (sin-offering) of an ordinary person', asham: 'Asham (guilt-offering)', shelamim: 'Shelamim (peace-offering)' };
       if (valid.length === 1) {
-        return { kind: 'which', animal: key, prompt: `${art(a.tr.toUpperCase()).replace(/^a/, 'A')} ${a.he} (${a.en}). As which of these may it be brought?`, opts: shuffle(KORBAN_SET).map(k => ({ key: k, label: labels[k] })), answer: valid[0], why: C.KORBANOS[valid[0]].facts[0], src: C.KORBANOS[valid[0]].src[0] };
+        return { kind: 'which', animal: key, prompt: `${art(a.tr.toUpperCase()).replace(/^a/, 'A')} ${a.he} (${a.en}). Which ONE of these korbanos can it be?`, opts: shuffle(KORBAN_SET).map(k => ({ key: k, label: labels[k] })), answer: valid[0], why: C.KORBANOS[valid[0]].facts[0], src: C.KORBANOS[valid[0]].src[0] };
       }
       if (valid.length === 3) {
         const bad = KORBAN_SET.find(k => canBe(key, k));
-        return { kind: 'which', animal: key, prompt: `${art(a.tr.toUpperCase()).replace(/^a/, 'A')} ${a.he} (${a.en}). Which of these can it NOT be?`, opts: shuffle(KORBAN_SET).map(k => ({ key: k, label: labels[k] })), answer: bad, why: REASON[canBe(key, bad)].why, src: REASON[canBe(key, bad)].src };
+        return { kind: 'which', animal: key, prompt: `${art(a.tr.toUpperCase()).replace(/^a/, 'A')} ${a.he} (${a.en}). Which ONE of these korbanos can it NOT be?`, opts: shuffle(KORBAN_SET).map(k => ({ key: k, label: labels[k] })), answer: bad, why: REASON[canBe(key, bad)].why, src: REASON[canBe(key, bad)].src };
       }
     }
     return canBeQuestion();
@@ -211,10 +212,10 @@ window.Rules = (function () {
   function kedushahQuestion() {
     const it = pick(KED);
     const form = rnd(3);
-    if (form === 0) return { kind: 'ked', prompt: `${it.n}: kodshei kodashim or kodashim kalim?`, opts: [{ key: 'kk', label: 'Kodshei kodashim' }, { key: 'kalim', label: 'Kodashim kalim' }], answer: it.k, why: it.k === 'kk' ? 'Olos, chataos, ashamos and the two Shavuos lambs are kodshei kodashim.' : 'An individual\'s shelamim (todah included), the bechor, the maaser and the pesach are kodashim kalim.', src: 'MK 1:17' };
-    if (form === 1) return { kind: 'ked', prompt: `${it.n}. Where is it slaughtered?`, opts: shuffle([{ key: 'north', label: 'North of the mizbeach only' }, { key: 'any', label: 'Anywhere in the Azarah' }, { key: 'city', label: 'Anywhere in Yerushalayim' }, { key: 'heichal', label: 'Inside the Heichal' }]), answer: it.k === 'kk' ? 'north' : 'any', why: it.k === 'kk' ? 'Kodshei kodashim are slaughtered only north of the mizbeach.' : 'Kodashim kalim are slaughtered anywhere in the Azarah.', src: 'MK 5:2' };
+    if (form === 0) return { kind: 'ked', prompt: `${it.n}: is it kodshei kodashim (most holy) or kodashim kalim (lesser holiness)?`, opts: [{ key: 'kk', label: 'Kodshei kodashim (most holy)' }, { key: 'kalim', label: 'Kodashim kalim (lesser holiness)' }], answer: it.k, why: it.k === 'kk' ? 'Olos, chataos, ashamos and the two Shavuos lambs are kodshei kodashim.' : 'An individual\'s shelamim (todah included), the bechor, the maaser and the pesach are kodashim kalim.', src: 'MK 1:17' };
+    if (form === 1) return { kind: 'ked', prompt: `${it.n}. Where is it slaughtered?`, opts: shuffle([{ key: 'north', label: 'Only on the north side of the mizbeach (altar)' }, { key: 'any', label: 'Anywhere in the Azarah (Temple courtyard)' }, { key: 'city', label: 'Anywhere in Yerushalayim' }, { key: 'heichal', label: 'Inside the Heichal (the Sanctuary building)' }]), answer: it.k === 'kk' ? 'north' : 'any', why: it.k === 'kk' ? 'Kodshei kodashim are slaughtered only north of the mizbeach.' : 'Kodashim kalim are slaughtered anywhere in the Azarah.', src: 'MK 5:2' };
     const eat = it.n === 'An olah' ? 'none' : it.k === 'kk' ? 'kohanim' : 'city';
-    return { kind: 'ked', prompt: `${it.n}. Who eats it, and where?`, opts: shuffle([{ key: 'none', label: 'No one: it is entirely burned' }, { key: 'kohanim', label: 'Male kohanim, in the Azarah' }, { key: 'city', label: 'Anyone tahor, anywhere in Yerushalayim' }, { key: 'home', label: 'The owner, at home outside the city' }]), answer: eat, why: eat === 'none' ? 'The olah goes up entirely; only its hide goes to the kohanim.' : eat === 'kohanim' ? 'Kodshei kodashim are eaten by male kohanim in the Azarah.' : 'Kodashim kalim are eaten anywhere in the city by anyone tahor.', src: eat === 'none' ? 'MK 6:1' : eat === 'kohanim' ? 'MK 10:3' : 'MK 10:5' };
+    return { kind: 'ked', prompt: `${it.n}. Who eats it, and where?`, opts: shuffle([{ key: 'none', label: 'No one: it is entirely burned on the altar' }, { key: 'kohanim', label: 'Male kohanim (priests), inside the Temple courtyard' }, { key: 'city', label: 'Anyone who is ritually pure, anywhere in Yerushalayim' }, { key: 'home', label: 'The owner, at home outside the city' }]), answer: eat, why: eat === 'none' ? 'The olah goes up entirely; only its hide goes to the kohanim.' : eat === 'kohanim' ? 'Kodshei kodashim are eaten by male kohanim in the Azarah.' : 'Kodashim kalim are eaten anywhere in the city by anyone tahor.', src: eat === 'none' ? 'MK 6:1' : eat === 'kohanim' ? 'MK 10:3' : 'MK 10:5' };
   }
   function l2Question() {
     const r = Math.random();

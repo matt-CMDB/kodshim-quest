@@ -151,6 +151,9 @@ window.Content = (function () {
     birds: { who: 'Bird-seller Chanah', title: 'Torim and bnei yonah', src: 'Chullin 1:5',
       lines: ['Birds go by LOOKS, not by days. Watch the neck feathers.', 'A turtledove {he:תּוֹר} is fit only once it is GROWN, after the feathers turn golden.', 'A pigeon {he:בֶּן יוֹנָה} is fit only while YOUNG, before the gold appears.', 'And right at the start of the yellowing, both are unfit. Male or female makes no difference, and ordinary blemishes do not disqualify a bird; only a missing limb, a dried wing or a blinded eye.'],
       journal: 'Turtledove: fit only grown (after tzihuv). Pigeon: fit only young (before tzihuv). Start of tzihuv: both unfit. Sex and ordinary blemishes do not matter for birds; a missing limb, dried wing or blinded eye does.' },
+    calendar: { who: 'Rivka the record-keeper', title: 'Counting an animal\'s age', src: 'MK 1:11',
+      lines: ['I keep the birth records for the flocks. Every question at the gate comes back to one thing: how old is the animal, counted from the day it was born.', 'Look at my calendar. Day 1 is its birth. From day 8 it may be offered. From day 30 we offer it without hesitation.', 'Its FIRST YEAR runs until its first birthday. A sheep in that year is a keves, a goat a gedi, a calf an egel.', 'Its SECOND YEAR starts the day after. For sheep the first thirty days of that year are the odd stretch, the pilgas; from day 31 it is an ayil. Goats and cattle have no such gap.', 'Sheep and goats are offered until they turn two. Cattle until they turn three. After that the animal is zaken and is not offered.'],
+      journal: 'Age is counted from birth. Day 8: may be offered. Day 30: offered without hesitation. First year: keves / gedi / egel. Second year: ayil (sheep, from day 31), sa\'ir, par. Sheep and goats until 2 full years, cattle until 3; then zaken.' },
     mum: { who: 'Mevaker Shimon', title: 'A mum disqualifies', src: 'Vayikra 22:20',
       lines: ['I am the mevaker, the inspector. Every animal passes my eyes before the gate.', 'A blind eye, a broken leg, a split ear: any MUM {he:מוּם} the Torah lists, and the animal is pasul, however fine its age.', '"Anything that has a blemish you shall not offer."'],
       journal: 'Any mum (blemish) disqualifies an animal at any age: blind, broken limb, and the rest.' },
@@ -244,5 +247,56 @@ window.Content = (function () {
     { id: 'q2_bechor_kedushah', lvl: 2, q: 'A bechor is...', opts: ['Kodashim kalim', 'Kodshei kodashim', 'Not a korban at all', 'A kind of asham'], a: 0, why: 'Bechor, maaser and pesach are kodashim kalim.', src: 'MK 1:17' },
   ];
 
-  return { SOURCES, ANIMALS, ANIMAL_ORDER, SPECIES, KORBANOS, KORBAN_ORDER, SEALS, LESSONS, QUESTIONS };
+  // ------------------------------------------------------------------
+  // Glossary: the first time a term appears in a question, option or
+  // explanation it is shown with a plain-English gloss.
+  // ------------------------------------------------------------------
+  const GLOSS = [
+    ['kodshei kodashim', 'most holy offerings'], ['kodashim kalim', 'offerings of lesser holiness'],
+    ['kohen mashiach', 'anointed High Priest'], ['kohen gadol', 'High Priest'], ['se\'iras izim', 'female goat'], ['se\'ir izim', 'male goat'],
+    ['mizbeach', 'altar'], ['chataos', 'sin-offerings'], ['chatas', 'sin-offering'], ['olos', 'burnt-offerings'], ['olah', 'burnt-offering'],
+    ['ashamos', 'guilt-offerings'], ['asham', 'guilt-offering'], ['shelamim', 'peace-offering'], ['todah', 'thanksgiving offering'],
+    ['Azarah', 'Temple courtyard'], ['tzihuv', 'the neck feathers turning golden'], ['zaken', 'too old'], ['lechatchilah', 'ideally'],
+    ['mum', 'blemish'], ['eimurin', 'the parts burned on the altar'], ['alyah', 'fat tail'], ['tahor', 'ritually pure'], ['nasi', 'ruler'],
+    ['kares', 'spiritual cutting-off'], ['shechitah', 'slaughter'], ['zerikah', 'sprinkling the blood'], ['bechor', 'firstborn animal'],
+    ['maaser beheimah', 'animal tithe'], ['maaser', 'animal tithe'], ['pesach', 'Passover offering'], ['pilgas', 'in-between sheep'],
+    ['kohanim', 'priests'], ['kohen', 'priest'], ['Yerushalayim', 'Jerusalem'], ['Mikdash', 'Temple'], ['musaf', 'additional festival offering'],
+    ['Shavuos', 'the festival of Shavuos'], ['nesachim', 'wine libations'], ['Heichal', 'the Sanctuary building'], ['chazeh', 'breast'], ['shok', 'thigh'],
+  ];
+  function gloss(text) {
+    if (!text) return text;
+    let out = text;
+    for (const [term, g] of GLOSS) {
+      const re = new RegExp('(^|[^A-Za-z\'])(' + term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')(?![A-Za-z])(?!\\s*\\()', 'i');
+      const m = re.exec(out);
+      if (m) out = out.slice(0, m.index) + m[1] + m[2] + ' (' + g + ')' + out.slice(m.index + m[0].length);
+    }
+    return out;
+  }
+
+  // When each animal is actually brought (examples from the Torah and the Rambam).
+  const USES = {
+    egel: ['Aharon\'s chatas on the eighth day of the Mishkan\'s inauguration: "take yourself a calf for a chatas" (Vayikra 9:2).', 'Otherwise cattle are usually offered grown, as a par.'],
+    eglah: ['The Torah never names a first-year female calf for any particular korban. She may be brought as a shelamim, which takes cattle of either sex and any age.', 'The eglah arufah (the heifer of an unsolved murder) is not an altar offering at all.'],
+    par: ['The chatas of the kohen mashiach and the community\'s par he\'elem davar.', 'The kohen gadol\'s own chatas on Yom Kippur.', 'The olos of the musafim: two bulls on Rosh Chodesh, bulls on the festivals.'],
+    parah: ['The Torah never names a grown cow for any particular korban. She may be a shelamim.', 'The parah adumah (red heifer) is not an altar offering; it is burned outside to make purifying water.'],
+    keves: ['The daily tamid: two lambs every day, morning and afternoon.', 'The korban pesach (a lamb or a kid).', 'The olah of a wealthy yoledes; the asham of a nazir and of a metzora.'],
+    kivsah: ['The chatas of an ordinary person who sinned unintentionally (or a female kid).', 'The chatas of a nazir completing his vow.'],
+    ayil: ['Most ashamos: for me\'ilah, for a false oath about money, the asham talui.', 'The kohen gadol\'s olah on Yom Kippur; the nazir\'s shelamim.'],
+    rachel: ['The Torah never names a grown ewe for any particular korban. She may be a shelamim, which takes sheep of either sex and any age.'],
+    gedi: ['The korban pesach may be a kid instead of a lamb: "from the sheep or from the goats" (Shemos 12:5).'],
+    gediyah: ['The chatas of an ordinary person who sinned unintentionally: "a she-goat in her first year" (or a female lamb).'],
+    sair: ['The chatas of the nasi.', 'The community\'s chatas goats: on Rosh Chodesh and the festivals, and the two goats of Yom Kippur.'],
+    ez: ['The Torah never names a grown she-goat for any particular korban. She may be a shelamim.'],
+    tor: ['The olah and chatas of a poor yoledes, of a zav or zavah, and of a poor metzora.', 'The middle-income sinner\'s olah ve\'yored; a convert\'s olah.'],
+    ben_yonah: ['The same bird offerings as the turtledove: whoever may bring a bird chooses either kind.'],
+    pilgas: ['Never: a pilgas is fit neither as a keves nor as an ayil.'],
+  };
+  const NEVER = ['eglah', 'parah', 'rachel', 'ez'];   // never named for a particular korban
+  for (const k of Object.keys(ANIMALS)) { ANIMALS[k].uses = USES[k] || []; ANIMALS[k].never = NEVER.includes(k); }
+  // Korbanos pages open once the matching lesson has been heard (Level 2)
+  KORBANOS.olah.unlock = 'olah_rules'; KORBANOS.chatat.unlock = 'chatat_rules'; KORBANOS.asham.unlock = 'asham_rules'; KORBANOS.shelamim.unlock = 'shelamim_rules';
+  KORBANOS.pesach.unlock = 'four_kinds'; KORBANOS.bechor.unlock = 'four_kinds'; KORBANOS.maaser.unlock = 'four_kinds';
+
+  return { SOURCES, ANIMALS, ANIMAL_ORDER, SPECIES, KORBANOS, KORBAN_ORDER, SEALS, LESSONS, QUESTIONS, gloss, GLOSS };
 })();
