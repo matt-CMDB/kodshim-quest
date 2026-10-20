@@ -235,5 +235,5 @@ window.Rules = (function () {
   }
   function byId(id) { return curated(C.QUESTIONS.find(q => q.id === id)); }
 
-  return { YEAR, total, ageText, nameOf, fitness, FIT, randomAnimal, describe, nameQuestion, fitQuestion, canBe, canBeQuestion, whichQuestion, kedushahQuestion, l2Question, curated, curatedSet, byId, shuffle, pick, isBird };
+  return { REASON, KNAME, KED, MUMS, NAME_POOL, YEAR, total, ageText, nameOf, fitness, FIT, randomAnimal, describe, nameQuestion, fitQuestion, canBe, canBeQuestion, whichQuestion, kedushahQuestion, l2Question, curated, curatedSet, byId, shuffle, pick, isBird };
 })();

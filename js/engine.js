@@ -458,7 +458,7 @@ window.Game = (function () {
     const ch = tileAt(f.x, f.y);
     if (ch === 'B') return runScript(async () => { const i = await choice(['Names and ages', 'The four kinds', 'Holiness, place, time', 'Close']); if (i === 0) await board(BOARDS.names); else if (i === 1) await board(BOARDS.kinds); else if (i === 2) await board(BOARDS.kedushah); });
     if (ch === 'k') return runScript(() => say('Scrolls of Vayikra and the Mishnah, well thumbed.'));
-    if (ch === 'e') return runScript(() => say('A bed. You could rest here. (HP restores when you enter a house.)'));
+    if (ch === 'e') return runScript(() => say('A bed. You could rest here. (Your hearts are restored whenever you enter a house.)'));
     if (ch === 'm') return runScript(() => say('A table with a map of the Azarah scratched on it. "North" is marked with an arrow.'));
     if (ch === 'l') return runScript(() => say('A well. The water is cold and sweet.'));
     if (ch === '&' || ch === '%') return runScript(() => say(map.id === 'city' ? 'A stall selling animals for korbanos. "Fit for olah!" the merchant calls. "Check it yourself," says the sign.' : 'Chanah\'s bird stall: turtledoves in one cage, young pigeons in another. "Look at the neck feathers," reads the sign.'));
