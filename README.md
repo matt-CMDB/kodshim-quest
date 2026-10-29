@@ -30,6 +30,17 @@ saved in `localStorage` under `kodshim.quest.v1`.
 - `js/maps.js`, `js/engine.js`, `js/battle.js`, `js/sefer.js`, `js/ui.js`: world, dialogue, challenges, the Sefer and the UI frames.
 - `js/audio.js`: chiptune music and sound effects, no samples.
 
+## Reviewing the text
+
+`GAME-TEXT.md` holds every line a player can read: dialogue, lessons, signs,
+challenge questions with all their answers, the Sefer pages and the menus,
+each tagged with the file and line it comes from. Regenerate it after
+changing any text:
+
+```
+node tools/export-text.js
+```
+
 ## Deploying
 
 Every push to `main` publishes the game through `.github/workflows/pages.yml`.

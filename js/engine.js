@@ -276,12 +276,13 @@ window.Game = (function () {
   // ---- lesson boards (Beis Midrash)
   const BOARDS = {
     calendar: `<h3>Rivka's calendar: counting an animal's age</h3>
+      <p class="tl-note">Each bar is one year. The thin lines mark its twelve months of 30 days.</p>
       <div class="timeline">
-        <div class="tl-row"><span class="tl-lbl">Birth</span><div class="tl-bar"><i class="t0" style="flex:1">Days 1–7<small>too young; not offered</small></i><i class="t1" style="flex:2">Day 8 to day 29<small>may be offered</small></i><i class="t2" style="flex:4">Day 30 onward<small>offered without hesitation</small></i></div></div>
-        <div class="tl-row"><span class="tl-lbl">Year 1</span><div class="tl-bar"><i class="t2" style="flex:7">Until its first birthday<small>keves / kivsah · gedi / gediyah · egel / eglah</small></i></div></div>
-        <div class="tl-row"><span class="tl-lbl">Year 2</span><div class="tl-bar"><i class="t3" style="flex:1">Days 1–30<small>sheep ♂: pilgas</small></i><i class="t4" style="flex:6">Day 31 to its second birthday<small>ayil / rachel · sa'ir / ez · par / parah</small></i></div></div>
-        <div class="tl-row"><span class="tl-lbl">Year 3</span><div class="tl-bar"><i class="t5" style="flex:7">Until its third birthday<small>cattle only, still par / parah. Sheep and goats are now zaken (too old)</small></i></div></div>
-        <div class="tl-row"><span class="tl-lbl">After</span><div class="tl-bar"><i class="t6" style="flex:7">Zaken<small>too old for any korban</small></i></div></div>
+        <div class="tl-row"><span class="tl-lbl">Year 1</span><div class="tl-bar year"><i class="t1 tl-narrow" style="flex:1">1st<small>month</small></i><i class="t2" style="flex:11">Until its first birthday<small>keves / kivsah · gedi / gediyah · egel / eglah</small></i></div></div>
+        <div class="tl-row tl-zoomrow"><span class="tl-lbl"></span><div class="tl-zoom"><svg viewBox="0 0 120 14" preserveAspectRatio="none" aria-hidden="true"><polygon points="0,0 10,0 120,14 0,14"/></svg><div class="tl-bar"><i class="t0" style="flex:7">Days 1–7<small>too young; not offered</small></i><i class="t1" style="flex:22">Day 8 to day 29<small>may be offered, but ideally wait</small></i><i class="t2" style="flex:9">Day 30 →<small>offered without hesitation</small></i></div><div class="tl-cap">The first month, close up</div></div></div>
+        <div class="tl-row"><span class="tl-lbl">Year 2</span><div class="tl-bar year"><i class="t3 tl-narrow" style="flex:1">pilgas<small>♂ sheep</small></i><i class="t4" style="flex:11">Day 31 to its second birthday<small>ayil / rachel · sa'ir / ez · par / parah</small></i></div></div>
+        <div class="tl-row"><span class="tl-lbl">Year 3</span><div class="tl-bar year"><i class="t5" style="flex:12">Until its third birthday<small>cattle only, still par / parah. Sheep and goats are now zaken (too old)</small></i></div></div>
+        <div class="tl-row"><span class="tl-lbl">After</span><div class="tl-bar year"><i class="t6" style="flex:12">Zaken<small>too old for any korban</small></i></div></div>
       </div>
       <p>"First year" means from the day it was born until its first birthday. "Second year" begins the next day. A year here is 360 days, and hours count: an animal born at noon is a day older at noon, not at nightfall.</p>`,
     names: `<h3>Names and ages (Maaseh HaKorbanos 1:11, 1:14)</h3><table><tr><th></th><th>Cattle</th><th>Sheep</th><th>Goats</th></tr>
@@ -345,22 +346,21 @@ window.Game = (function () {
   async function mentor(n) {
     const name = 'Elazar HaKohen';
     if (!S.flags.intro) {
-      await say('So you are the new trainee. Good. Sit. Before you ever stand in the Azarah you must know the flock as a shepherd knows it.', { name, keep: true });
-      await say('First, the basics. Walk with the ARROW keys. To talk to someone, or to turn a page like this one, press Z or ENTER. X steps back, and if you hold X while walking, you run.', { name, keep: true });
-      await say('Take this: your Sefer HaKorbanos. Press ESC at any time, even in the middle of a test, and choose SEFER. Every animal you name correctly is written into it, with pictures, names and when each one is brought.', { name, keep: true });
+      await say('So you are the new trainee. Good. Sit. You have a lot to learn. Press Z or ENTER when you are ready to hear more.', { name, keep: true });
+      await say('First, the basics. Walk with the ARROW keys. To talk to someone, or to turn a page like this one, press Z or ENTER. Take a step back with X, and hold X while walking to run.', { name, keep: true });
+      await say('Your first task is to learn the animals. Take this: your Sefer HaKorbanos.', { name, keep: true });
+      await say('Press ESC at any time, even in the middle of a test, and choose SEFER. Every animal you encounter will be here, but details will be filled in only after you name it correctly.', { name, keep: true });
       await say('The Sefer also keeps a Journal of every lesson you hear, so you never have to remember it all at once. Read it whenever you are unsure.', { name, keep: true });
-      closeDlg();
-      await teach('five_species', name);
       await say('Now, the hearts at the top of the screen. Whenever someone tests you, you may miss two questions. A third mistake ends that test and costs you ONE heart. Answer three correctly in one test and you earn a heart back. Any house restores them all.', { name, keep: true });
-      await say('Go out now. Rivka waits just outside my door with her calendar; she will show you what "first year" and "second year" mean. Then the shepherds by the pens will teach you the names.', { name, keep: true });
-      await say('Walk through the tall grass and name what you meet. When at least EIGHT names are written in your Sefer, Shimon the mevaker will test you at the Sheep Gate.', { name });
+      await say('Now, check the scrolls in my house, and then go and learn. Talk to people, and don\'t be afraid to be challenged, for challenges will help you learn. Familiarize yourself with the animals you encounter in the tall grass. When you are ready, Shimon the mevaker will test you at the Sheep Gate.', { name });
       S.flags.intro = true; save(); updateHud();
       return;
     }
-    if (S.hp < S.maxHp) { heal(); A.sfx('heal'); await say('Rest. There. Your strength is back.', { name, keep: true }); }
+    if (S.hp < S.maxHp) { heal(); A.sfx('heal'); await say('Enter here to rest and regain your strength. Your hearts have returned.', { name, keep: true }); }
+    if (!S.taught.five_species) { await say('Have you read the scrolls yet? They are on my table and on the shelves.', { name }); return; }
     const rc = regCount();
     if (!S.seals.includes('egel')) {
-      if (rc < 8) await say(`Your Sefer holds ${rc} of 14 names. Keep walking the tall grass; the shepherds by the pens can teach you the rest. Press ESC and open the Sefer to see which names you have.`, { name });
+      if (rc < 8) await say(`Your Sefer holds ${rc} of 14 animal names. Keep walking the tall grass; the shepherds by the pens can teach you the rest. Press ESC and open the Sefer to see which names you have and which you are missing.`, { name });
       else await say('Your Sefer is filling well. Go to Shimon at the Sheep Gate and show him what you know.', { name });
     } else if (!S.seals.includes('zachar')) {
       await say('You carry the Egel seal. In the city, Kohen Yishmael and Levi Asaf will teach you the four kinds of korban. Then the gate of the Azarah.', { name });
@@ -376,15 +376,15 @@ window.Game = (function () {
     const rc = regCount();
     if (need.length || rc < 8) {
       await say('Halt. Nothing passes this gate uninspected, and no trainee passes untested.', { name, keep: true });
-      if (need.length) await say(`You have not yet heard ${need.map(id => C.LESSONS[id].who).join(', ')}. Go and listen first.`, { name, keep: true });
-      if (rc < 8) await say(`Your Sefer holds ${rc} names. Bring me at least eight. The tall grass is full of animals; name them.`, { name, keep: true });
+      if (need.length) await say(`You have not yet spoken to ${need.map(id => C.LESSONS[id].who).join(', ')}. Go and listen first.`, { name, keep: true });
+      if (rc < 8) await say(`Your Sefer holds ${rc} names. Bring me at least eight. The tall grass is full of animals; go out to find and name them.`, { name, keep: true });
       closeDlg();
       return;
     }
-    await say('So. Elazar\'s trainee. Eight names and more in the Sefer, the shepherds all heard. Then let us see if you can inspect as I inspect.', { name, keep: true });
-    await say('Seven questions. Three mistakes and you go back to the pastures; fewer, and the gate is yours.', { name });
+    await say('So. Elazar\'s new trainee. Eight names and more in the Sefer, the shepherds all heard. Then let us see if you can inspect as I inspect.', { name, keep: true });
+    await say('Five questions, then three animals to inspect. Three mistakes and you go back to the pastures; fewer, and the gate is yours.', { name });
     const qs = [...R.curatedSet(1, 5)];
-    const res = await window.Battle.run({ type: 'gate', arena: 'gate', name: 'MEVAKER SHIMON', kind: 'gadol', questions: qs, generated: 2, level: 1, intro: 'Mevaker Shimon wants to see your inspection!' });
+    const res = await window.Battle.run({ type: 'gate', arena: 'gate', name: 'MEVAKER SHIMON', kind: 'gadol', questions: qs, animals: 3, level: 1, intro: 'Mevaker Shimon wants to see your inspection!' });
     if (res.won) {
       S.seals.push('egel'); S.wins++; S.moved[n.id] = { x: 17, y: 4, dir: 'right' }; n.tx = 17; n.px = 17 * T; n.dir = 'right';
       A.sfx('fanfare'); updateHud();
@@ -428,7 +428,7 @@ window.Game = (function () {
     const qs = tr.questions.map(id => R.byId(id));
     const res = await window.Battle.run({ type: 'trainer', arena: map.id === 'city' ? 'city' : 'pasture', name: tr.name.toUpperCase(), kind: n.kind, questions: qs, level: map.encounters === 'l2' ? 2 : 1, intro: `${tr.name} challenges you!` });
     if (res.won) { S.beaten[n.id] = true; S.wins++; await say(tr.lose, { name: tr.name }); save(); }
-    else { n.cooldown = 480; await say('Come back when you have learned more. Go on, I will give you a moment.', { name: tr.name }); if (S.hp <= 0) await faint(); else save(); }
+    else { n.cooldown = 480; await say('Come back when you have learned more. Go on, I will give you time.', { name: tr.name }); if (S.hp <= 0) await faint(); else save(); }
   }
   async function wildEncounter() {
     S.encounters++; lastEncounterStep = S.steps;
@@ -444,6 +444,20 @@ window.Game = (function () {
     if (S.hp <= 0) await faint(); else save();
   }
 
+  // The five species are learned from the scrolls in Elazar's house (any shelf works).
+  async function readScrolls() {
+    if (!S.taught.five_species) {
+      await say('A scroll lies open. Its heading reads: "The five species."');
+      await teach('five_species', 'Scroll');
+      return;
+    }
+    if (map.id !== 'home') return say('Scrolls of Vayikra and the Mishnah, well thumbed.');
+    await say('The scroll on the five species. Read it again?', { keep: true, noWait: true });
+    const i = await choice(['Read it again', 'Not now']);
+    closeDlg();
+    if (i === 0) await teach('five_species', 'Scroll');
+  }
+
   // ------------------------------------------------------------ interaction
   function facing() { const d = DIRS[player.dir]; return { x: player.tx + d.x, y: player.ty + d.y }; }
   const DIRS = { up: { x: 0, y: -1 }, down: { x: 0, y: 1 }, left: { x: -1, y: 0 }, right: { x: 1, y: 0 } };
@@ -457,8 +471,8 @@ window.Game = (function () {
     if (map.signs && map.signs[key]) return runScript(() => say(map.signs[key]));
     const ch = tileAt(f.x, f.y);
     if (ch === 'B') return runScript(async () => { const i = await choice(['Names and ages', 'The four kinds', 'Holiness, place, time', 'Close']); if (i === 0) await board(BOARDS.names); else if (i === 1) await board(BOARDS.kinds); else if (i === 2) await board(BOARDS.kedushah); });
-    if (ch === 'k') return runScript(() => say('Scrolls of Vayikra and the Mishnah, well thumbed.'));
-    if (ch === 'e') return runScript(() => say('A bed. You could rest here. (HP restores when you enter a house.)'));
+    if (ch === 'k' || (ch === 'm' && map.id === 'home')) return runScript(readScrolls);
+    if (ch === 'e') return runScript(() => say('A bed. You could rest here. (Your hearts are restored whenever you enter a house.)'));
     if (ch === 'm') return runScript(() => say('A table with a map of the Azarah scratched on it. "North" is marked with an arrow.'));
     if (ch === 'l') return runScript(() => say('A well. The water is cold and sweet.'));
     if (ch === '&' || ch === '%') return runScript(() => say(map.id === 'city' ? 'A stall selling animals for korbanos. "Fit for olah!" the merchant calls. "Check it yourself," says the sign.' : 'Chanah\'s bird stall: turtledoves in one cage, young pigeons in another. "Look at the neck feathers," reads the sign.'));
@@ -813,13 +827,13 @@ window.Game = (function () {
     const place = (name, x, y) => { sh(x + 8, y + 15, 10, 4); ag.drawImage(SP.get(name), x, y); };
     place('small:sheep:l', cx - 130, 56); place('small:sheep:r', cx - 104, 62); place('small:goat:l', cx + 100, 58); place('small:cattle:r', cx + 52, 50); place('small:bird:l', cx - 60, 40);
     sh(cx + 2, 71, 12, 5); ag.drawImage(SP.person('player', 'down', 'stand'), cx - 6, 52); sh(cx - 22, 67, 12, 5); ag.drawImage(SP.person('kohen', 'side', 'stand', true), cx - 30, 48);
-    t.innerHTML = `<div class="logo"><span class="he">מַסַּע קָדָשִׁים</span>KODSHIM QUEST</div><div class="tag">Name the flock. Pass the gates. Fill the Sefer.</div>`;
+    t.innerHTML = `<div class="logo"><span class="he">מַסַּע קָדָשִׁים</span>KODSHIM QUEST</div><div class="tag">Learn the basics, fill your Sefer, and pass through the gates to get to the Heichal.</div>`;
     t.appendChild(art);
     const menu = el('div', 'menu');
     const opts = hasSave() ? ['CONTINUE', 'NEW GAME'] : ['NEW GAME'];
     opts.forEach((o, i) => menu.appendChild(el('div', 'item' + (i === 0 ? ' sel' : ''), o)));
     t.appendChild(menu);
-    t.appendChild(el('div', 'foot', 'Content: Rambam, Hilchos Maaseh HaKorbanos ch. 1, 5, 10 · Vayikra · Mishnah Chullin 1:5, Shekalim 5:3'));
+    t.appendChild(el('div', 'foot', 'Content Sources: Rambam, Hilchos Maaseh HaKorbanos ch. 1, 5, 10 · Vayikra · Mishnah Chullin 1:5, Shekalim 5:3'));
     ui.appendChild(t); updateHud();
     let sel = 0; const its = [...menu.children];
     const render = () => its.forEach((it, i) => it.classList.toggle('sel', i === sel));

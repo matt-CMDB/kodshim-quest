@@ -6,7 +6,7 @@ window.Sefer = (function () {
   const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
   const TABS = ['ANIMALS', 'KORBANOS', 'SEALS', 'JOURNAL'];
   const pad = n => String(n).padStart(2, '0');
-  function cite(src) { return src.startsWith('MK ') ? 'Rambam, Maaseh HaKorbanos ' + src.slice(3) : src.startsWith('Issurei') ? 'Rambam, ' + src : (src.startsWith('Chullin') || src.startsWith('Shekalim')) ? 'Mishnah ' + src : src; }
+  function cite(src) { return src.startsWith('MK ') ? 'Rambam, Maaseh HaKorbanos ' + src.slice(3) : src.startsWith('Issurei') ? 'Rambam, ' + src : src.startsWith('Shegagos') ? 'Rambam, Hilchos ' + src : (src.startsWith('Chullin') || src.startsWith('Shekalim')) ? 'Mishnah ' + src : src; }
   function quotes(srcs) { return srcs.map(s => { const q = C.SOURCES[s]; return q ? `<div class="quote"><span class="he">${q.he}</span><span class="cite">${cite(s)} &middot; ${G().esc(q.en)}</span></div>` : ''; }).join(''); }
   function sprite(name, size = 48, silhouette = false) {
     const c = document.createElement('canvas'); c.width = size; c.height = size; const g = c.getContext('2d'); g.imageSmoothingEnabled = false;

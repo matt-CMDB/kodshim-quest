@@ -62,7 +62,13 @@ window.Battle = (function () {
     document.getElementById('ui').appendChild(root);
     const textEl = box.querySelector('.text .t'), arrow = box.querySelector('.arrow'), opts = box.querySelector('.opts');
 
-    const total = spec.questions ? spec.questions.length + (spec.generated || 0) : (spec.type === 'wild2' ? 1 + (Math.random() < .4 ? 1 : 0) : 2);
+    // Gate and trainer tests: written questions, then generated animals (Level 1) or scenarios (Level 2).
+    const qs = spec.questions ? [...spec.questions] : null;
+    if (qs) {
+      for (let k = 0; k < (spec.animals || 0); k++) qs.push(...animalQuestions(spec));
+      for (let k = 0; k < (spec.generated || 0); k++) qs.push(R.l2Question());
+    }
+    const total = qs ? qs.length : (spec.type === 'wild2' ? 1 + (Math.random() < .4 ? 1 : 0) : 2);
     let done = 0, correct = 0, strikes = 0, registered = false, lost = false;
     const MAX_STRIKES = 3;
     function renderInfo(tags, title) {
@@ -87,8 +93,10 @@ window.Battle = (function () {
       A.sfx('blip');
       arrow.style.display = 'none';
     }
+    function flashPanel() { infoE.classList.remove('flash'); void infoE.offsetWidth; infoE.classList.add('flash'); }
     async function ask(q) {
       run.current = q;
+      const nudge = isWild ? setInterval(flashPanel, 60000) : null;   // no answer for a minute: point at the panel again
       const G_ = q.kind === 'name' ? (t => t) : (t => C.gloss(t));
       const GO = (q.kind === 'name' || q.kind === 'fit') ? (t => t) : G_;
       await text(G_(q.prompt), false);
@@ -109,6 +117,7 @@ window.Battle = (function () {
           else if (act === 'a') { pop(); resolve(sel); }
         });
       });
+      if (nudge) clearInterval(nudge);
       const chosen = q.opts[pick];
       const ok = chosen.key === q.answer;
       items.forEach((it, i) => { if (q.opts[i].key === q.answer) it.classList.add('good'); else if (i === pick) it.classList.add('bad'); });
@@ -138,8 +147,9 @@ window.Battle = (function () {
         curTitle = `WILD ${C.SPECIES[a.species].en.toUpperCase()}`; curTags = R.describe(a);
         Game.markSeen(nameKey);
         renderInfo(curTags, curTitle);
+        flashPanel();
         await text(`A ${C.SPECIES[a.species].en.toUpperCase()} wanders out of the grass! Look at what you can see: its kind, whether it is male or female, and its age.`);
-        if (!R.isBird(a.species)) {
+        if (!R.isBird(a.species) && a.species !== 'goat') {
           const ok = await ask(R.nameQuestion(a));
           if (ok) {
             const isNew = Game.register(nameKey);
@@ -161,24 +171,19 @@ window.Battle = (function () {
       } else if (spec.type === 'wild2') {
         curTitle = 'A PILGRIM'; curTags = [{ cls: '', text: 'has a question' }];
         renderInfo(curTags, curTitle);
-        await text('A pilgrim steps out of the crowd. "Trainee! Settle something for me." (A pilgrim\'s question never costs a heart.)');
+        await text(R.pick(['A pilgrim steps out of the crowd. "Trainee! Settle something for me." (A pilgrim\'s question never costs a heart.)', 'A pilgrim points at you and shouts. "Hey you with the badge! Help me choose an animal." (A pilgrim\'s question never costs a heart.)']));
         for (let i = 0; i < total && !lost; i++) await ask(R.l2Question());
         if (!lost) await text(correct === total ? '"Thank you! Elazar teaches well."' : '"Hm. Ask your teacher again, trainee."');
       } else {
         curTitle = spec.name; curTags = [{ cls: '', text: spec.type === 'gate' ? 'gatekeeper' : 'pilgrim' }];
         renderInfo(curTags, curTitle);
         await text(spec.intro || `${spec.name} challenges you!`);
-        const qs = [...spec.questions];
-        for (let i = 0; i < (spec.generated || 0); i++) {
-          if (spec.level === 1) { const a = R.randomAnimal({ species: R.pick(['sheep', 'goat', 'cattle']) }); const nq = R.nameQuestion(a); nq.prompt = `${spec.name.split(' ').pop()} shows you a ${C.SPECIES[a.species].en}, ${a.sex === 'm' ? 'male' : 'female'}, ${R.ageText(a.age)}${a.mum ? ', ' + a.mum : ''}. What is it called?`; qs.push(nq); const fq = R.fitQuestion(a); fq.prompt = `The same animal (${a.sex === 'm' ? '♂' : '♀'} ${C.SPECIES[a.species].en}, ${R.ageText(a.age)}${a.mum ? ', ' + a.mum : ''}). May it go up on the mizbeach?`; qs.push(fq); i++; }
-          else qs.push(R.l2Question());
-        }
         for (const q of qs) { if (lost) break; await ask(q); }
       }
     } catch (e) { console.error(e); }
 
     const won = !lost;
-    if (lost) { Game.damage(1); renderInfo(curTags, curTitle); await text(`Three mistakes. The test is over, and it costs you a heart.${S.hp <= 0 ? ' That was your last one...' : ''}`); }
+    if (lost) { Game.damage(1); renderInfo(curTags, curTitle); await text(`That makes three mistakes. The test has cost you a heart.${S.hp <= 0 ? ' That was your last one...' : ''}`); }
     else if (!isWild && spec.type !== 'wild2') {
       if (correct >= 3 && S.hp < S.maxHp) { Game.healOne(); renderInfo(curTags, curTitle); A.sfx('heal'); await text(`You passed: ${correct} of ${done} right. Three right answers in one test earn a heart back!`); }
       else await text(`You passed: ${correct} of ${done} right.`);
@@ -187,6 +192,17 @@ window.Battle = (function () {
     A.play(Game.map.music);
     Game.updateHud();
     return { won, correct, total: done, registered };
+  }
+  function animalQuestions(spec) {
+    const a = R.randomAnimal({ species: R.pick(['sheep', 'goat', 'cattle']) });
+    const who = spec.name.split(' ').pop();
+    const desc = `${C.SPECIES[a.species].en}, ${a.sex === 'm' ? 'male' : 'female'}, ${R.ageText(a.age)}${a.mum ? ', ' + a.mum : ''}`;
+    const fq = R.fitQuestion(a);
+    if (a.species === 'goat') { fq.prompt = `${who} shows you a ${desc}. May it go up on the mizbeach?`; return [fq]; }
+    const nq = R.nameQuestion(a);
+    nq.prompt = `${who} shows you a ${desc}. What is it called?`;
+    fq.prompt = `The same animal (${a.sex === 'm' ? '♂' : '♀'} ${C.SPECIES[a.species].en}, ${R.ageText(a.age)}${a.mum ? ', ' + a.mum : ''}). May it go up on the mizbeach?`;
+    return [nq, fq];
   }
   function usesLine(key) {
     const a = C.ANIMALS[key];

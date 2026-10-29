@@ -40,10 +40,10 @@ window.Rules = (function () {
   const FIT = {
     fit:       { ok: true,  label: 'Yes, it can be offered', why: 'Right kind of animal, right age, no blemish.', src: 'MK 1:11' },
     bedieved:  { ok: true,  label: 'Yes, but ideally one waits until it is 30 days old', why: 'From its eighth day an animal may be offered, but the proper practice is to wait until day 30 (except for a bechor, a pesach or a maaser).', src: 'MK 1:12' },
-    young:     { ok: false, label: 'No, it is under 8 days old', why: '"From the eighth day on it is acceptable." Before that it cannot be offered at all.', src: 'Vayikra 22:27' },
+    young:     { ok: false, label: 'No, it is too young', why: '"From the eighth day on it is acceptable." Before that it cannot be offered at all.', src: 'Vayikra 22:27' },
     zaken:     { ok: false, label: 'No, it is too old (zaken)', why: 'Cattle may be offered until they turn three, sheep and goats until they turn two. Older than that, the animal is zaken and is not offered.', src: 'MK 1:11' },
     mum:       { ok: false, label: 'No, it has a blemish (mum)', why: '"Anything that has a blemish you shall not offer." A visible defect rules the animal out at any age.', src: 'Vayikra 22:20' },
-    pilgas:    { ok: false, label: 'No, it is a pilgas: no longer a keves, not yet an ayil', why: 'In the first thirty days of its second year a male sheep is a pilgas. It cannot serve where the Torah asks for a keves, nor where it asks for an ayil.', src: 'MK 1:14' },
+    pilgas:    { ok: false, label: 'No, it is a pilgas', why: 'In the first thirty days of its second year a male sheep is a pilgas. It cannot serve where the Torah asks for a keves, nor where it asks for an ayil.', src: 'MK 1:14' },
     bird_fit:  { ok: true,  label: 'Yes, it can be offered', why: 'A turtledove is offered grown, a pigeon young. For birds it makes no difference whether it is male or female.', src: 'Chullin 1:5' },
     tor_young: { ok: false, label: 'No, a turtledove must be grown', why: 'Turtledoves are offered only when grown; young ones are not.', src: 'Chullin 1:5' },
     yonah_old: { ok: false, label: 'No, a pigeon must be young', why: 'Pigeons are offered only while young; grown ones are not.', src: 'Chullin 1:5' },
@@ -53,6 +53,8 @@ window.Rules = (function () {
     // tempting wrong reasons for birds (never the answer)
     bird_zaken: { ok: false, label: 'No, it is too old', why: '', src: '' },
     bird_mumno: { ok: false, label: 'No, it has a blemish', why: '', src: '' },
+    bird_tor_young_x: { ok: false, label: 'No, a turtledove must be young', why: '', src: '' },
+    bird_yonah_old_x: { ok: false, label: 'No, a pigeon must be old', why: '', src: '' },
   };
   const YES = new Set(['fit', 'bedieved', 'bird_fit', 'bird_mum']);
   function fitness(a) {
@@ -140,7 +142,7 @@ window.Rules = (function () {
     const bird = isBird(a.species);
     // exactly one affirmative option per question; the rest are "No" reasons
     const noPool = bird
-      ? ['tor_young', 'yonah_old', 'tzihuv', 'bird_limb', 'bird_zaken', 'bird_mumno']
+      ? ['tor_young', 'yonah_old', 'tzihuv', 'bird_limb', 'bird_zaken', 'bird_mumno', 'bird_tor_young_x', 'bird_yonah_old_x']
       : ['young', 'zaken', 'mum', ...(a.species === 'sheep' && a.sex === 'm' ? ['pilgas'] : [])];
     const nos = shuffle(noPool.filter(k => k !== ans));
     let opts;
@@ -230,10 +232,10 @@ window.Rules = (function () {
     return { kind: 'curated', id: q.id, prompt: q.q, opts: shuffle(opts), answer: String(q.a), why: q.why, src: q.src };
   }
   function curatedSet(level, n, exclude = []) {
-    const pool = C.QUESTIONS.filter(q => q.lvl === level && !exclude.includes(q.id));
+    const pool = C.QUESTIONS.filter(q => q.lvl === level && q.gate !== false && !exclude.includes(q.id));
     return shuffle(pool).slice(0, n).map(curated);
   }
   function byId(id) { return curated(C.QUESTIONS.find(q => q.id === id)); }
 
-  return { YEAR, total, ageText, nameOf, fitness, FIT, randomAnimal, describe, nameQuestion, fitQuestion, canBe, canBeQuestion, whichQuestion, kedushahQuestion, l2Question, curated, curatedSet, byId, shuffle, pick, isBird };
+  return { REASON, KNAME, KED, MUMS, NAME_POOL, YEAR, total, ageText, nameOf, fitness, FIT, randomAnimal, describe, nameQuestion, fitQuestion, canBe, canBeQuestion, whichQuestion, kedushahQuestion, l2Question, curated, curatedSet, byId, shuffle, pick, isBird };
 })();
