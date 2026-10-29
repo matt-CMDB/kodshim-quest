@@ -1,0 +1,9 @@
+{
+  "name": "kodshim-quest-tools",
+  "private": true,
+  "type": "module",
+  "description": "Development tooling. Not part of the game; the published site is index.html, style.css and js/.",
+  "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "^0.3.312"
+  }
+}

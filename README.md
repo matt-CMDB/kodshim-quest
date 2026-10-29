@@ -30,6 +30,21 @@ saved in `localStorage` under `kodshim.quest.v1`.
 - `js/maps.js`, `js/engine.js`, `js/battle.js`, `js/sefer.js`, `js/ui.js`: world, dialogue, challenges, the Sefer and the UI frames.
 - `js/audio.js`: chiptune music and sound effects, no samples.
 
+## Running an agent over the repo
+
+`tools/agent.mjs` runs a Claude Code agent against this folder from a script, so
+the work bills to an API key instead of to a Claude Code plan:
+
+```
+cd tools && npm install
+export ANTHROPIC_API_KEY=sk-ant-...
+node tools/agent.mjs "check js/rules.js against the halachos quoted in js/content.js"
+```
+
+Read-only unless you pass `--write`. `AGENT_BUDGET_USD` caps the estimated spend
+of a run (default 5) and each run prints what it cost. Nothing in `tools/` is
+published: the workflow below copies only `index.html`, `style.css` and `js/`.
+
 ## Deploying
 
 Every push to `main` publishes the game through `.github/workflows/pages.yml`.
