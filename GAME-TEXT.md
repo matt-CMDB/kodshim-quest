@@ -14,14 +14,14 @@ Notes on reading it:
 
 ## 1. Title screen
 
-- `engine.js:816`
+- `engine.js:830`
   > מַסַּע קָדָשִׁים KODSHIM QUEST
-  > Name the flock. Pass the gates. Fill the Sefer.
-- `engine.js:819` CONTINUE
-- `engine.js:819` NEW GAME
-- `engine.js:822` Content: Rambam, Hilchos Maaseh HaKorbanos ch. 1, 5, 10 · Vayikra · Mishnah Chullin 1:5, Shekalim 5:3
-- `engine.js:836` Keep my save
-- `engine.js:836` Erase and start over
+  > Learn the basics, fill your Sefer, and pass through the gates to get to the Heichal.
+- `engine.js:833` CONTINUE
+- `engine.js:833` NEW GAME
+- `engine.js:836` Content Sources: Rambam, Hilchos Maaseh HaKorbanos ch. 1, 5, 10 · Vayikra · Mishnah Chullin 1:5, Shekalim 5:3
+- `engine.js:850` Keep my save
+- `engine.js:850` Erase and start over
 
 ## 2. Elazar's house (the start)
 
@@ -31,30 +31,41 @@ Inside his house, where the game begins.
 
 First visit:
 
-- `engine.js:348` So you are the new trainee. Good. Sit. Before you ever stand in the Azarah you must know the flock as a shepherd knows it.
-- `engine.js:349` First, the basics. Walk with the ARROW keys. To talk to someone, or to turn a page like this one, press Z or ENTER. X steps back, and if you hold X while walking, you run.
-- `engine.js:350` Take this: your Sefer HaKorbanos. Press ESC at any time, even in the middle of a test, and choose SEFER. Every animal you name correctly is written into it, with pictures, names and when each one is brought.
-- `engine.js:351` The Sefer also keeps a Journal of every lesson you hear, so you never have to remember it all at once. Read it whenever you are unsure.
+- `engine.js:349` So you are the new trainee. Good. Sit. You have a lot to learn. Press Z or ENTER when you are ready to hear more.
+- `engine.js:350` First, the basics. Walk with the ARROW keys. To talk to someone, or to turn a page like this one, press Z or ENTER. Take a step back with X, and hold X while walking to run.
+- `engine.js:351` Your first task is to learn the animals. Take this: your Sefer HaKorbanos.
+- `engine.js:352` Press ESC at any time, even in the middle of a test, and choose SEFER. Every animal you encounter will be here, but details will be filled in only after you name it correctly.
+- `engine.js:353` The Sefer also keeps a Journal of every lesson you hear, so you never have to remember it all at once. Read it whenever you are unsure.
 - `engine.js:354` Now, the hearts at the top of the screen. Whenever someone tests you, you may miss two questions. A third mistake ends that test and costs you ONE heart. Answer three correctly in one test and you earn a heart back. Any house restores them all.
-- `engine.js:355` Go out now. Rivka waits just outside my door with her calendar; she will show you what "first year" and "second year" mean. Then the shepherds by the pens will teach you the names.
-- `engine.js:356` Walk through the tall grass and name what you meet. When at least EIGHT names are written in your Sefer, Shimon the mevaker will test you at the Sheep Gate.
-
-**Lesson: The five species** (taught by Elazar HaKohen)
-
-- `content.js:137` Of every creature alive, the Torah lets only FIVE onto the mizbeach.
-- `…` Three from the herd and flock: cattle {he:בָּקָר}, sheep {he:כְּבָשִׂים} and goats {he:עִזִּים}.
-- `…` And two birds: turtledoves {he:תּוֹרִים} and young pigeons {he:בְּנֵי יוֹנָה}.
-- `…` No deer, no chicken, no dove but these. Five. Remember it.
-- `content.js:138` *Journal summary:* Five species only: cattle, sheep, goats, turtledoves, young pigeons.
-- `content.js:136` *Journal title:* The five species
+- `engine.js:355` Now, check the scrolls in my house, and then go and learn. Talk to people, and don't be afraid to be challenged, for challenges will help you learn. Familiarize yourself with the animals you encounter in the tall grass. When you are ready, Shimon the mevaker will test you at the Sheep Gate.
 
 Every later visit:
 
-- `engine.js:360` Rest. There. Your strength is back.
-- `engine.js:363` Your Sefer holds {number of names} of 14 names. Keep walking the tall grass; the shepherds by the pens can teach you the rest. Press ESC and open the Sefer to see which names you have.
+- `engine.js:359` Enter here to rest and regain your strength. Your hearts have returned.
+- `engine.js:360` Have you read the scrolls yet? They are on my table and on the shelves.
+- `engine.js:363` Your Sefer holds {number of names} of 14 animal names. Keep walking the tall grass; the shepherds by the pens can teach you the rest. Press ESC and open the Sefer to see which names you have and which you are missing.
 - `engine.js:364` Your Sefer is filling well. Go to Shimon at the Sheep Gate and show him what you know.
 - `engine.js:366` You carry the Egel seal. In the city, Kohen Yishmael and Levi Asaf will teach you the four kinds of korban. Then the gate of the Azarah.
 - `engine.js:368` Two seals! The rest of the road, who brings what, and the avodah itself, is still being paved. Review your Sefer; it will serve you.
+
+### The scrolls
+
+On the table and the shelves in Elazar's house. The shelves in the Beis Midrash also teach this lesson if it has not been read yet.
+
+- `engine.js:450` A scroll lies open. Its heading reads: "The five species."
+- `engine.js:454` Scrolls of Vayikra and the Mishnah, well thumbed.
+- `engine.js:455` The scroll on the five species. Read it again?
+- `engine.js:456` Read it again
+- `engine.js:456` Not now
+
+**Lesson: The five species** (taught by the scrolls in Elazar's house)
+
+- `content.js:140` Of every creature alive, the Torah lets only FIVE onto the mizbeach.
+- `…` Three from the herd and flock: cattle {he:בָּקָר}, sheep {he:כְּבָשִׂים} and goats {he:עִזִּים}.
+- `…` And two birds: turtledoves {he:תּוֹרִים} and young pigeons {he:בְּנֵי יוֹנָה}.
+- `…` No deer, no chicken, no dove but these. Five. Remember it.
+- `content.js:141` *Journal summary:* Five species only: cattle, sheep, goats, turtledoves, young pigeons.
+- `content.js:139` *Journal title:* The five species
 
 ## 3. Migrash: the pastures by Sha'ar HaTzon
 
@@ -66,24 +77,28 @@ Just outside Elazar's door, by the house sign.
 
 **Lesson: Counting an animal's age** (taught by Rivka the record-keeper)
 
-- `content.js:155` I keep the birth records for the flocks. Every question at the gate comes back to one thing: how old is the animal, counted from the day it was born.
-- `…` Look at my calendar. Day 1 is its birth. From day 8 it may be offered. From day 30 we offer it without hesitation.
-- `…` Its FIRST YEAR runs until its first birthday. A sheep in that year is a keves, a goat a gedi, a calf an egel.
-- `…` Its SECOND YEAR starts the day after. For sheep the first thirty days of that year are the odd stretch, the pilgas; from day 31 it is an ayil. Goats and cattle have no such gap.
-- `…` Sheep and goats are offered until they turn two. Cattle until they turn three. After that the animal is zaken and is not offered.
-- `content.js:156` *Journal summary:* Age is counted from birth. Day 8: may be offered. Day 30: offered without hesitation. First year: keves / gedi / egel. Second year: ayil (sheep, from day 31), sa'ir, par. Sheep and goats until 2 full years, cattle until 3; then zaken.
-- `content.js:154` *Journal title:* Counting an animal's age
+- `content.js:158` I keep the birth records for the flocks. It is a very important job!
+- `…` Mammals are fit or unfit as sacrifices depending upon how old they are, counted from the day the animal was born.
+- `…` Day 1 is its birth. From day 8 it may be offered, but ideally, we should wait until the animal is at least 30 days old. From day 30 we offer it without hesitation.
+- `…` Then, the animal is in its FIRST YEAR, which runs until its first birthday. A sheep in that year is called a keves, a goat is a gedi, and a calf is called an egel. Make sure you know that when you meet them in the tall grass!
+- `…` An animal's SECOND YEAR starts after its first birthday, and that's when the animal is considered an adult. For animals, birthdays are counted from the hour, not just the day, so I also need to have a watch or a clock!
+- `…` For sheep, the first thirty days of that year are the odd stretch, the pilgas, when it is unfit to be offered. (We don't like teenaged sheep.) From day 31 it is an adult sheep, an ayil. Goats and cattle have no such restrictions though, they can be offered from their first birthday.
+- `…` Sheep and goats are offered until they turn two. Cattle until they turn three. After that the animal is zaken (too old) and cannot be offered.
+- `content.js:159` *Journal summary:* Age is counted from birth. Day 8: may be offered. Day 30: offered without hesitation. First year: keves / gedi / egel. Second year: ayil (sheep, from day 31), sa'ir, par. Sheep and goats until 2 full years, cattle until 3; then zaken.
+- `content.js:157` *Journal title:* Counting an animal's age
 
-- `engine.js:319` Here, look at the calendar itself.
-- `engine.js:321` Whenever you forget, open your Sefer with ESC. The Journal page keeps what I just told you.
+- `engine.js:320` Here, look at the calendar itself.
+- `engine.js:322` Whenever you forget, open your Sefer with ESC. The Journal page keeps what I just told you.
 
 **The calendar board** (opens after her lesson):
 
 - `engine.js:278`
   > **calendar:** Rivka's calendar: counting an animal's age
-  > Birth: Days 1–7 — too young; not offered | Day 8 to day 29 — may be offered | Day 30 onward — offered without hesitation
-  > Year 1: Until its first birthday — keves / kivsah · gedi / gediyah · egel / eglah
-  > Year 2: Days 1–30 — sheep ♂: pilgas | Day 31 to its second birthday — ayil / rachel · sa'ir / ez · par / parah
+  > Each bar is one year. The thin lines mark its twelve months of 30 days.
+  > Year 1: 1st — month | Until its first birthday — keves / kivsah · gedi / gediyah · egel / eglah
+  > Days 1–7 — too young; not offered | Day 8 to day 29 — may be offered, but ideally wait | Day 30 → — offered without hesitation
+  > The first month, close up
+  > Year 2: pilgas — ♂ sheep | Day 31 to its second birthday — ayil / rachel · sa'ir / ez · par / parah
   > Year 3: Until its third birthday — cattle only, still par / parah. Sheep and goats are now zaken (too old)
   > After: Zaken — too old for any korban
   > "First year" means from the day it was born until its first birthday. "Second year" begins the next day. A year here is 360 days, and hours count: an animal born at noon is a day older at noon, not at nightfall.
@@ -93,21 +108,22 @@ Just outside Elazar's door, by the house sign.
 Outside Elazar's house.
 
 - `maps.js:56` Elazar is inside if you need to rest. He always says the same thing: learn the names before the laws.
-- `maps.js:56` Talk to Rivka first, the one with the records next to the sign. Then the shepherds by the pens: each knows one kind of animal. Chanah at the stall up the road knows the birds.
+- `maps.js:56` Talk to Rivka first, the one with the records next to the sign. Then you can talk to the shepherds by the pens who will each tell you about one kind of animal. Chanah at the stall up the road knows the birds.
 - `maps.js:56` The pilgrims on the road will stop you with questions if they see you. Press ESC any time to look at your Sefer, even while they are asking.
+- `maps.js:56` Don't forget to do some exploring of your own in the tall grasses near the center of the Migrash! That's how you find the animals.
 
-#### Shepherd Tzviya
+#### Shepherd Tziviya
 
 By the sheep pen, on the west side of the pasture.
 
-**Lesson: Keves, ayil and the pilgas** (taught by Shepherd Tzviya)
+**Lesson: Keves, ayil and the pilgas** (taught by Shepherd Tziviya)
 
-- `content.js:140` See my flock? A male in its first year is a KEVES {he:כֶּבֶשׂ}. A female: KIVSAH {he:כִּבְשָׂה}.
+- `content.js:143` See my flock? A male in its first year is a KEVES {he:כֶּבֶשׂ}. A female: KIVSAH {he:כִּבְשָׂה} or KISBAH {he:כִּשְׂבָּה}.
 - `…` When the Torah says AYIL {he:אַיִל}, it means a male in its SECOND year... but not right away.
 - `…` For the first thirty days of the second year he is a PILGAS {he:פִּלְגָּס}: no longer a keves, not yet an ayil, fit as neither!
-- `…` From day thirty-one of the second year: an ayil. A grown female we call a RACHEL {he:רָחֵל}.
-- `content.js:141` *Journal summary:* Keves/kivsah = first year. Ayil = male from day 31 of second year. Days 1–30 of year two = pilgas, fit as neither. Rachel = grown ewe.
-- `content.js:139` *Journal title:* Keves, ayil and the pilgas
+- `…` From day thirty-one of the second year: an ayil. A grown female we call a RACHEL {he:רָחֵל}. In English, by the way, a RACHEL is called a "ewe," which is pronounced like "you."
+- `content.js:144` *Journal summary:* Keves/kivsah = first year. Ayil = male from day 31 of second year. Days 1–30 of year two = pilgas, fit as neither. Rachel = grown ewe.
+- `content.js:142` *Journal title:* Keves, ayil and the pilgas
 
 #### Shepherd Yoav
 
@@ -115,12 +131,14 @@ By the goat pen, below the sheep pen.
 
 **Lesson: Gedi and sa'ir** (taught by Shepherd Yoav)
 
-- `content.js:143` Goats are simpler than sheep. A male in its first year is a GEDI {he:גְּדִי}; the Torah calls him SE'IR IZIM {he:שְׂעִיר עִזִּים}.
-- `…` A female in her first year: GEDIYAH {he:גְּדִיָּה} or SE'IRAH {he:שְׂעִירָה}.
-- `…` In the second year the male is a SA'IR {he:שָׂעִיר}, some say TAYISH {he:תַּיִשׁ}, the whole year through. No pilgas for goats!
-- `…` And the grown female is an EZ {he:עֵז}.
-- `content.js:144` *Journal summary:* Gedi (se'ir izim) / gediyah (se'irah) = first year. Sa'ir (tayish) = all of second year, no pilgas. Ez = she-goat.
-- `content.js:142` *Journal title:* Gedi and sa'ir
+- `content.js:146` Goats are simpler than sheep. The Torah uses the term SE'IR IZIM {he:שְׂעִיר עִזִּים} or the like, such as EZ {he:עֵז} or SA'IR {he:שָׂעִיר}, for pretty much any goat.
+- `…` In English, a young goat is called a 'kid', or in Hebrew, a GEDI {he:גְּדִי}. A female would be called a GEDIYAH {he:גְּדִיָּה}.
+- `…` And don't forget, when I say "young," I mean in its first year. Make sure you get Rivka's calendar to keep track of all the timing!
+- `…` In the second year the male is a SA'IR {he:שָׂעִיר}, some say TAYISH {he:תַּיִשׁ}. This starts right after their first birthday.
+- `…` And the grown female is also just an EZ {he:עֵז} or SE'IRAS IZIM {he:שְׂעִירַת עִזִּים}.
+- `…` Ok, maybe not so simple. But still easier than sheep!
+- `content.js:147` *Journal summary:* Gedi / gediyah (se'irah) = first year. Sa'ir (tayish) = all of second year, no pilgas. Ez = she-goat.
+- `content.js:145` *Journal title:* Gedi and sa'ir
 
 #### Cowherd Nachum
 
@@ -128,12 +146,12 @@ By the cattle pen, on the east side.
 
 **Lesson: Egel and par** (taught by Cowherd Nachum)
 
-- `content.js:146` Big ones, eh? A calf in its first year: EGEL {he:עֵגֶל} if male, EGLAH {he:עֶגְלָה} if female.
+- `content.js:149` Big ones, eh? A calf in its first year: EGEL {he:עֵגֶל} if male, EGLAH {he:עֶגְלָה} if female.
 - `…` From the second year the male is a PAR {he:פַּר}, also called SHOR {he:שׁוֹר}. The grown female is a PARAH {he:פָּרָה}.
 - `…` Cattle stay fit longer than the flock: until THREE full years. Sheep and goats only until TWO.
-- `…` Older than that? ZAKEN {he:זָקֵן}, too old, and not offered.
-- `content.js:147` *Journal summary:* Egel/eglah = first year; par (shor)/parah = grown. Cattle fit until 3 full years; sheep and goats until 2. Older = zaken.
-- `content.js:145` *Journal title:* Egel and par
+- `…` If one of the cattle is older than three years though, it is a ZAKEN {he:זָקֵן}, too old, and cannot be offered as a korban.
+- `content.js:150` *Journal summary:* Egel/eglah = first year; par (shor)/parah = grown. Cattle fit until 3 full years; sheep and goats until 2. Older = zaken.
+- `content.js:148` *Journal title:* Egel and par
 
 #### Bird-seller Chanah
 
@@ -141,12 +159,14 @@ At her bird stall, north-east, near the gate.
 
 **Lesson: Torim and bnei yonah** (taught by Bird-seller Chanah)
 
-- `content.js:152` Birds go by LOOKS, not by days. Watch the neck feathers.
+- `content.js:155` Birds go by LOOKS, not by their birthdays. We check on the neck feathers.
 - `…` A turtledove {he:תּוֹר} is fit only once it is GROWN, after the feathers turn golden.
-- `…` A pigeon {he:בֶּן יוֹנָה} is fit only while YOUNG, before the gold appears.
-- `…` And right at the start of the yellowing, both are unfit. Male or female makes no difference, and ordinary blemishes do not disqualify a bird; only a missing limb, a dried wing or a blinded eye.
-- `content.js:153` *Journal summary:* Turtledove: fit only grown (after tzihuv). Pigeon: fit only young (before tzihuv). Start of tzihuv: both unfit. Sex and ordinary blemishes do not matter for birds; a missing limb, dried wing or blinded eye does.
-- `content.js:151` *Journal title:* Torim and bnei yonah
+- `…` A pigeon {he:בֶּן יוֹנָה} is the opposite: it is fit only while YOUNG, before the gold appears.
+- `…` And right at the start of the yellowing, both are unfit.
+- `…` Bird offerings can always be male or female, it doesn't matter.
+- `…` Also, ordinary blemishes do not disqualify a bird; only a missing limb, a dried wing or a blinded eye.
+- `content.js:156` *Journal summary:* Turtledove: fit only grown (after tzihuv). Pigeon: fit only young (before tzihuv). Start of tzihuv: both unfit. Sex and ordinary blemishes do not matter for birds; a missing limb, dried wing or blinded eye does.
+- `content.js:154` *Journal title:* Torim and bnei yonah
 
 #### Pilgrim Reuven
 
@@ -156,21 +176,21 @@ On the path north-west of the sheep pen. Spots you from 5 tiles away.
 
 Questions (shown in random order; the correct answer is marked ✓):
 
-- `content.js:194` **From how many species may a korban of a living creature be brought?**
+- `content.js:197` **From how many species (mammals and birds) may a korban of a living creature be brought?**
   - ✓ Five
   - ✗ Three
   - ✗ Seven
   - ✗ Two
-  - *Explanation:* Five only: cattle, sheep, goats, turtledoves and young pigeons.
-- `content.js:200` **From what age is an animal valid as a korban?**
+  - *Explanation:* Five: cattle, sheep, goats, turtledoves and young pigeons.
+- `content.js:203` **From what age is an animal valid as a korban?**
   - ✓ From the eighth day
   - ✗ From the first day
   - ✗ From the thirtieth day
   - ✗ From one year
-  - *Explanation:* Valid from day eight; lechatchilah one waits for day thirty.
-- `content.js:210` **A perfect-aged ram has a broken leg. Is it fit?**
-  - ✓ No: a mum disqualifies
-  - ✗ Yes, if the leg heals
+  - *Explanation:* Valid from day eight; although for most korbanot, ideally you'd wait for day thirty.
+- `content.js:212` **A ram in its second year has a broken leg. Is it fit?**
+  - ✓ No: a mum (blemish) disqualifies
+  - ✗ No: it is too old
   - ✗ Yes, for an olah
   - ✗ Yes, for a shelamim
   - *Explanation:* "Anything that has a blemish you shall not offer."
@@ -186,23 +206,23 @@ East side of the pasture, south of the cattle pen. Spots you from 5 tiles away.
 
 Questions (shown in random order; the correct answer is marked ✓):
 
-- `content.js:207` **A male sheep is one year and twenty days old. What is it?**
-  - ✓ A pilgas, fit as neither keves nor ayil
+- `content.js:210` **A male sheep is one year and twenty days old. What is it?**
+  - ✓ A pilgas
   - ✗ A keves
   - ✗ An ayil
   - ✗ A zaken
-  - *Explanation:* In the first thirty days of its second year it is a pilgas.
-- `content.js:204` **Up to what age may sheep and goats be offered?**
+  - *Explanation:* In the first thirty days of its second year it is a pilgas, and unfit to be brought as a korban.
+- `content.js:207` **Up to what age may sheep and goats be offered?**
   - ✓ Two full years
   - ✗ Three full years
   - ✗ One year
   - ✗ Eighteen months
   - *Explanation:* The flock until two full years; beyond that it is zaken and is not offered.
-- `content.js:197` **When is a turtledove fit for the mizbeach?**
+- `content.js:200` **When is a turtledove (tor) fit for the mizbeach?**
   - ✓ Only when grown
   - ✗ Only when young
   - ✗ At any age
-  - ✗ Only on day 30
+  - ✗ After day 30
   - *Explanation:* Turtledoves must be grown; pigeons must be young.
 
 - `maps.js:58` *If you pass:* Well answered. Elazar will be proud.
@@ -216,24 +236,24 @@ South-east of the pasture, on the way to the cowherd's hut. Spots you from 4 til
 
 Questions (shown in random order; the correct answer is marked ✓):
 
-- `content.js:208` **A male goat is one year and ten days old. What is it?**
+- `content.js:211` **A male goat is one year and ten days old. What is it?**
   - ✓ A sa'ir
   - ✗ A pilgas
   - ✗ A gedi
   - ✗ A zaken
   - *Explanation:* Goats have no pilgas: the whole second year it is called a sa'ir.
-- `content.js:214` **What is a grown female sheep called?**
-  - ✓ Rachel
-  - ✗ Kivsah
+- `content.js:216` **What is a grown male sheep called?**
+  - ✓ Ayil
+  - ✗ Kisbah
   - ✗ Ez
   - ✗ Parah
-  - *Explanation:* Rachel is the ewe; kivsah is a female in its first year.
-- `content.js:201` **An animal is 12 days old. May it be offered?**
+  - *Explanation:* An ayil is a grown male sheep. Rachel is the ewe; kisbah (or kivsah) is a female in its first year.
+- `content.js:204` **An animal is 12 days old. May it be offered?**
   - ✓ Valid, but lechatchilah wait until day 30
   - ✗ Not at all until day 30
   - ✗ Yes, with no reservation
   - ✗ Not until it is a year old
-  - *Explanation:* From day eight it is valid, but one does not offer lechatchilah before day thirty, except bechor, pesach and maaser.
+  - *Explanation:* From day eight it is valid, but for most sacrifices, one should ideally not offer an animal before day thirty, except for bechor, pesach and maaser.
 
 - `maps.js:60` *If you pass:* Aww. You do know them.
 - `maps.js:60` *Talking to them afterwards:* Goats have no pilgas. Sheep do. I always mix that up.
@@ -244,11 +264,11 @@ Inside the cowherd's hut, south-east corner of the pasture.
 
 **Lesson: Eight days, thirty days, to the hour** (taught by Avigdor the Elder)
 
-- `content.js:149` An animal is fit from its EIGHTH day: "from the eighth day on it is acceptable".
+- `content.js:152` An animal is fit from its EIGHTH day: "from the eighth day on it is acceptable".
 - `…` But lechatchilah we wait until day THIRTY. The bechor, the pesach and the maaser are the exceptions: those may go up on day eight.
 - `…` And we count ages to the HOUR. One hour over the limit at the time of zerikah, and the korban is pasul!
-- `content.js:150` *Journal summary:* Fit from day 8 (bedi'eved); lechatchilah from day 30, except bechor, pesach, maaser. Age is counted to the hour, through zerikah.
-- `content.js:148` *Journal title:* Eight days, thirty days, to the hour
+- `content.js:153` *Journal summary:* Fit from day 8 (bedi'eved); lechatchilah from day 30, except bechor, pesach, maaser. Age is counted to the hour, through zerikah.
+- `content.js:151` *Journal title:* Eight days, thirty days, to the hour
 
 #### Signs
 
@@ -267,10 +287,10 @@ At Sha'ar HaTzon, the gate at the top of the pasture.
 
 - `engine.js:374` The gate is open to you, trainee. Keep the seal close.
 - `engine.js:378` Halt. Nothing passes this gate uninspected, and no trainee passes untested.
-- `engine.js:379` You have not yet heard {teachers not yet heard}. Go and listen first.
-- `engine.js:380` Your Sefer holds {number of names} names. Bring me at least eight. The tall grass is full of animals; name them.
-- `engine.js:384` So. Elazar's trainee. Eight names and more in the Sefer, the shepherds all heard. Then let us see if you can inspect as I inspect.
-- `engine.js:385` Seven questions. Three mistakes and you go back to the pastures; fewer, and the gate is yours.
+- `engine.js:379` You have not yet spoken to {teachers not yet heard}. Go and listen first.
+- `engine.js:380` Your Sefer holds {number of names} names. Bring me at least eight. The tall grass is full of animals; go out to find and name them.
+- `engine.js:384` So. Elazar's new trainee. Eight names and more in the Sefer, the shepherds all heard. Then let us see if you can inspect as I inspect.
+- `engine.js:385` Five questions, then three animals to inspect. Three mistakes and you go back to the pastures; fewer, and the gate is yours.
 - `engine.js:387` **name:** MEVAKER SHIMON
 - `engine.js:387` **intro:** Mevaker Shimon wants to see your inspection!
 - `engine.js:391` Well inspected! You have the eye. Take this.
@@ -278,14 +298,14 @@ At Sha'ar HaTzon, the gate at the top of the pasture.
 - `engine.js:395` The gate is open. Beyond it, Yerushalayim. Find Kohen Yishmael in the market; he will teach you what the animals are FOR.
 - `engine.js:398` Not yet. Walk the pastures again, listen to the shepherds, and come back.
 
-The test itself: five questions drawn at random from the Level 1 question bank (section 9), then one animal to name and judge, generated the same way as the animals in the tall grass (section 7). After you pass, Shimon gives this lesson:
+The test itself: five questions drawn at random from the Level 1 question bank (section 9), then three animals to name and judge, generated the same way as the animals in the tall grass (section 7). Goats are only judged, not named. After you pass, Shimon gives this lesson:
 
 **Lesson: The seals of the Mikdash** (taught by Mevaker Shimon)
 
-- `content.js:185` Carry this seal with you. In the Mikdash four seals are used: EGEL, ZACHAR, GEDI, CHOTEI. Ben Azzai counts five, splitting the chotei into poor and rich.
-- `…` They are receipts for the nesachim, the wine and flour that go with an offering. Yours is a token of what you learned at my gate.
-- `content.js:186` *Journal summary:* The Mikdash's seals (Shekalim 5:3): egel, zachar, gedi, chotei (Ben Azzai: chotei dal, chotei ashir), receipts for nesachim.
-- `content.js:184` *Journal title:* The seals of the Mikdash
+- `content.js:188` Carry this seal with you. In the Mikdash they use four seals: EGEL, ZACHAR, GEDI, CHOTEI (and Ben Azzai counts five, because he splits CHOTEI into two).
+- `…` Hold onto these seals, but it is ok if you do not yet understand why. For now, let this seal be a token of what you learned at my gate.
+- `content.js:189` *Journal summary:* The Mikdash's seals (Shekalim 5:3): egel, zachar, gedi, chotei (Ben Azzai: chotei dal, chotei ashir).
+- `content.js:187` *Journal title:* The seals of the Mikdash
 
 ## 5. Yerushalayim: the market street
 
@@ -297,11 +317,11 @@ Just inside the city, by the entrance from the pasture.
 
 **Lesson: The four kinds** (taught by Kohen Nechunya)
 
-- `content.js:161` Welcome to the city, trainee. Elazar sent word about you. Every korban of an animal, communal or private, is one of FOUR kinds.
-- `…` OLAH {he:עוֹלָה}, CHATAS {he:חַטָּאת}, ASHAM {he:אָשָׁם}, SHELAMIM {he:שְׁלָמִים}.
-- `…` Three more belong to individuals alone: the pesach, the bechor and the maaser. But learn the four first.
-- `content.js:162` *Journal summary:* Four kinds: olah, chatas, asham, shelamim. Plus three individual ones: pesach, bechor, maaser.
-- `content.js:160` *Journal title:* The four kinds
+- `content.js:164` Welcome to the city, trainee. Elazar sent word about you, and if you made it past the gate, you must know your animals. But do you know what the animals are for?
+- `…` Every korban of an animal, communal or private, is one of FOUR kinds. OLAH {he:עוֹלָה}, CHATAS {he:חַטָּאת}, ASHAM {he:אָשָׁם}, SHELAMIM {he:שְׁלָמִים}.
+- `…` There are additional subcategories of some of these, and three more belong to individuals: the pesach, the bechor and the maaser. But focus on the four basic categories first.
+- `content.js:165` *Journal summary:* Four kinds: olah, chatas, asham, shelamim. Plus three individual ones: pesach, bechor, maaser.
+- `content.js:163` *Journal title:* The four kinds
 
 #### Kohen Yishmael
 
@@ -311,27 +331,28 @@ Talking to them opens a menu of their lessons (section 6).
 
 **Lesson: The olah** (taught by Kohen Yishmael)
 
-- `content.js:164` An OLAH goes up entirely: flayed, cut, and every piece burned on the mizbeach. Nobody eats it. Only the hide is ours, the kohanim's.
-- `…` From the herd and flock it must be MALE: a par or egel, an ayil or keves, a sa'ir or gedi.
-- `…` From birds, turtledove or young pigeon, male or female alike.
-- `content.js:165` *Journal summary:* Olah: entirely burned, hide to the kohanim. Animal olah is male only; bird olah either sex.
-- `content.js:163` *Journal title:* The olah
+- `content.js:167` An OLAH goes up entirely: it is flayed, cut, and then every piece burned on the mizbeach. Nobody eats it. Only the hide is ours, that is, the kohanim's.
+- `…` An olah can be any one of the five animals, but if it is a mammal, it must be MALE: a par or egel, an ayil or keves, a sa'ir or gedi.
+- `…` From birds, that is, an adult turtledove or a young pigeon, the olah can be male or female alike.
+- `content.js:168` *Journal summary:* Olah: entirely burned, hide to the kohanim. Animal olah is male only; bird olah either sex.
+- `content.js:166` *Journal title:* The olah
 
 **Lesson: The chatas** (taught by Kohen Yishmael)
 
-- `content.js:167` A CHATAS atones for an unintentional sin that carries kares if done on purpose.
-- `…` An ordinary person brings a FEMALE in her FIRST YEAR: a se'iras izim or a kivsah, "a she-goat in her first year" as the Torah says. Never cattle, and not a grown ewe or she-goat.
-- `…` Three exceptions bring males: the nasi, a sa'ir; the kohen mashiach, a par; and the kohen gadol's par on Yom Kippur.
-- `…` Male kohanim eat the chatas in the Azarah, that day and that night.
-- `content.js:168` *Journal summary:* Chatas of an individual: a female sheep or goat in its first year (kivsah or se'irah), never cattle. Exceptions: nasi (male goat), kohen mashiach (bull), kohen gadol on Yom Kippur (bull). Eaten by male kohanim in the Azarah, a day and a night.
-- `content.js:166` *Journal title:* The chatas
+- `content.js:170` A CHATAS is a sin-offering, a korban usually brought by someone who has done something wrong and needs "atonement."
+- `…` Usually, this is brought because someone unintentionally did a sin (violated a prohibition) that would have been punished by "kares" if done on purpose.
+- `…` An ordinary person brings a FEMALE in her FIRST YEAR from the flock: a se'iras izim or a kivsah, "a she-goat in her first year" or female lamb. No cattle, though.
+- `…` But! That's only true for a regular person. The nasi brings a male goat (sa'ir), and the kohen gadol brings a par, a bull.
+- `…` The fats of the CHATAS animal are burned, but most of the meat is eaten by male kohanim in the Azarah. They have only that one day and that night to finish eating it.
+- `content.js:171` *Journal summary:* Chatas of an individual: a female sheep or goat in its first year (kivsah or se'irah), never cattle. Exceptions: nasi (male goat), kohen mashiach (bull), kohen gadol on Yom Kippur (bull). Eaten by male kohanim in the Azarah, a day and a night.
+- `content.js:169` *Journal title:* The chatas
 
 **Lesson: Eimurin and the alyah** (taught by Kohen Yishmael)
 
-- `content.js:179` Of a chatas, an asham or a shelamim, these parts burn on the mizbeach: the fat on the innards, the two kidneys with their fat and the fat on the flanks, and the lobe of the liver. We call them the EIMURIN.
+- `content.js:182` Of a chatas, an asham or a shelamim, these parts burn on the mizbeach: the fat on the innards, the two kidneys with their fat and the fat on the flanks, and the lobe of the liver. We call them the EIMURIN.
 - `…` From a SHEEP, one more: the whole fat tail, the ALYAH {he:אַלְיָה}. Goats and cattle have no alyah.
-- `content.js:180` *Journal summary:* Eimurin: fat on the innards, two kidneys with their fat and the flank fat, lobe of the liver. Sheep add the alyah.
-- `content.js:178` *Journal title:* Eimurin and the alyah
+- `content.js:183` *Journal summary:* Eimurin: fat on the innards, two kidneys with their fat and the flank fat, lobe of the liver. Sheep add the alyah.
+- `content.js:181` *Journal title:* Eimurin and the alyah
 
 #### Levi Asaf
 
@@ -341,20 +362,21 @@ Talking to them opens a menu of their lessons (section 6).
 
 **Lesson: Two levels of holiness** (taught by Levi Asaf)
 
-- `content.js:176` Every korban has a rank. KODSHEI KODASHIM {he:קָדְשֵׁי קָדָשִׁים}: the olos, the chataos, the ashamos, and the two shelamim lambs of Shavuos.
+- `content.js:179` Every korban has a rank. KODSHEI KODASHIM {he:קָדְשֵׁי קָדָשִׁים}: the olos, the chataos, the ashamos, and the two shelamim lambs of Shavuos.
 - `…` KODASHIM KALIM {he:קָדָשִׁים קַלִּים}: an individual's shelamim, the bechor, the maaser and the pesach.
 - `…` Kodshei kodashim are slaughtered only NORTH of the mizbeach and eaten by male kohanim in the Azarah.
-- `…` Kodashim kalim: slaughtered anywhere in the Azarah, eaten anywhere in Yerushalayim.
-- `content.js:177` *Journal summary:* Kodshei kodashim (olah, chatas, asham, Shavuos lambs): north; eaten by male kohanim in the Azarah. Kodashim kalim (shelamim, bechor, maaser, pesach): anywhere in the Azarah; eaten anywhere in the city.
-- `content.js:175` *Journal title:* Two levels of holiness
+- `…` Kodashim kalim: slaughtered anywhere in the Azarah, and can be eaten anywhere in Yerushalayim.
+- `content.js:180` *Journal summary:* Kodshei kodashim (olah, chatas, asham, Shavuos lambs): north; eaten by male kohanim in the Azarah. Kodashim kalim (shelamim, bechor, maaser, pesach): anywhere in the Azarah; eaten anywhere in the city.
+- `content.js:178` *Journal title:* Two levels of holiness
 
 **Lesson: What the community brings** (taught by Levi Asaf)
 
-- `content.js:182` The community brings only OLOS and CHATAOS. Never an asham, never a bird.
-- `…` One exception: the two Shavuos lambs, the only communal shelamim.
+- `content.js:185` A person can bring a korban, but the entire community also has to bring sacrifices sometimes that are offered on behalf of the entire Jewish people. But the community brings only OLOS and CHATAOS.
+- `…` There are no communal asham offerings, but there is just one SHELAMIM: the two lambs brought on the holiday of Shavuos are the only communal shelamim.
 - `…` And every communal korban is male: its chatas from a goat or a bull, its olah from a sheep or a bull.
-- `content.js:183` *Journal summary:* Community: only olah and chatas (plus the two Shavuos shelamim lambs). Never asham, never birds. All male.
-- `content.js:181` *Journal title:* What the community brings
+- `…` Also, the community never brings any bird sacrifices. Birds are small; it wouldn't be right to have the whole nation sacrificing a cheap little bird!
+- `content.js:186` *Journal summary:* Community: only olah and chatas (plus the two Shavuos shelamim lambs). Never asham, never birds. All male.
+- `content.js:184` *Journal title:* What the community brings
 
 #### Merchant Baruch
 
@@ -362,11 +384,11 @@ At the market of korbanos, west side.
 
 **Lesson: The asham** (taught by Merchant Baruch)
 
-- `content.js:170` Need an ASHAM? Then you need a SHEEP, and a MALE one. Nothing else will do: no goat, no bull, no bird.
+- `content.js:173` Need an ASHAM? Then you need a SHEEP, and a MALE one. Nothing else will do: no goat, no bull, no bird.
 - `…` Most ashamos take a grown ram, an ayil. The nazir and the metzora bring a keves, a lamb.
-- `…` It is kodshei kodashim: the kohanim eat it in the Azarah, a day and a night.
-- `content.js:171` *Journal summary:* Asham: male sheep only (ayil for most; keves for nazir and metzora). Kodshei kodashim.
-- `content.js:169` *Journal title:* The asham
+- `…` It is kodshei kodashim: the kohanim eat it in the Azarah, for one day and one night.
+- `content.js:174` *Journal summary:* Asham: male sheep only (ayil for most; keves for nazir and metzora). Kodshei kodashim.
+- `content.js:172` *Journal title:* The asham
 
 #### Devorah
 
@@ -374,12 +396,12 @@ Outside her kitchen, east side.
 
 **Lesson: The shelamim** (taught by Devorah)
 
-- `content.js:173` Smell that? Our SHELAMIM, roasting. We eat it ourselves, anywhere in the city, anyone who is tahor.
-- `…` Two days and the night between. A todah, though, only one day and one night.
-- `…` Shelamim come from cattle, sheep or goats, male OR female. But never a bird.
+- `content.js:176` Mmm... Smell that? Our SHELAMIM, roasting. We eat it ourselves, anywhere in the city, anyone who is tahor.
+- `…` We have two days, with one night in between, to eat a regular shelamim. But there is also a subcategory of shelamim, the TODAH, which comes with bread and must be eaten within one day and night.
+- `…` Shelamim can be any mammal at all! I mean, from the animals that are kosher for sacrificing, at least: cattle, sheep or goats, male or female, young or adult. But never a bird.
 - `…` The kohanim get the chazeh and the shok; the eimurin burn on the mizbeach; the rest is ours.
-- `content.js:174` *Journal summary:* Shelamim: cattle/sheep/goats, male or female, no birds. Eaten anywhere in Yerushalayim by anyone tahor, two days and a night (todah: one day and a night). Kohanim get chazeh and shok.
-- `content.js:172` *Journal title:* The shelamim
+- `content.js:177` *Journal summary:* Shelamim: cattle/sheep/goats, male or female, no birds. Eaten anywhere in Yerushalayim by anyone tahor, two days and a night (todah: one day and a night). Kohanim get chazeh and shok.
+- `content.js:175` *Journal title:* The shelamim
 
 #### Pilgrim Yonah
 
@@ -389,26 +411,26 @@ West side of the market street. Spots you from 5 tiles away.
 
 Questions (shown in random order; the correct answer is marked ✓):
 
-- `content.js:220` **What happens to the flesh of an olah?**
+- `content.js:224` **What happens to the flesh of an olah?**
   - ✓ Entirely burned on the mizbeach
   - ✗ Eaten by the kohanim
-  - ✗ Eaten by the owner
-  - ✗ Half burned, half eaten
+  - ✗ Eaten by the owner and guests
+  - ✗ Part is eaten by the owner, part by kohanim
   - *Explanation:* The olah goes up entirely; nothing is eaten. Only the hide goes to the kohanim.
-- `content.js:222` **May a female animal be brought as an olah?**
-  - ✓ No: an animal olah is male only
-  - ✗ Yes, from the flock
-  - ✗ Yes, from cattle
-  - ✗ Yes, any species
-  - *Explanation:* An animal olah comes only from males; only a bird olah may be either sex.
-- `content.js:218` **What are the four kinds of korban?**
+- `content.js:226` **What kind of (mammal) animal can be brought as an olah?**
+  - ✓ Only a male
+  - ✗ Only a sheep
+  - ✗ Only a goat
+  - ✗ Only a young animal (lamb, kid, or calf)
+  - *Explanation:* An animal olah comes only from males, but different circumstances call for different species. A bird olah may be either sex.
+- `content.js:222` **What are the four kinds of korban?**
   - ✓ Olah, chatas, asham, shelamim
   - ✗ Olah, minchah, pesach, bechor
-  - ✗ Chatas, asham, todah, nazir
+  - ✗ Chatas, asham, todah, minchah
   - ✗ Olah, chatas, pesach, maaser
   - *Explanation:* Every korban, communal or individual, is one of these four.
 
-- `maps.js:126` *If you pass:* So nothing of it is eaten. Just the hide for the kohanim. Thank you.
+- `maps.js:126` *If you pass:* Gotta remember those four! Thank you.
 - `maps.js:126` *Talking to them afterwards:* An olah is burned entirely. I nearly tried to take some home!
 
 #### Pilgrim Tuvia
@@ -419,24 +441,24 @@ East side of the market street, lower down. Spots you from 5 tiles away.
 
 Questions (shown in random order; the correct answer is marked ✓):
 
-- `content.js:225` **An ordinary Yisrael brings a chatas. The animal must be...**
+- `content.js:229` **An ordinary Yisrael who brings a chatas must use...**
   - ✓ A female sheep or goat in its first year
-  - ✗ A male sheep
-  - ✗ A bull
-  - ✗ A female sheep or goat of any age
+  - ✗ A male sheep in its first year
+  - ✗ A male sheep after its first year
+  - ✗ A female sheep or goat after its first year
   - *Explanation:* Every individual's chatas is female and not from cattle, and the Torah asks for "a she-goat in her first year": a se'iras izim or a kivsah.
-- `content.js:228` **From which animals may an asham be brought?**
+- `content.js:232` **From which animals may an asham be brought?**
   - ✓ Male sheep only
   - ✗ Male sheep or goats
-  - ✗ Any male animal
-  - ✗ Sheep, male or female
+  - ✗ Female sheep in its first year
+  - ✗ Female goat in its first year
   - *Explanation:* The asham comes only from male sheep.
-- `content.js:231` **May a pair of turtledoves be brought as shelamim?**
-  - ✓ No: there are no bird shelamim
-  - ✗ Yes, like an olah
-  - ✗ Yes, if grown
-  - ✗ Only by the poor
-  - *Explanation:* "No bird is brought as shelamim."
+- `content.js:235` **A pair of turtledoves CAN be brought as...**
+  - ✓ Olah of an individual
+  - ✗ Shelamim of an individual
+  - ✗ Olah of the community
+  - ✗ Shelamim of the community
+  - *Explanation:* Birds can be an individual's olah. There are no bird shelamim, and the community never brings birds.
 
 - `maps.js:127` *If you pass:* A female sheep or goat. I was right!
 - `maps.js:127` *Talking to them afterwards:* My brother was thinking of an asham. That one takes a male sheep.
@@ -449,24 +471,24 @@ In the middle of the market street. Spots you from 3 tiles away.
 
 Questions (shown in random order; the correct answer is marked ✓):
 
-- `content.js:233` **Where may shelamim be eaten?**
-  - ✓ Anywhere in Yerushalayim, by anyone tahor
+- `content.js:237` **Where may shelamim be eaten?**
+  - ✓ Anywhere in Yerushalayim
   - ✗ Only in the Azarah
   - ✗ Only in the owner's home
   - ✗ Only on the Har HaBayis
   - *Explanation:* Kodashim kalim are eaten anywhere in the city.
-- `content.js:234` **For how long may shelamim be eaten?**
+- `content.js:238` **For how long may shelamim be eaten?**
   - ✓ Two days and one night
   - ✗ One day and one night
   - ✗ Three days
   - ✗ Until midnight
   - *Explanation:* The day of slaughter, the night, and the next day until sunset.
-- `content.js:239` **Which are kodashim kalim?**
+- `content.js:243` **Which are kodashim kalim?**
   - ✓ Shelamim of an individual, bechor, maaser, pesach
   - ✗ Olah, chatas, asham
-  - ✗ Chatas and shelamim
-  - ✗ Only the pesach
-  - *Explanation:* An individual's shelamim, the bechor, the maaser and the pesach.
+  - ✗ Only chatas and asham
+  - ✗ Only bechor, maaser, pesach
+  - *Explanation:* An individual's shelamim, the bechor, the maaser and the pesach are the only kodashim kalim.
 
 - `maps.js:128` *If you pass:* Two days and a night. Plenty of time for guests.
 - `maps.js:128` *Talking to them afterwards:* Kodashim kalim: anywhere in the city, anyone who is tahor.
@@ -486,15 +508,15 @@ Inside the houses of the city.
 
 Inside the Beis Midrash, by the boards.
 
-- `engine.js:325` Welcome to the Beis Midrash. The boards hold what the teachers taught. Which would you like to see?
-- `engine.js:326` Names and ages
-- `engine.js:326` The four kinds
-- `engine.js:326` Holiness, place, time
-- `engine.js:326` Nothing now
+- `engine.js:326` Welcome to the Beis Midrash. The boards hold what the teachers taught. Which would you like to see?
+- `engine.js:327` Names and ages
+- `engine.js:327` The four kinds
+- `engine.js:327` Holiness, place, time
+- `engine.js:327` Nothing now
 
 **The boards** (the same three boards are on the wall of the Beis Midrash):
 
-- `engine.js:287`
+- `engine.js:288`
   > **names:** Names and ages (Maaseh HaKorbanos 1:11, 1:14)
   > | Cattle | Sheep | Goats
   > ♂ first year | egel עֵגֶל | keves כֶּבֶשׂ | gedi / se'ir izim גְּדִי
@@ -505,7 +527,7 @@ Inside the Beis Midrash, by the boards.
   > Too old (zaken) | after 3 full years | after 2 full years | after 2 full years
   > Valid from day 8; lechatchilah from day 30 (not bechor, pesach, maaser). Hours count, through zerikah. Any mum: pasul.
   > Turtledove: fit only grown. Pigeon: fit only young. Start of tzihuv: both unfit. Birds: sex and ordinary blemishes do not matter; a missing limb, dried wing or blinded eye does.
-- `engine.js:294`
+- `engine.js:295`
   > **kinds:** The four kinds (Maaseh HaKorbanos 1:8–1:11, 1:15)
   > | Olah עוֹלָה | Chatas חַטָּאת | Asham אָשָׁם | Shelamim שְׁלָמִים
   > Cattle | ♂ only | not for an individual* | no | ♂ or ♀
@@ -513,7 +535,7 @@ Inside the Beis Midrash, by the boards.
   > Goats | ♂ only | ♀ first year (se'irah) | no | ♂ or ♀
   > Birds | ♂ or ♀ | in the cases the Torah names | no | no
   > *An individual's chatas is a female in its first year ("ez bas shenasah", Bamidbar 15:27) and not cattle, except the nasi (male goat), the kohen mashiach (bull) and the kohen gadol on Yom Kippur (bull).
-- `engine.js:300`
+- `engine.js:301`
   > **kedushah:** Kodshei kodashim and kodashim kalim (1:17, 5:2, 10:3–10:7)
   > | Kodshei kodashim | Kodashim kalim
   > Which | olah, chatas, asham, the two Shavuos lambs | an individual's shelamim (and todah), bechor, maaser, pesach
@@ -525,7 +547,7 @@ Inside the Beis Midrash, by the boards.
 
 #### Signs
 
-- `maps.js:134` BEIS MIDRASH (left). Learn, rest, recover.
+- `maps.js:134` BEIS MIDRASH (left). Learn and review. Rest and recover your hearts.
 - `maps.js:135` THE AZARAH GATE (above). Only what is fit, and only with the kohen on duty.
 - `maps.js:136` MARKET OF KORBANOS. Olah, chatas, asham, shelamim: ask the merchants.
 - `maps.js:137` Devorah's kitchen. Shelamim today!
@@ -557,17 +579,17 @@ The test itself: six questions drawn at random from the Level 2 question bank (s
 ### Challenges against a character
 
 - `engine.js:429` **intro:** {challenger} challenges you!
-- `engine.js:431` Come back when you have learned more. Go on, I will give you a moment.
-- `battle.js:126` Not quite. The answer is: {right answer}. {explanation}
-- `battle.js:170` {challenger} challenges you!
-- `battle.js:181` Three mistakes. The test is over, and it costs you a heart.{"That was your last one..." or nothing}
-- `battle.js:183` You passed: {right} of {asked} right. Three right answers in one test earn a heart back!
-- `battle.js:184` You passed: {right} of {asked} right.
+- `engine.js:431` Come back when you have learned more. Go on, I will give you time.
+- `battle.js:135` Not quite. The answer is: {right answer}. {explanation}
+- `battle.js:180` {challenger} challenges you!
+- `battle.js:186` That makes three mistakes. The test has cost you a heart.{"That was your last one..." or nothing}
+- `battle.js:188` You passed: {right} of {asked} right. Three right answers in one test earn a heart back!
+- `battle.js:189` You passed: {right} of {asked} right.
 
 ### Teachers with more than one lesson
 
-- `engine.js:337` Shalom, trainee. What shall I teach you?
-- `engine.js:338` Nothing now
+- `engine.js:338` Shalom, trainee. What shall I teach you?
+- `engine.js:339` Nothing now
 
 ### Losing your last heart
 
@@ -583,65 +605,64 @@ The test itself: six questions drawn at random from the Level 2 question bank (s
 
 ### Things you can look at
 
-- `engine.js:455` The bird tilts its head at you.
-- `engine.js:455` Baa. It chews, unbothered. (Name the ones in the tall grass; these belong to the shepherds.)
-- `engine.js:455` Meh-eh-eh. It tries to eat your sleeve.
-- `engine.js:455` Moo. It is enormous up close.
-- `engine.js:459` Names and ages
-- `engine.js:459` The four kinds
-- `engine.js:459` Holiness, place, time
-- `engine.js:459` Close
-- `engine.js:460` Scrolls of Vayikra and the Mishnah, well thumbed.
-- `engine.js:461` A bed. You could rest here. (Your hearts are restored whenever you enter a house.)
-- `engine.js:462` A table with a map of the Azarah scratched on it. "North" is marked with an arrow.
-- `engine.js:463` A well. The water is cold and sweet.
-- `engine.js:464` A stall selling animals for korbanos. "Fit for olah!" the merchant calls. "Check it yourself," says the sign.
-- `engine.js:464` Chanah's bird stall: turtledoves in one cage, young pigeons in another. "Look at the neck feathers," reads the sign.
-- `engine.js:465` Hay. Something is chewing on the other side of it.
+- `engine.js:469` The bird tilts its head at you.
+- `engine.js:469` Baa. It chews, unbothered. (Name the ones in the tall grass; these belong to the shepherds.)
+- `engine.js:469` Meh-eh-eh. It tries to eat your sleeve.
+- `engine.js:469` Moo. It is enormous up close.
+- `engine.js:473` Names and ages
+- `engine.js:473` The four kinds
+- `engine.js:473` Holiness, place, time
+- `engine.js:473` Close
+- `engine.js:475` A bed. You could rest here. (Your hearts are restored whenever you enter a house.)
+- `engine.js:476` A table with a map of the Azarah scratched on it. "North" is marked with an arrow.
+- `engine.js:477` A well. The water is cold and sweet.
+- `engine.js:478` A stall selling animals for korbanos. "Fit for olah!" the merchant calls. "Check it yourself," says the sign.
+- `engine.js:478` Chanah's bird stall: turtledoves in one cage, young pigeons in another. "Look at the neck feathers," reads the sign.
+- `engine.js:479` Hay. Something is chewing on the other side of it.
 
 ## 7. Animals in the tall grass (Level 1)
 
-Every encounter asks what the animal is called (not for birds), then whether it can be offered. Naming it correctly writes it into the Sefer. Mistakes here never cost a heart.
+Every encounter asks what the animal is called, then whether it can be offered. Birds and goats are not named: the sources use goat names loosely, so a goat or bird is written into the Sefer when you judge it correctly. Mistakes here never cost a heart. The panel with the animal's details flashes three times when the encounter starts, and again after every minute without an answer.
 
 ### Encounter lines
 
-- `battle.js:141` A {species} wanders out of the grass! Look at what you can see: its kind, whether it is male or female, and its age.
-- `battle.js:147` ✦ {name} {Hebrew name} was written into your Sefer!
-- `battle.js:160` It trots back into the grass. Your Sefer grows.
-- `battle.js:160` It wanders off into the grass.
-- `battle.js:194` When is it brought? 
+- `battle.js:151` A {species} wanders out of the grass! Look at what you can see: its kind, whether it is male or female, and its age.
+- `battle.js:157` ✦ {name} {Hebrew name} was written into your Sefer!
+- `battle.js:170` It trots back into the grass. Your Sefer grows.
+- `battle.js:170` It wanders off into the grass.
+- `battle.js:210` When is it brought? 
 - For the four animals the Torah never names for a particular korban, that list starts with ⚠ instead of "When is it brought?".
 
 After a new animal is written in, the game shows its "When is it brought?" list from the Sefer (section 10).
 
 ### What the animal panel shows
 
-- `rules.js:112` young plumage
-- `rules.js:112` grown: golden neck
-- `rules.js:112` neck just starting to yellow
-- `rules.js:76` *Blemishes an animal may have:* blind in one eye · a broken leg · a split ear · a torn eyelid · a broken horn to the root · a wart with hair on it
-- `rules.js:84` a blemish on the wing
-- `rules.js:84` a scar on the beak
-- `rules.js:85` missing a leg
+- `rules.js:114` young plumage
+- `rules.js:114` grown: golden neck
+- `rules.js:114` neck just starting to yellow
+- `rules.js:78` *Blemishes an animal may have:* blind in one eye · a broken leg · a split ear · a torn eyelid · a broken horn to the root · a wart with hair on it
+- `rules.js:86` a blemish on the wing
+- `rules.js:86` a scar on the beak
+- `rules.js:87` missing a leg
 
 ### Question: what is it called?
 
-- `rules.js:133` A male sheep in the first thirty days of its second year is a pilgas: no longer a keves, not yet an ayil.
-- `rules.js:135` pilgas פִּלְגָּס
-- `rules.js:136` **prompt:** What does the Torah call this animal? (Esc opens your Sefer if you want to check.)
+- `rules.js:135` A male sheep in the first thirty days of its second year is a pilgas: no longer a keves, not yet an ayil.
+- `rules.js:137` pilgas פִּלְגָּס
+- `rules.js:138` **prompt:** What does the Torah call this animal? (Esc opens your Sefer if you want to check.)
 
 The four options are names of the same species (other species fill in if needed):
 
-- `rules.js:120` *cattle:* egel עֵגֶל · eglah עֶגְלָה · par פַּר · parah פָּרָה
-- `rules.js:121` *sheep:* keves כֶּבֶשׂ · kivsah כִּבְשָׂה · ayil אַיִל · rachel רָחֵל · pilgas פִּלְגָּס
-- `rules.js:122` *goat:* gedi גְּדִי · gediyah גְּדִיָּה · sa'ir שָׂעִיר · ez עֵז
+- `rules.js:122` *cattle:* egel עֵגֶל · eglah עֶגְלָה · par פַּר · parah פָּרָה
+- `rules.js:123` *sheep:* keves כֶּבֶשׂ · kivsah כִּבְשָׂה · ayil אַיִל · rachel רָחֵל · pilgas פִּלְגָּס
+- `rules.js:124` *goat:* gedi גְּדִי · gediyah גְּדִיָּה · sa'ir שָׂעִיר · ez עֵז
 
 The explanation after answering is "{name}: {English}. {first fact from the animal's Sefer page}".
 
 
 ### Question: can this animal be offered on the mizbeach (altar)?
 
-- `rules.js:154` **prompt:** Can this animal be offered on the mizbeach (altar)?
+- `rules.js:156` **prompt:** Can this animal be offered on the mizbeach (altar)?
 
 Each question shows the right answer, exactly one "Yes" option, and "No" reasons to fill four slots. Every possible answer and the explanation shown after it:
 
@@ -649,13 +670,13 @@ Each question shows the right answer, exactly one "Yes" option, and "No" reasons
   - *Explanation:* Right kind of animal, right age, no blemish.
 - `rules.js:42` **Yes, but ideally one waits until it is 30 days old** (counts as Yes)
   - *Explanation:* From its eighth day an animal may be offered, but the proper practice is to wait until day 30 (except for a bechor, a pesach or a maaser).
-- `rules.js:43` **No, it is under 8 days old**
+- `rules.js:43` **No, it is too young**
   - *Explanation:* "From the eighth day on it is acceptable." Before that it cannot be offered at all.
 - `rules.js:44` **No, it is too old (zaken)**
   - *Explanation:* Cattle may be offered until they turn three, sheep and goats until they turn two. Older than that, the animal is zaken and is not offered.
 - `rules.js:45` **No, it has a blemish (mum)**
   - *Explanation:* "Anything that has a blemish you shall not offer." A visible defect rules the animal out at any age.
-- `rules.js:46` **No, it is a pilgas: no longer a keves, not yet an ayil**
+- `rules.js:46` **No, it is a pilgas**
   - *Explanation:* In the first thirty days of its second year a male sheep is a pilgas. It cannot serve where the Torah asks for a keves, nor where it asks for an ayil.
 - `rules.js:47` **Yes, it can be offered** (counts as Yes)
   - *Explanation:* A turtledove is offered grown, a pigeon young. For birds it makes no difference whether it is male or female.
@@ -673,89 +694,95 @@ Each question shows the right answer, exactly one "Yes" option, and "No" reasons
   - *Never the right answer; offered only as a wrong choice for birds.*
 - `rules.js:55` **No, it has a blemish**
   - *Never the right answer; offered only as a wrong choice for birds.*
+- `rules.js:56` **No, a turtledove must be young**
+  - *Never the right answer; offered only as a wrong choice for birds.*
+- `rules.js:57` **No, a pigeon must be old**
+  - *Never the right answer; offered only as a wrong choice for birds.*
 
 ### Gate test: the generated animal
 
-- `battle.js:173` {examiner} shows you a {species}, {male/female}, {age}{, blemish}. What is it called?
-- `battle.js:173` The same animal ({♂/♀} {species}, {age}{, blemish}). May it go up on the mizbeach?
+- `battle.js:201` {examiner} shows you a {species, male/female, age, blemish}. May it go up on the mizbeach?
+- `battle.js:203` {examiner} shows you a {species, male/female, age, blemish}. What is it called?
+- `battle.js:204` The same animal ({♂/♀} {species}, {age}{, blemish}). May it go up on the mizbeach?
 
 ## 8. Pilgrims in the city crowd (Level 2)
 
 Walking through the crowd in the city starts one or two generated questions. They never cost a heart. The Azarah gate test uses the same generator.
 
-- `battle.js:162` has a question
-- `battle.js:164` A pilgrim steps out of the crowd. "Trainee! Settle something for me." (A pilgrim's question never costs a heart.)
-- `battle.js:166` "Thank you! Elazar teaches well."
-- `battle.js:166` "Hm. Ask your teacher again, trainee."
+- `battle.js:172` has a question
+- `battle.js:174` A pilgrim steps out of the crowd. "Trainee! Settle something for me." (A pilgrim's question never costs a heart.)
+- `battle.js:174` A pilgrim points at you and shouts. "Hey you with the badge! Help me choose an animal." (A pilgrim's question never costs a heart.)
+- `battle.js:176` "Thank you! Elazar teaches well."
+- `battle.js:176` "Hm. Ask your teacher again, trainee."
 
 ### "Is that allowed?" questions
 
-- `rules.js:189` A {name} {Hebrew name} ({English}) may be brought as {korban}.
-- `rules.js:191` **prompt:** A pilgrim brings {a/an NAME} {Hebrew name} ({English}) as {korban}. Is that allowed?
+- `rules.js:191` A {name} {Hebrew name} ({English}) may be brought as {korban}.
+- `rules.js:193` **prompt:** A pilgrim brings {a/an NAME} {Hebrew name} ({English}) as {korban}. Is that allowed?
 
 How each korban is named inside the question:
 
-- `rules.js:159` *olah:* an OLAH (burnt-offering)
-- `rules.js:159` *chatat:* a CHATAS (sin-offering, for an unintentional sin)
-- `rules.js:159` *asham:* an ASHAM (guilt-offering)
-- `rules.js:159` *shelamim:* a SHELAMIM (peace-offering)
+- `rules.js:161` *olah:* an OLAH (burnt-offering)
+- `rules.js:161` *chatat:* a CHATAS (sin-offering, for an unintentional sin)
+- `rules.js:161` *asham:* an ASHAM (guilt-offering)
+- `rules.js:161` *shelamim:* a SHELAMIM (peace-offering)
 
 Possible answers and their explanations:
 
-- `rules.js:170` **No, an olah from the herd or flock must be male**
+- `rules.js:172` **No, an olah from the herd or flock must be male**
   - *Explanation:* An animal olah comes only from males. Only a bird olah may be either sex.
-- `rules.js:171` **No, this chatas must be a female sheep or goat, not a bird**
+- `rules.js:173` **No, this chatas must be a female sheep or goat, not a bird**
   - *Explanation:* An ordinary person's chatas for a sin is a female goat or a female lamb in its first year.
-- `rules.js:172` **No, an ordinary person's chatas is never from cattle**
+- `rules.js:174` **No, an ordinary person's chatas is never from cattle**
   - *Explanation:* Every individual's chatas is a female sheep or goat; the only cattle chataos are the bulls of the kohen mashiach, the community and the kohen gadol on Yom Kippur.
-- `rules.js:173` **No, an ordinary person's chatas must be female**
+- `rules.js:175` **No, an ordinary person's chatas must be female**
   - *Explanation:* Every individual's chatas is female. Only the nasi (a male goat), the kohen mashiach and the kohen gadol on Yom Kippur (bulls) bring males.
-- `rules.js:174` **No, the chatas must be a female in its first year**
+- `rules.js:176` **No, the chatas must be a female in its first year**
   - *Explanation:* The Torah asks for "a she-goat in her first year", and a keves means a sheep in its first year. A grown ewe or she-goat cannot be an ordinary person's chatas.
-- `rules.js:175` **No, an asham is brought only from sheep**
+- `rules.js:177` **No, an asham is brought only from sheep**
   - *Explanation:* The asham comes only from male sheep: never a goat, a bull or a bird.
-- `rules.js:176` **No, an asham must be a male sheep**
+- `rules.js:178` **No, an asham must be a male sheep**
   - *Explanation:* The asham comes only from male sheep.
-- `rules.js:177` **No, birds are never brought as shelamim**
+- `rules.js:179` **No, birds are never brought as shelamim**
   - *Explanation:* Shelamim come from cattle, sheep or goats; "no bird is brought as shelamim."
-- `rules.js:178` **Yes, that is allowed**
+- `rules.js:180` **Yes, that is allowed**
   - *Explanation when this is right:* "A {name} ({English}) may be brought as {korban}."
 
 ### "Which ONE can it be?" questions
 
-- `rules.js:197` **olah:** Olah (burnt-offering)
-- `rules.js:197` **chatat:** Chatas (sin-offering) of an ordinary person
-- `rules.js:197` **asham:** Asham (guilt-offering)
-- `rules.js:197` **shelamim:** Shelamim (peace-offering)
-- `rules.js:199` **prompt:** {a/an NAME} {Hebrew name} ({English}). Which ONE of these korbanos can it be?
-- `rules.js:203` **prompt:** {a/an NAME} {Hebrew name} ({English}). Which ONE of these korbanos can it NOT be?
+- `rules.js:199` **olah:** Olah (burnt-offering)
+- `rules.js:199` **chatat:** Chatas (sin-offering) of an ordinary person
+- `rules.js:199` **asham:** Asham (guilt-offering)
+- `rules.js:199` **shelamim:** Shelamim (peace-offering)
+- `rules.js:201` **prompt:** {a/an NAME} {Hebrew name} ({English}). Which ONE of these korbanos can it be?
+- `rules.js:205` **prompt:** {a/an NAME} {Hebrew name} ({English}). Which ONE of these korbanos can it NOT be?
 
 The explanation is the first fact on that korban's Sefer page (section 10), or the matching "No" explanation above.
 
 
 ### Holiness questions
 
-- `rules.js:209` *The offerings asked about:* An olah · A chatas · An asham · The two Shavuos lambs · An individual's shelamim · A todah · A bechor · Maaser beheimah · The korban pesach
-- `rules.js:215` **prompt:** {offering}: is it kodshei kodashim (most holy) or kodashim kalim (lesser holiness)?
-- `rules.js:215` **label:** Kodshei kodashim (most holy)
-- `rules.js:215` **label:** Kodashim kalim (lesser holiness)
-- `rules.js:215` Olos, chataos, ashamos and the two Shavuos lambs are kodshei kodashim.
-- `rules.js:215` An individual's shelamim (todah included), the bechor, the maaser and the pesach are kodashim kalim.
-- `rules.js:216` **prompt:** {offering}. Where is it slaughtered?
-- `rules.js:216` **label:** Only on the north side of the mizbeach (altar)
-- `rules.js:216` **label:** Anywhere in the Azarah (Temple courtyard)
-- `rules.js:216` **label:** Anywhere in Yerushalayim
-- `rules.js:216` **label:** Inside the Heichal (the Sanctuary building)
-- `rules.js:216` Kodshei kodashim are slaughtered only north of the mizbeach.
-- `rules.js:216` Kodashim kalim are slaughtered anywhere in the Azarah.
-- `rules.js:218` **prompt:** {offering}. Who eats it, and where?
-- `rules.js:218` **label:** No one: it is entirely burned on the altar
-- `rules.js:218` **label:** Male kohanim (priests), inside the Temple courtyard
-- `rules.js:218` **label:** Anyone who is ritually pure, anywhere in Yerushalayim
-- `rules.js:218` **label:** The owner, at home outside the city
-- `rules.js:218` The olah goes up entirely; only its hide goes to the kohanim.
-- `rules.js:218` Kodshei kodashim are eaten by male kohanim in the Azarah.
-- `rules.js:218` Kodashim kalim are eaten anywhere in the city by anyone tahor.
+- `rules.js:211` *The offerings asked about:* An olah · A chatas · An asham · The two Shavuos lambs · An individual's shelamim · A todah · A bechor · Maaser beheimah · The korban pesach
+- `rules.js:217` **prompt:** {offering}: is it kodshei kodashim (most holy) or kodashim kalim (lesser holiness)?
+- `rules.js:217` **label:** Kodshei kodashim (most holy)
+- `rules.js:217` **label:** Kodashim kalim (lesser holiness)
+- `rules.js:217` Olos, chataos, ashamos and the two Shavuos lambs are kodshei kodashim.
+- `rules.js:217` An individual's shelamim (todah included), the bechor, the maaser and the pesach are kodashim kalim.
+- `rules.js:218` **prompt:** {offering}. Where is it slaughtered?
+- `rules.js:218` **label:** Only on the north side of the mizbeach (altar)
+- `rules.js:218` **label:** Anywhere in the Azarah (Temple courtyard)
+- `rules.js:218` **label:** Anywhere in Yerushalayim
+- `rules.js:218` **label:** Inside the Heichal (the Sanctuary building)
+- `rules.js:218` Kodshei kodashim are slaughtered only north of the mizbeach.
+- `rules.js:218` Kodashim kalim are slaughtered anywhere in the Azarah.
+- `rules.js:220` **prompt:** {offering}. Who eats it, and where?
+- `rules.js:220` **label:** No one: it is entirely burned on the altar
+- `rules.js:220` **label:** Male kohanim (priests), inside the Temple courtyard
+- `rules.js:220` **label:** Anyone who is ritually pure, anywhere in Yerushalayim
+- `rules.js:220` **label:** The owner, at home outside the city
+- `rules.js:220` The olah goes up entirely; only its hide goes to the kohanim.
+- `rules.js:220` Kodshei kodashim are eaten by male kohanim in the Azarah.
+- `rules.js:220` Kodashim kalim are eaten anywhere in the city by anyone tahor.
 
 ## 9. The question bank
 
@@ -763,374 +790,381 @@ Written questions used by the characters who challenge you and by the two gate t
 
 ### Level 1
 
-- `content.js:194` **From how many species may a korban of a living creature be brought?**
+- `content.js:197` **From how many species (mammals and birds) may a korban of a living creature be brought?**
   - ✓ Five
   - ✗ Three
   - ✗ Seven
   - ✗ Two
-  - *Explanation:* Five only: cattle, sheep, goats, turtledoves and young pigeons.
-  - *Used by:* Pilgrim Reuven (Migrash); Sheep Gate test pool
-- `content.js:195` **Which three mammals may be brought as korbanos?**
+  - *Explanation:* Five: cattle, sheep, goats, turtledoves and young pigeons.
+  - *Used by:* Pilgrim Reuven (Migrash)
+- `content.js:198` **Which three mammals may be brought as korbanos?**
   - ✓ Cattle, sheep, goats
   - ✗ Cattle, sheep, deer
   - ✗ Sheep, goats, camels
   - ✗ Cattle, goats, gazelles
   - *Explanation:* Only the domesticated herd and flock: bakar, kevasim, izim.
   - *Used by:* Sheep Gate test pool
-- `content.js:196` **Which birds may be brought as korbanos?**
-  - ✓ Turtledoves and young pigeons
+- `content.js:199` **Which species of birds may be brought as korbanos?**
+  - ✓ Turtledoves and pigeons
   - ✗ Doves and chickens
   - ✗ Turtledoves and quail
   - ✗ Any kosher bird
   - *Explanation:* Torim and bnei yonah only.
   - *Used by:* Sheep Gate test pool
-- `content.js:197` **When is a turtledove fit for the mizbeach?**
+- `content.js:200` **When is a turtledove (tor) fit for the mizbeach?**
   - ✓ Only when grown
   - ✗ Only when young
   - ✗ At any age
-  - ✗ Only on day 30
+  - ✗ After day 30
   - *Explanation:* Turtledoves must be grown; pigeons must be young.
   - *Used by:* Pilgrim Shimi (Migrash); Sheep Gate test pool
-- `content.js:198` **When is a pigeon (ben yonah) fit?**
+- `content.js:201` **When is a pigeon (ben yonah) fit?**
   - ✓ Only while young
   - ✗ Only when grown
   - ✗ At any age
   - ✗ From its eighth day
   - *Explanation:* A ben yonah is fit while young, before its neck feathers turn golden.
   - *Used by:* Sheep Gate test pool
-- `content.js:199` **A bird is right at the START of tzihuv (its neck feathers beginning to yellow). Is it fit?**
+- `content.js:202` **A bird is right at the START of tzihuv (its neck feathers beginning to yellow). Is it fit?**
   - ✓ Unfit, whether turtledove or pigeon
   - ✗ Fit if a turtledove
   - ✗ Fit if a pigeon
   - ✗ Fit either way
   - *Explanation:* At the start of the yellowing, both species are unfit.
   - *Used by:* Sheep Gate test pool
-- `content.js:200` **From what age is an animal valid as a korban?**
+- `content.js:203` **From what age is an animal valid as a korban?**
   - ✓ From the eighth day
   - ✗ From the first day
   - ✗ From the thirtieth day
   - ✗ From one year
-  - *Explanation:* Valid from day eight; lechatchilah one waits for day thirty.
+  - *Explanation:* Valid from day eight; although for most korbanot, ideally you'd wait for day thirty.
   - *Used by:* Pilgrim Reuven (Migrash); Sheep Gate test pool
-- `content.js:201` **An animal is 12 days old. May it be offered?**
+- `content.js:204` **An animal is 12 days old. May it be offered?**
   - ✓ Valid, but lechatchilah wait until day 30
   - ✗ Not at all until day 30
   - ✗ Yes, with no reservation
   - ✗ Not until it is a year old
-  - *Explanation:* From day eight it is valid, but one does not offer lechatchilah before day thirty, except bechor, pesach and maaser.
+  - *Explanation:* From day eight it is valid, but for most sacrifices, one should ideally not offer an animal before day thirty, except for bechor, pesach and maaser.
   - *Used by:* Shepherd boy Dan (Migrash); Sheep Gate test pool
-- `content.js:202` **Which may be offered on day eight even lechatchilah?**
+- `content.js:205` **Which may be offered on day eight even lechatchilah?**
   - ✓ Bechor, pesach and maaser
   - ✗ Olah and shelamim
   - ✗ Chatas and asham
   - ✗ None at all
   - *Explanation:* The bechor, the pesach and the maaser are the exceptions to waiting for day thirty.
   - *Used by:* Sheep Gate test pool
-- `content.js:203` **Up to what age may cattle be offered?**
+- `content.js:206` **Up to what age may cattle be offered?**
   - ✓ Three full years
   - ✗ Two full years
   - ✗ One year
   - ✗ Five years
   - *Explanation:* Cattle until three full years, day for day; beyond that it is zaken.
   - *Used by:* Sheep Gate test pool
-- `content.js:204` **Up to what age may sheep and goats be offered?**
+- `content.js:207` **Up to what age may sheep and goats be offered?**
   - ✓ Two full years
   - ✗ Three full years
   - ✗ One year
   - ✗ Eighteen months
   - *Explanation:* The flock until two full years; beyond that it is zaken and is not offered.
   - *Used by:* Pilgrim Shimi (Migrash); Sheep Gate test pool
-- `content.js:205` **Until when is a male sheep called a keves?**
+- `content.js:208` **Until when is a male sheep called a keves?**
   - ✓ Until it completes its first year
   - ✗ Until it is two
   - ✗ Until it grows horns
   - ✗ Until day 30
   - *Explanation:* Keves, kavsah, kevasim: first year.
   - *Used by:* Sheep Gate test pool
-- `content.js:206` **From when is a male sheep called an ayil?**
+- `content.js:209` **From when is a male sheep called an ayil?**
   - ✓ From day 31 of its second year
   - ✗ The day it turns one
   - ✗ From day 30 of its first year
   - ✗ From its third year
   - *Explanation:* An ayil from thirty-one days into the second year; the first thirty days are the pilgas.
   - *Used by:* Sheep Gate test pool
-- `content.js:207` **A male sheep is one year and twenty days old. What is it?**
-  - ✓ A pilgas, fit as neither keves nor ayil
+- `content.js:210` **A male sheep is one year and twenty days old. What is it?**
+  - ✓ A pilgas
   - ✗ A keves
   - ✗ An ayil
   - ✗ A zaken
-  - *Explanation:* In the first thirty days of its second year it is a pilgas.
+  - *Explanation:* In the first thirty days of its second year it is a pilgas, and unfit to be brought as a korban.
   - *Used by:* Pilgrim Shimi (Migrash); Sheep Gate test pool
-- `content.js:208` **A male goat is one year and ten days old. What is it?**
+- `content.js:211` **A male goat is one year and ten days old. What is it?**
   - ✓ A sa'ir
   - ✗ A pilgas
   - ✗ A gedi
   - ✗ A zaken
   - *Explanation:* Goats have no pilgas: the whole second year it is called a sa'ir.
   - *Used by:* Shepherd boy Dan (Migrash); Sheep Gate test pool
-- `content.js:209` **A keves was within its year at shechitah but passed one year by the time of zerikah. The korban is...**
-  - ✓ Pasul: hours are counted, through zerikah
-  - ✗ Valid: shechitah is what counts
-  - ✗ Valid: a day of grace is given
-  - ✗ Valid if the kohen hurries
-  - *Explanation:* Hours are counted for kodashim; it must still be within its year at zerikah.
-  - *Used by:* Sheep Gate test pool
-- `content.js:210` **A perfect-aged ram has a broken leg. Is it fit?**
-  - ✓ No: a mum disqualifies
-  - ✗ Yes, if the leg heals
+- `content.js:212` **A ram in its second year has a broken leg. Is it fit?**
+  - ✓ No: a mum (blemish) disqualifies
+  - ✗ No: it is too old
   - ✗ Yes, for an olah
   - ✗ Yes, for a shelamim
   - *Explanation:* "Anything that has a blemish you shall not offer."
   - *Used by:* Pilgrim Reuven (Migrash); Sheep Gate test pool
-- `content.js:211` **A turtledove has a blemish on its wing but no limb is missing. Is it fit?**
+- `content.js:213` **A turtledove has a blemish on its wing but no limb is missing. Is it fit?**
   - ✓ Fit: blemishes do not disqualify birds
   - ✗ Unfit: like any mum
-  - ✗ Fit only as a chatas
+  - ✗ Fit only as an olah
   - ✗ Unfit unless it is young
   - *Explanation:* Blemish-free and male/female apply to animals, not birds. Only a missing limb, a dried wing or a blinded eye disqualifies a bird.
   - *Used by:* Sheep Gate test pool
-- `content.js:212` **Wherever the Torah says egel, the animal is...**
+- `content.js:214` **Wherever the Torah says egel, the animal is...**
   - ✓ In its first year
   - ✗ In its second year
   - ✗ Any age under three
   - ✗ Under thirty days
   - *Explanation:* Egel: ben shanah. Par: from the second year.
   - *Used by:* Sheep Gate test pool
-- `content.js:213` **What is a grown female of the herd called?**
+- `content.js:215` **What is a grown female of the herd (cattle) called?**
   - ✓ Parah
   - ✗ Eglah
   - ✗ Rachel
   - ✗ Ez
   - *Explanation:* Parah is the cow; eglah is the female calf.
   - *Used by:* Sheep Gate test pool
-- `content.js:214` **What is a grown female sheep called?**
-  - ✓ Rachel
-  - ✗ Kivsah
+- `content.js:216` **What is a grown male sheep called?**
+  - ✓ Ayil
+  - ✗ Kisbah
   - ✗ Ez
   - ✗ Parah
-  - *Explanation:* Rachel is the ewe; kivsah is a female in its first year.
+  - *Explanation:* An ayil is a grown male sheep. Rachel is the ewe; kisbah (or kivsah) is a female in its first year.
   - *Used by:* Shepherd boy Dan (Migrash); Sheep Gate test pool
-- `content.js:215` **The Torah's se'ir izim is...**
+- `content.js:217` **The Torah's se'ir izim is...**
   - ✓ A male goat in its first year
-  - ✗ A male goat in its second year
-  - ✗ A female goat
-  - ✗ Any goat
-  - *Explanation:* Se'ir izim: ben shanah; sa'ir: ben shtayim.
+  - ✗ A male sheep in its second year
+  - ✗ A female goat in its first year
+  - ✗ A female goat in its second year
+  - *Explanation:* Se'ir izim: ben shanah. Usually.
   - *Used by:* Sheep Gate test pool
-- `content.js:216` **A goat is two years and one month old. Is it fit?**
-  - ✓ No: it is zaken
+- `content.js:218` **A goat is two years and one month old. Is it fit?**
+  - ✓ No: it is too old
   - ✗ Yes, until three years
   - ✗ Yes, as a sa'ir
   - ✗ Only as a shelamim
   - *Explanation:* Sheep and goats only until two full years.
   - *Used by:* Sheep Gate test pool
+- `content.js:219` **What is a female sheep in its first year called?**
+  - ✓ Kivsah (or kisbah)
+  - ✗ Rachel
+  - ✗ Eglah
+  - ✗ Ayil
+  - *Explanation:* A kivsah, also called kisbah, is a female sheep in its first year; grown, she is a rachel.
+  - *Used by:* Sheep Gate test pool
+- `content.js:220` **A lamb was born at noon. When does it turn one year old?**
+  - ✓ At noon on its birthday
+  - ✗ At sunrise on its birthday
+  - ✗ At nightfall the evening before
+  - ✗ At the end of its birthday
+  - *Explanation:* Ages are counted to the hour, so it turns one at the same hour it was born.
+  - *Used by:* Sheep Gate test pool
 
 ### Level 2
 
-- `content.js:218` **What are the four kinds of korban?**
+- `content.js:222` **What are the four kinds of korban?**
   - ✓ Olah, chatas, asham, shelamim
   - ✗ Olah, minchah, pesach, bechor
-  - ✗ Chatas, asham, todah, nazir
+  - ✗ Chatas, asham, todah, minchah
   - ✗ Olah, chatas, pesach, maaser
   - *Explanation:* Every korban, communal or individual, is one of these four.
   - *Used by:* Pilgrim Yonah (Yerushalayim); Azarah gate test pool
-- `content.js:219` **Which three further offerings belong to individuals alone?**
+- `content.js:223` **Which three further offerings belong to individuals alone?**
   - ✓ Pesach, bechor, maaser
   - ✗ Tamid, musaf, omer
   - ✗ Todah, nazir, metzora
   - ✗ Olah, chatas, asham
   - *Explanation:* The pesach, the bechor and the maaser.
   - *Used by:* Azarah gate test pool
-- `content.js:220` **What happens to the flesh of an olah?**
+- `content.js:224` **What happens to the flesh of an olah?**
   - ✓ Entirely burned on the mizbeach
   - ✗ Eaten by the kohanim
-  - ✗ Eaten by the owner
-  - ✗ Half burned, half eaten
+  - ✗ Eaten by the owner and guests
+  - ✗ Part is eaten by the owner, part by kohanim
   - *Explanation:* The olah goes up entirely; nothing is eaten. Only the hide goes to the kohanim.
   - *Used by:* Pilgrim Yonah (Yerushalayim); Azarah gate test pool
-- `content.js:221` **Who receives the hide of an olah?**
+- `content.js:225` **Who receives the hide of an olah?**
   - ✓ The kohanim
   - ✗ The owner
   - ✗ It is burned
   - ✗ The Levi'im
   - *Explanation:* "The hide of the olah he offered shall be the kohen's."
   - *Used by:* Azarah gate test pool
-- `content.js:222` **May a female animal be brought as an olah?**
-  - ✓ No: an animal olah is male only
-  - ✗ Yes, from the flock
-  - ✗ Yes, from cattle
-  - ✗ Yes, any species
-  - *Explanation:* An animal olah comes only from males; only a bird olah may be either sex.
+- `content.js:226` **What kind of (mammal) animal can be brought as an olah?**
+  - ✓ Only a male
+  - ✗ Only a sheep
+  - ✗ Only a goat
+  - ✗ Only a young animal (lamb, kid, or calf)
+  - *Explanation:* An animal olah comes only from males, but different circumstances call for different species. A bird olah may be either sex.
   - *Used by:* Pilgrim Yonah (Yerushalayim); Azarah gate test pool
-- `content.js:223` **May a female turtledove be brought as an olah?**
+- `content.js:227` **May a female turtledove be brought as an olah?**
   - ✓ Yes: bird olos are either sex
   - ✗ No: olos are male only
   - ✗ No: birds are never olos
   - ✗ Only if it is young
   - *Explanation:* From turtledoves and young pigeons, "male and female alike".
   - *Used by:* Azarah gate test pool
-- `content.js:224` **A chatas is brought for...**
+- `content.js:228` **A chatas is brought for...**
   - ✓ An unintentional sin punishable by kares if deliberate
   - ✗ Any sin, even deliberate
   - ✗ A false oath about money
   - ✗ Thanksgiving after danger
   - *Explanation:* The chatas atones for a shogeg on a kares-level sin.
   - *Used by:* Azarah gate test pool
-- `content.js:225` **An ordinary Yisrael brings a chatas. The animal must be...**
+- `content.js:229` **An ordinary Yisrael who brings a chatas must use...**
   - ✓ A female sheep or goat in its first year
-  - ✗ A male sheep
-  - ✗ A bull
-  - ✗ A female sheep or goat of any age
+  - ✗ A male sheep in its first year
+  - ✗ A male sheep after its first year
+  - ✗ A female sheep or goat after its first year
   - *Explanation:* Every individual's chatas is female and not from cattle, and the Torah asks for "a she-goat in her first year": a se'iras izim or a kivsah.
   - *Used by:* Pilgrim Tuvia (Yerushalayim); Azarah gate test pool
-- `content.js:226` **Who brings a MALE animal as a chatas?**
+- `content.js:230` **Who brings a MALE animal as a chatas?**
   - ✓ The nasi, the kohen mashiach, the kohen gadol on Yom Kippur
   - ✗ Anyone who is wealthy
   - ✗ A nazir and a metzora
   - ✗ Nobody
   - *Explanation:* Three exceptions: the nasi (male goat), the kohen mashiach (bull), the kohen gadol's Yom Kippur bull.
   - *Used by:* Azarah gate test pool
-- `content.js:227` **What chatas does a nasi bring?**
+- `content.js:231` **What chatas does a nasi bring?**
   - ✓ A male goat (sa'ir izim)
   - ✗ A bull
   - ✗ A female goat
   - ✗ A ram
   - *Explanation:* The nasi's chatas is a male goat, and it is eaten.
   - *Used by:* Azarah gate test pool
-- `content.js:228` **From which animals may an asham be brought?**
+- `content.js:232` **From which animals may an asham be brought?**
   - ✓ Male sheep only
   - ✗ Male sheep or goats
-  - ✗ Any male animal
-  - ✗ Sheep, male or female
+  - ✗ Female sheep in its first year
+  - ✗ Female goat in its first year
   - *Explanation:* The asham comes only from male sheep.
   - *Used by:* Pilgrim Tuvia (Yerushalayim); Azarah gate test pool
-- `content.js:229` **Which asham is brought from a keves (lamb) rather than a ram?**
+- `content.js:233` **Which asham is brought from a keves (lamb) rather than a ram?**
   - ✓ The asham of a nazir and of a metzora
   - ✗ The asham for me'ilah
   - ✗ The asham talui
   - ✗ All ashamos are rams
   - *Explanation:* Some ashamos come from grown sheep and some from young: the nazir's and the metzora's are lambs.
   - *Used by:* Azarah gate test pool
-- `content.js:230` **From which animals may shelamim be brought?**
+- `content.js:234` **From which animals may shelamim be brought?**
   - ✓ Cattle, sheep or goats, male or female
   - ✗ Cattle, sheep or goats, male only
   - ✗ Any of the five species
   - ✗ Sheep and goats only
   - *Explanation:* Shelamim from the herd and flock, either sex; no bird shelamim.
   - *Used by:* Azarah gate test pool
-- `content.js:231` **May a pair of turtledoves be brought as shelamim?**
-  - ✓ No: there are no bird shelamim
-  - ✗ Yes, like an olah
-  - ✗ Yes, if grown
-  - ✗ Only by the poor
-  - *Explanation:* "No bird is brought as shelamim."
+- `content.js:235` **A pair of turtledoves CAN be brought as...**
+  - ✓ Olah of an individual
+  - ✗ Shelamim of an individual
+  - ✗ Olah of the community
+  - ✗ Shelamim of the community
+  - *Explanation:* Birds can be an individual's olah. There are no bird shelamim, and the community never brings birds.
   - *Used by:* Pilgrim Tuvia (Yerushalayim); Azarah gate test pool
-- `content.js:232` **Who eats the shelamim?**
+- `content.js:236` **Who eats the shelamim?**
   - ✓ The owners, after the kohanim take chazeh and shok
   - ✗ Male kohanim only
   - ✗ No one: it is burned
   - ✗ The Levi'im
   - *Explanation:* The eimurin burn, the chazeh and shok go to the kohanim, the rest is the owners'.
   - *Used by:* Azarah gate test pool
-- `content.js:233` **Where may shelamim be eaten?**
-  - ✓ Anywhere in Yerushalayim, by anyone tahor
+- `content.js:237` **Where may shelamim be eaten?**
+  - ✓ Anywhere in Yerushalayim
   - ✗ Only in the Azarah
   - ✗ Only in the owner's home
   - ✗ Only on the Har HaBayis
   - *Explanation:* Kodashim kalim are eaten anywhere in the city.
   - *Used by:* Miriam (Yerushalayim); Azarah gate test pool
-- `content.js:234` **For how long may shelamim be eaten?**
+- `content.js:238` **For how long may shelamim be eaten?**
   - ✓ Two days and one night
   - ✗ One day and one night
   - ✗ Three days
   - ✗ Until midnight
   - *Explanation:* The day of slaughter, the night, and the next day until sunset.
   - *Used by:* Miriam (Yerushalayim); Azarah gate test pool
-- `content.js:235` **For how long may a todah be eaten?**
+- `content.js:239` **For how long may a todah be eaten?**
   - ✓ One day and one night
   - ✗ Two days and one night
   - ✗ Seven days
   - ✗ Until sunset only
   - *Explanation:* The todah, though kodashim kalim, is eaten only that day and that night.
   - *Used by:* Azarah gate test pool
-- `content.js:236` **For how long may a chatas or asham be eaten?**
+- `content.js:240` **For how long may a chatas or asham be eaten?**
   - ✓ The day of slaughter and the following night
   - ✗ Two days and one night
   - ✗ Until the next morning's tamid
   - ✗ Seven days
   - *Explanation:* Chatas and asham: a day and a night.
   - *Used by:* Azarah gate test pool
-- `content.js:237` **Who eats an ordinary chatas, and where?**
+- `content.js:241` **Who eats an ordinary chatas, and where?**
   - ✓ Male kohanim, in the Azarah
   - ✗ The owners, in the city
   - ✗ Any kohen, anywhere
   - ✗ No one: every chatas is burned
   - *Explanation:* Chatas and asham are eaten only by male kohanim in the Azarah.
   - *Used by:* Azarah gate test pool
-- `content.js:238` **Which are kodshei kodashim?**
+- `content.js:242` **Which are kodshei kodashim?**
   - ✓ Olah, chatas, asham, the two Shavuos lambs
   - ✗ Shelamim, bechor, maaser, pesach
   - ✗ Olah and shelamim
   - ✗ Chatas and pesach
   - *Explanation:* Olos, chataos, ashamos and the two shelamim lambs of Shavuos.
   - *Used by:* Azarah gate test pool
-- `content.js:239` **Which are kodashim kalim?**
+- `content.js:243` **Which are kodashim kalim?**
   - ✓ Shelamim of an individual, bechor, maaser, pesach
   - ✗ Olah, chatas, asham
-  - ✗ Chatas and shelamim
-  - ✗ Only the pesach
-  - *Explanation:* An individual's shelamim, the bechor, the maaser and the pesach.
+  - ✗ Only chatas and asham
+  - ✗ Only bechor, maaser, pesach
+  - *Explanation:* An individual's shelamim, the bechor, the maaser and the pesach are the only kodashim kalim.
   - *Used by:* Miriam (Yerushalayim); Azarah gate test pool
-- `content.js:240` **Where must kodshei kodashim be slaughtered?**
+- `content.js:244` **Where must kodshei kodashim be slaughtered?**
   - ✓ North of the mizbeach
   - ✗ Anywhere in the Azarah
   - ✗ At the entrance of the Heichal
   - ✗ East of the mizbeach
   - *Explanation:* "He shall slaughter it on the north side of the altar."
   - *Used by:* Azarah gate test pool
-- `content.js:241` **Where may kodashim kalim be slaughtered?**
+- `content.js:245` **Where may kodashim kalim be slaughtered?**
   - ✓ Anywhere in the Azarah
   - ✗ Only north of the mizbeach
   - ✗ Anywhere in Yerushalayim
   - ✗ Only on the mizbeach ramp
   - *Explanation:* Kodashim kalim are slaughtered anywhere in the Azarah.
   - *Used by:* Azarah gate test pool
-- `content.js:242` **What are the eimurin?**
+- `content.js:246` **What are the eimurin?**
   - ✓ The fats and organs burned on the mizbeach
   - ✗ The kohen's portion of meat
   - ✗ The hide and the horns
   - ✗ The wine libations
   - *Explanation:* The fat on the innards, the kidneys with their fat, the flank fat and the lobe of the liver.
   - *Used by:* Azarah gate test pool
-- `content.js:243` **Which species adds the alyah (fat tail) to its eimurin?**
+- `content.js:247` **Which species adds the alyah (fat tail) to its eimurin?**
   - ✓ Sheep
   - ✗ Goats
   - ✗ Cattle
   - ✗ All three
   - *Explanation:* Only sheep have the alyah; it is burned whole with the eimurin.
   - *Used by:* Azarah gate test pool
-- `content.js:244` **Which kinds of korban may the community bring?**
+- `content.js:248` **Which kinds of korban may the community bring?**
   - ✓ Only olah and chatas (plus the two Shavuos shelamim lambs)
   - ✗ All four kinds
   - ✗ Olah, chatas and asham
   - ✗ Olah and shelamim
   - *Explanation:* The community never brings an asham or a bird; its only shelamim are the two Shavuos lambs.
   - *Used by:* Azarah gate test pool
-- `content.js:245` **May the community bring a bird offering?**
+- `content.js:249` **May the community bring a bird offering?**
   - ✓ Never
   - ✗ Yes, as an olah
   - ✗ Yes, as a chatas
   - ✗ Only on Yom Kippur
   - *Explanation:* "The community never brings an asham, nor a bird."
   - *Used by:* Azarah gate test pool
-- `content.js:246` **The two Shavuos lambs are the community's only...**
+- `content.js:250` **The two Shavuos lambs are the community's only...**
   - ✓ Shelamim
   - ✗ Olah
   - ✗ Chatas
   - ✗ Asham
   - *Explanation:* The only communal shelamim: the two lambs that come with the loaves on Shavuos, and they are kodshei kodashim.
   - *Used by:* Azarah gate test pool
-- `content.js:247` **A bechor is...**
+- `content.js:251` **A bechor is...**
   - ✓ Kodashim kalim
   - ✗ Kodshei kodashim
   - ✗ Not a korban at all
@@ -1173,148 +1207,147 @@ Written questions used by the characters who challenge you and by the two gate t
 
 #### egel עֵגֶל
 
-- `content.js:55` *Subtitle:* bull calf
-- `content.js:56` A male of the herd in its first year (ben shanah).
-- `content.js:56` From its second year it is a par.
+- `content.js:58` *Subtitle:* bull calf
+- `content.js:59` A male of the herd (cattle) in its first year ("ben shanah"), that is, from day 8 until its first birthday.
+- `content.js:59` From its second year it is a par.
 - *Box heading:* When is it brought?
-- `content.js:279` Aharon's chatas on the eighth day of the Mishkan's inauguration: "take yourself a calf for a chatas" (Vayikra 9:2).
-- `content.js:279` Otherwise cattle are usually offered grown, as a par.
+- `content.js:283` There is only a single instance where the Torah required a male calf to be sacrificed: on the eighth day of the Mishkan's inauguration: "take yourself a calf for a chatas..." (Vayikra 9:2).
+- `content.js:283` Otherwise a calf is still fit for plenty of sacrifices: a voluntary olah, a shelamim or todah, and a bechor or ma'aser.
 - *Sources quoted:* MK 1:14
 
 #### eglah עֶגְלָה
 
-- `content.js:57` *Subtitle:* heifer calf
-- `content.js:58` A female of the herd in its first year.
-- `content.js:58` Grown, she is a parah.
+- `content.js:60` *Subtitle:* heifer calf
+- `content.js:61` A female of the herd in its first year.
+- `content.js:61` She will grow up to be a parah.
 - *Box heading:* Never named for a particular korban
-- `content.js:280` The Torah never names a first-year female calf for any particular korban. She may be brought as a shelamim, which takes cattle of either sex and any age.
-- `content.js:280` The eglah arufah (the heifer of an unsolved murder) is not an altar offering at all.
+- `content.js:284` The Torah never names a first-year female calf for any particular korban. She may be brought as a shelamim or todah, which can be cattle of either sex and any age.
+- `content.js:284` The eglah arufah (the heifer of an unsolved murder), however, is not considered an altar offering at all.
 - *Sources quoted:* MK 1:14
 
 #### par פַּר
 
-- `content.js:59` *Subtitle:* bull · also shor — שׁוֹר
-- `content.js:60` A male of the herd from its second year.
-- `content.js:60` Cattle may be offered until three full years, day for day; older is zaken and is not offered.
+- `content.js:62` *Subtitle:* bull · also shor — שׁוֹר
+- `content.js:63` A male of the herd from its second year.
+- `content.js:63` Cattle may be offered until three full years, day for day; older is zaken and is not offered.
 - *Box heading:* When is it brought?
-- `content.js:281` The chatas of the kohen mashiach and the community's par he'elem davar.
-- `content.js:281` The kohen gadol's own chatas on Yom Kippur.
-- `content.js:281` The olos of the musafim: two bulls on Rosh Chodesh, bulls on the festivals.
-- *Sources quoted:* MK 1:14, MK 1:11
+- `content.js:285` The chatas of the kohen mashiach and the community's par he'elem davar MUST be bull offerings.
+- `content.js:285` This is also true of the kohen gadol's chatas on Yom Kippur, and of some number of the olos for every holiday (but the number of bulls depends on the holiday).
+- *Sources quoted:* MK 1:6, MK 1:5, MK 1:14, MK 1:11, Shegagos 1:4
 
 #### parah פָּרָה
 
-- `content.js:61` *Subtitle:* cow
-- `content.js:62` A grown female of the herd.
-- `content.js:62` Like all cattle she may be offered until three full years.
+- `content.js:64` *Subtitle:* cow
+- `content.js:65` A grown female of the herd.
+- `content.js:65` Like male cattle, she may be offered until three full years.
 - *Box heading:* Never named for a particular korban
-- `content.js:282` The Torah never names a grown cow for any particular korban. She may be a shelamim.
-- `content.js:282` The parah adumah (red heifer) is not an altar offering; it is burned outside to make purifying water.
+- `content.js:286` The Torah never names a grown cow for any particular korban. She may be used as a shelamim (but not an olah, which must always be a male).
+- `content.js:286` The parah adumah (red heifer) is not an altar offering; it is burned outside to make purifying water.
 - *Sources quoted:* MK 1:11
 
 #### keves כֶּבֶשׂ
 
-- `content.js:63` *Subtitle:* lamb (male, first year)
-- `content.js:64` Wherever the Torah says keves it means a sheep in its first year.
-- `content.js:64` After the year ends it is a pilgas for thirty days, then an ayil.
+- `content.js:66` *Subtitle:* lamb (male, first year)
+- `content.js:67` Wherever the Torah says keves it means a sheep in its first year.
+- `content.js:67` After the year ends it is a pilgas for thirty days, then an ayil.
 - *Box heading:* When is it brought?
-- `content.js:283` The daily tamid: two lambs every day, morning and afternoon.
-- `content.js:283` The korban pesach (a lamb or a kid).
-- `content.js:283` The olah of a wealthy yoledes; the asham of a nazir and of a metzora.
+- `content.js:287` The daily tamid: two lambs every day, morning and afternoon.
+- `content.js:287` The korban pesach (a lamb or a kid).
+- `content.js:287` The olah of a wealthy yoledes; the asham of a nazir and of a metzora.
 - *Sources quoted:* MK 1:14
 
 #### kivsah כִּבְשָׂה
 
-- `content.js:65` *Subtitle:* ewe lamb (female, first year) · also kavsah — כַּבְשָׂה
-- `content.js:66` A female sheep in its first year.
-- `content.js:66` The Torah asks for a kivsah bas shnasah, for example, as the chatas of a yoledes.
+- `content.js:68` *Subtitle:* ewe lamb (female, first year) · also kisbah — כִּשְׂבָּה
+- `content.js:69` A female sheep in its first year.
 - *Box heading:* When is it brought?
-- `content.js:284` The chatas of an ordinary person who sinned unintentionally (or a female kid).
-- `content.js:284` The chatas of a nazir completing his vow.
+- `content.js:288` The Torah asks for a kivsah bas shnasah, for example, as the chatas of a nazir, and of a metzora who can afford it.
+- `content.js:288` The chatas of an ordinary person who sinned unintentionally (or a female kid).
 - *Sources quoted:* MK 1:14
 
 #### ayil אַיִל
 
-- `content.js:67` *Subtitle:* ram
-- `content.js:68` A male sheep in its second year, from day 31 of that year.
-- `content.js:68` Sheep may be offered until two full years; older is zaken.
-- `content.js:68` Most ashamos call for an ayil.
+- `content.js:70` *Subtitle:* ram
+- `content.js:71` A male sheep in its second year, from day 31 of that year.
+- `content.js:71` Sheep may be offered until two full years; older is zaken.
+- `content.js:71` Most ashamos call for an ayil.
 - *Box heading:* When is it brought?
-- `content.js:285` Most ashamos: for me'ilah, for a false oath about money, the asham talui.
-- `content.js:285` The kohen gadol's olah on Yom Kippur; the nazir's shelamim.
+- `content.js:289` Most ashamos: for me'ilah, for a false oath about money, the asham talui.
+- `content.js:289` Many olos that are required to be brought by the community are rams: the musaf of Rosh Chodesh and of the festivals includes a ram.
 - *Sources quoted:* MK 1:14, MK 1:11
 
 #### rachel רָחֵל
 
-- `content.js:69` *Subtitle:* ewe
-- `content.js:70` A grown female sheep. Of the four kinds she can only be a shelamim: an olah and an asham are male, and the individual's chatas is a sheep in its first year (a keves is a first-year animal).
-- `content.js:70` The alyah (fat tail) of every sheep offering is burned with the eimurin.
+- `content.js:72` *Subtitle:* ewe
+- `content.js:73` A grown female sheep. Of the four kinds she can only be a shelamim: an olah and an asham are male, and the individual's chatas is a sheep in its first year (a keves is a first-year animal).
+- `content.js:73` The alyah (fat tail) of every sheep offering is burned with the eimurin.
 - *Box heading:* Never named for a particular korban
-- `content.js:286` The Torah never names a grown ewe for any particular korban. She may be a shelamim, which takes sheep of either sex and any age.
+- `content.js:290` The Torah never names a grown ewe for any particular korban. She may be used as a shelamim, which takes sheep of either sex and any age.
 - *Sources quoted:* MK 1:11, MK 1:14, MK 1:18
 
 #### gedi גְּדִי
 
-- `content.js:71` *Subtitle:* kid (male, first year) · also se'ir izim — שְׂעִיר עִזִּים
-- `content.js:72` A male goat in its first year; the Torah calls it se'ir izim.
-- `content.js:72` Goats have no pilgas stage: the whole second year it is simply a sa'ir.
+- `content.js:74` *Subtitle:* kid (male, first year) · also se'ir izim — שְׂעִיר עִזִּים
+- `content.js:75` A male goat in its first year; the Torah calls it se'ir izim.
+- `content.js:75` Goats have no pilgas stage: the whole second year it is simply a sa'ir.
 - *Box heading:* When is it brought?
-- `content.js:287` The korban pesach may be a kid instead of a lamb: "from the sheep or from the goats" (Shemos 12:5).
-- *Sources quoted:* MK 1:14
+- `content.js:291` A male goat is brought as a chatas by each tribe when the beis din mistakenly ruled that idolatry was permitted (the se'irei avodah zarah).
+- `content.js:291` The korban pesach may be a kid instead of a lamb: "from the sheep or from the goats" (Shemos 12:5).
+- *Sources quoted:* MK 1:14, MK 1:5
 
 #### gediyah גְּדִיָּה
 
-- `content.js:73` *Subtitle:* kid (female, first year) · also se'irah — שְׂעִירָה
-- `content.js:74` A female goat in its first year: the se'iras izim of an ordinary person's chatas.
+- `content.js:76` *Subtitle:* kid (female, first year) · also se'irah — שְׂעִירָה
+- `content.js:77` A female goat in its first year: the se'iras izim of an ordinary person's chatas.
 - *Box heading:* When is it brought?
-- `content.js:288` The chatas of an ordinary person who sinned unintentionally: "a she-goat in her first year" (or a female lamb).
+- `content.js:292` The chatas of an ordinary person who sinned unintentionally: "a she-goat in her first year" (or a female lamb).
 - *Sources quoted:* MK 1:14, Vayikra 4:28
 
 #### sa'ir שָׂעִיר
 
-- `content.js:75` *Subtitle:* he-goat · also tayish — תַּיִשׁ
-- `content.js:76` A male goat in its second year, all of it.
-- `content.js:76` Goats may be offered until two full years; older is zaken.
+- `content.js:78` *Subtitle:* he-goat · also tayish — תַּיִשׁ
+- `content.js:79` A male goat in its second year, all of it.
+- `content.js:79` Goats may be offered until two full years; older is zaken.
 - *Box heading:* When is it brought?
-- `content.js:289` The chatas of the nasi.
-- `content.js:289` The community's chatas goats: on Rosh Chodesh and the festivals, and the two goats of Yom Kippur.
+- `content.js:293` The chatas of the nasi.
+- `content.js:293` On holidays, the community's musaf includes a single goat on Rosh Chodesh and every festival. On Yom Kippur, a pair of two goats are brought together "for Hashem and for Azazel." On Shavuos, an additional goat is brought along with the sacrifices that accompany the two loaves.
 - *Sources quoted:* MK 1:14, MK 1:11
 
 #### ez עֵז
 
-- `content.js:22` *Subtitle:* she-goat
-- `content.js:78` A grown female goat. Of the four kinds she can only be a shelamim: the individual's chatas must be "a she-goat in her first year", ez bas shenasah.
-- `content.js:78` The word ez also names the goat species as a whole; the Rambam calls even the nasi's male goat "ez".
+- `content.js:22` *Subtitle:* she-goat · also se'irah — שְׂעִירָה
+- `content.js:81` A grown female goat. Of the four kinds she can only be a shelamim: the individual's chatas must be "a she-goat in her first year", ez bas shenasah.
+- `content.js:81` The word ez also names the goat species as a whole; the Rambam calls even the nasi's male goat "ez".
 - *Box heading:* Never named for a particular korban
-- `content.js:290` The Torah never names a grown she-goat for any particular korban. She may be a shelamim.
+- `content.js:294` The Torah never names a grown she-goat for any particular korban. She may be a shelamim.
 - *Sources quoted:* MK 1:11, Bamidbar 15:27, MK 1:15
 
 #### tor תּוֹר
 
-- `content.js:79` *Subtitle:* turtledove · also pl. torim — תּוֹרִים
-- `content.js:80` Fit only when grown: after the neck feathers turn golden (tzihuv).
-- `content.js:80` Male or female alike. Ordinary blemishes do not disqualify a bird; a missing limb, a dried wing or a blinded eye does.
+- `content.js:82` *Subtitle:* turtledove · also pl. torim — תּוֹרִים
+- `content.js:83` Fit only when grown: after the neck feathers turn golden (tzihuv).
+- `content.js:83` Male or female alike. Ordinary blemishes do not disqualify a bird; a missing limb, a dried wing or a blinded eye does.
 - *Box heading:* When is it brought?
-- `content.js:291` The olah and chatas of a poor yoledes, of a zav or zavah, and of a poor metzora.
-- `content.js:291` The middle-income sinner's olah ve'yored; a convert's olah.
+- `content.js:295` The olah and chatas of a poor yoledes, of a zav or zavah, and of a poor metzora. A yoledes always brings at least one bird as a chatas.
+- `content.js:295` The middle-income sinner's olah ve'yored; a convert's olah.
 - *Sources quoted:* MK 1:14, Chullin 1:5, Issurei Mizbeach 3:1
 
 #### ben yonah בֶּן יוֹנָה
 
-- `content.js:81` *Subtitle:* young pigeon · also pl. bnei yonah — בְּנֵי יוֹנָה
-- `content.js:82` Fit only while young: before the neck feathers turn golden.
-- `content.js:82` At the very start of the yellowing, both turtledoves and pigeons are unfit.
+- `content.js:84` *Subtitle:* young pigeon · also pl. bnei yonah — בְּנֵי יוֹנָה
+- `content.js:85` Fit only while young: before the neck feathers turn golden.
+- `content.js:85` At the very start of the yellowing, both turtledoves and pigeons are unfit.
 - *Box heading:* When is it brought?
-- `content.js:292` The same bird offerings as the turtledove: whoever may bring a bird chooses either kind.
+- `content.js:296` The same bird offerings as the turtledove: whoever may bring a bird chooses either kind.
 - *Sources quoted:* Chullin 1:5, MK 1:8
 
 #### pilgas פִּלְגָּס (bonus entry)
 
-- `content.js:83` *Subtitle:* sheep in the first 30 days of its second year
-- `content.js:84` No longer a keves, not yet an ayil: fit as neither.
-- `content.js:84` From day 31 of the second year it is an ayil.
+- `content.js:86` *Subtitle:* sheep in the first 30 days of its second year
+- `content.js:87` No longer a keves, not yet an ayil: fit as neither.
+- `content.js:87` From day 31 of the second year it is an ayil.
 - *Box heading:* When is it brought?
-- `content.js:293` Never: a pilgas is fit neither as a keves nor as an ayil.
+- `content.js:297` Never: a pilgas is fit neither as a keves nor as an ayil.
 - *Sources quoted:* MK 1:14
 
 ### Korbanos chapter
@@ -1323,71 +1356,71 @@ Blank ("Not yet learned") until the lesson that opens each page has been heard.
 
 #### olah עוֹלָה
 
-- `content.js:99` *Subtitle:* burnt offering · kodshei kodashim (most holy)
-- `content.js:100` From the cattle, sheep or goats: males only, young or grown. Or from turtledoves and young pigeons, either sex.
-- `content.js:101` Entirely burned on the mizbeach; nothing is eaten. Only the hide goes to the kohanim.
-- `content.js:102` Kodshei kodashim: slaughtered north of the mizbeach.
+- `content.js:102` *Subtitle:* burnt offering · kodshei kodashim (most holy)
+- `content.js:103` From the cattle, sheep or goats: males only, young or grown. Or from turtledoves and young pigeons, either sex.
+- `content.js:104` Entirely burned on the mizbeach; nothing is eaten. Only the hide goes to the kohanim.
+- `content.js:105` Kodshei kodashim: slaughtered north of the mizbeach.
 - *Opens after the lesson:* The olah
 - *Sources quoted:* MK 1:8, Vayikra 1:3, MK 6:1, Vayikra 7:8, MK 5:2
 
 #### chatas חַטָּאת
 
-- `content.js:103` *Subtitle:* sin offering · kodshei kodashim (most holy)
-- `content.js:104` Brought for an unintentional sin whose deliberate violation carries kares.
-- `content.js:105` The category spans all five species, male or female; but an ordinary person's chatas is a female sheep or goat in its first year (a kivsah or a se'irah), never cattle. Three exceptions: the nasi (male goat), the kohen mashiach and the kohen gadol on Yom Kippur (bulls).
-- `content.js:106` Kodshei kodashim: slaughtered in the north; eaten by male kohanim in the Azarah, on the day of slaughter and that night.
+- `content.js:106` *Subtitle:* sin offering · kodshei kodashim (most holy)
+- `content.js:107` Brought for an unintentional sin whose deliberate violation carries kares.
+- `content.js:108` The category spans all five species, male or female; but an ordinary person's chatas is a female sheep or goat in its first year (a kivsah or a se'irah), never cattle. Three exceptions: the nasi (male goat), the kohen mashiach and the kohen gadol on Yom Kippur (bulls).
+- `content.js:109` Kodshei kodashim: slaughtered in the north; eaten by male kohanim in the Azarah, on the day of slaughter and that night.
 - *Opens after the lesson:* The chatas
 - *Sources quoted:* MK 1:9, MK 1:15, Vayikra 4:28, Bamidbar 15:27, MK 10:3, MK 10:7
 
 #### asham אָשָׁם
 
-- `content.js:107` *Subtitle:* guilt offering · kodshei kodashim (most holy)
-- `content.js:108` Only from male sheep: a ram (ayil) for most ashamos, a lamb (keves) for the asham of a nazir and of a metzora.
-- `content.js:109` Brought for specific cases: me'ilah, a false oath over money, a doubtful chatas, a shifchah charufah, and in the purification of a nazir and a metzora.
-- `content.js:110` Kodshei kodashim: north; eaten by male kohanim in the Azarah, a day and a night.
+- `content.js:110` *Subtitle:* guilt offering · kodshei kodashim (most holy)
+- `content.js:111` Only from male sheep: a ram (ayil) for most ashamos, a lamb (keves) for the asham of a nazir and of a metzora.
+- `content.js:112` Brought for specific cases: me'ilah, a false oath over money, a doubtful chatas, a shifchah charufah, and in the purification of a nazir and a metzora.
+- `content.js:113` Kodshei kodashim: north; eaten by male kohanim in the Azarah, a day and a night.
 - *Opens after the lesson:* The asham
 - *Sources quoted:* MK 1:10, Vayikra 5:15, MK 10:3, MK 10:7
 
 #### shelamim שְׁלָמִים
 
-- `content.js:111` *Subtitle:* peace offering · kodashim kalim (lesser holiness)
-- `content.js:112` From cattle, sheep or goats, male or female, young or grown. Never from birds.
-- `content.js:113` The eimurin are burned; the chazeh and shok go to the kohanim; the rest is eaten by the owners.
-- `content.js:114` Kodashim kalim: slaughtered anywhere in the Azarah; eaten anywhere in Yerushalayim by anyone tahor, for two days and a night. A todah: only a day and a night.
+- `content.js:114` *Subtitle:* peace offering · kodashim kalim (lesser holiness)
+- `content.js:115` From cattle, sheep or goats, male or female, young or grown. Never from birds.
+- `content.js:116` The eimurin are burned; the chazeh and shok go to the kohanim; the rest is eaten by the owners.
+- `content.js:117` Kodashim kalim: slaughtered anywhere in the Azarah; eaten anywhere in Yerushalayim by anyone tahor, for two days and a night. A todah: only a day and a night.
 - *Opens after the lesson:* The shelamim
 - *Sources quoted:* MK 1:11, Vayikra 3:1, MK 5:2, MK 10:5, MK 10:6, MK 10:7
 
 #### pesach פֶּסַח
 
-- `content.js:115` *Subtitle:* paschal offering · kodashim kalim (lesser holiness)
-- `content.js:116` One of the three further individual offerings (with the bechor and the maaser).
-- `content.js:116` A male lamb or kid in its first year. Kodashim kalim.
+- `content.js:118` *Subtitle:* paschal offering · kodashim kalim (lesser holiness)
+- `content.js:119` One of the three further individual offerings (with the bechor and the maaser).
+- `content.js:119` A male lamb or kid in its first year. Kodashim kalim.
 - *Opens after the lesson:* The four kinds
 - *Sources quoted:* MK 1:3, MK 1:17
 
 #### bechor בְּכוֹר
 
-- `content.js:117` *Subtitle:* firstborn · kodashim kalim (lesser holiness)
-- `content.js:118` A male that opens its mother's womb; holy from birth; given to a kohen.
-- `content.js:118` Kodashim kalim. May be offered from the eighth day even lechatchilah.
+- `content.js:120` *Subtitle:* firstborn · kodashim kalim (lesser holiness)
+- `content.js:121` A male that opens its mother's womb; holy from birth; given to a kohen.
+- `content.js:121` Kodashim kalim. May be offered from the eighth day even lechatchilah.
 - *Opens after the lesson:* The four kinds
 - *Sources quoted:* MK 1:3, MK 1:12, MK 1:17
 
 #### maaser beheimah מַעֲשֵׂר בְּהֵמָה
 
-- `content.js:119` *Subtitle:* animal tithe · kodashim kalim (lesser holiness)
-- `content.js:120` Every tenth animal born to the herd or flock.
-- `content.js:118` Kodashim kalim. May be offered from the eighth day even lechatchilah.
+- `content.js:122` *Subtitle:* animal tithe · kodashim kalim (lesser holiness)
+- `content.js:123` Every tenth animal born to the herd or flock.
+- `content.js:121` Kodashim kalim. May be offered from the eighth day even lechatchilah.
 - *Opens after the lesson:* The four kinds
 - *Sources quoted:* MK 1:3, MK 1:12, MK 1:17
 
 ### Seals chapter
 
-- `content.js:125` **Egel seal עֵגֶל:** Earned at Sha'ar HaTzon: the five species, their names and ages.
-- `content.js:126` **Zachar seal זָכָר:** Earned at the Azarah gate: the four korbanos, their species and sanctity.
-- `content.js:127` **Gedi seal גְּדִי:** Who brings what. Coming soon.
-- `content.js:128` **Chotei seal חוֹטֵא:** Olah, chatas and asham in detail. Coming soon.
-- `content.js:129` **Dal seal דַּל:** Communal offerings and kodashim kalim. Coming soon.
+- `content.js:128` **Egel seal עֵגֶל:** Earned at Sha'ar HaTzon: the five species, their names and ages.
+- `content.js:129` **Zachar seal זָכָר:** Earned at the Azarah gate: the four korbanos, their species and sanctity.
+- `content.js:130` **Gedi seal גְּדִי:** Who brings what. Coming soon.
+- `content.js:131` **Chotei seal חוֹטֵא:** Olah, chatas and asham in detail. Coming soon.
+- `content.js:132` **Dal seal דַּל:** Communal offerings and kodashim kalim. Coming soon.
 
 ### Journal chapter
 
@@ -1395,29 +1428,29 @@ Each lesson adds its title and summary (shown with the lessons above). Lessons t
 
 **Lesson: A mum disqualifies** (taught by Mevaker Shimon)
 
-- `content.js:158` I am the mevaker, the inspector. Every animal passes my eyes before the gate.
+- `content.js:161` I am the mevaker, the inspector. Every animal passes my eyes before the gate.
 - `…` A blind eye, a broken leg, a split ear: any MUM {he:מוּם} the Torah lists, and the animal is pasul, however fine its age.
 - `…` "Anything that has a blemish you shall not offer."
-- `content.js:159` *Journal summary:* Any mum (blemish) disqualifies an animal at any age: blind, broken limb, and the rest.
-- `content.js:157` *Journal title:* A mum disqualifies
+- `content.js:162` *Journal summary:* Any mum (blemish) disqualifies an animal at any age: blind, broken limb, and the rest.
+- `content.js:160` *Journal title:* A mum disqualifies
 
 ## 11. Menu and help
 
-- `engine.js:766` SEFER
-- `engine.js:766` animals, korbanos, seals, journal
-- `engine.js:766` SAVE
-- `engine.js:766` not during a test
-- `engine.js:766` write progress
-- `engine.js:766` MUSIC: 
-- `engine.js:766` off · low · medium · loud
-- `engine.js:766` HOW TO PLAY
-- `engine.js:766` controls and goals
-- `engine.js:766` CLOSE MENU
-- `engine.js:766` back to the game
-- `engine.js:783` Finish the test first.
-- `engine.js:783` Progress saved.
-- `engine.js:784` Music: 
-- `engine.js:788`
+- `engine.js:780` SEFER
+- `engine.js:780` animals, korbanos, seals, journal
+- `engine.js:780` SAVE
+- `engine.js:780` not during a test
+- `engine.js:780` write progress
+- `engine.js:780` MUSIC: 
+- `engine.js:780` off · low · medium · loud
+- `engine.js:780` HOW TO PLAY
+- `engine.js:780` controls and goals
+- `engine.js:780` CLOSE MENU
+- `engine.js:780` back to the game
+- `engine.js:797` Finish the test first.
+- `engine.js:797` Progress saved.
+- `engine.js:798` Music: 
+- `engine.js:802`
   > How to play
   > ARROWS / WASD walk. Z, SPACE or ENTER: talk, confirm. X: cancel; hold X to run. ESC: this menu, on any screen, even during a test.
   > Walk through the tall grass and name the animals you meet to fill your Sefer. Listen to the teachers (their lessons go into the Journal page of your Sefer). Then face the kohen at the gate.
@@ -1428,48 +1461,48 @@ Each lesson adds its title and summary (shown with the lessons above). Lessons t
 
 Added in brackets after the first use of each term in a challenge question, option or explanation.
 
-- `content.js:255` **kodshei kodashim**: most holy offerings
-- `content.js:255` **kodashim kalim**: offerings of lesser holiness
-- `content.js:256` **kohen mashiach**: anointed High Priest
-- `content.js:256` **kohen gadol**: High Priest
-- `content.js:256` **se'iras izim**: female goat
-- `content.js:256` **se'ir izim**: male goat
-- `content.js:257` **mizbeach**: altar
-- `content.js:257` **chataos**: sin-offerings
-- `content.js:257` **chatas**: sin-offering
-- `content.js:257` **olos**: burnt-offerings
-- `content.js:122` **olah**: burnt-offering
-- `content.js:258` **ashamos**: guilt-offerings
-- `content.js:258` **asham**: guilt-offering
-- `content.js:258` **shelamim**: peace-offering
-- `content.js:258` **todah**: thanksgiving offering
-- `content.js:259` **Azarah**: Temple courtyard
-- `content.js:259` **tzihuv**: the neck feathers turning golden
-- `content.js:259` **zaken**: too old
-- `content.js:259` **lechatchilah**: ideally
-- `content.js:260` **mum**: blemish
-- `content.js:260` **eimurin**: the parts burned on the altar
-- `content.js:260` **alyah**: fat tail
-- `content.js:260` **tahor**: ritually pure
-- `content.js:260` **nasi**: ruler
-- `content.js:261` **kares**: spiritual cutting-off
-- `content.js:261` **shechitah**: slaughter
-- `content.js:261` **zerikah**: sprinkling the blood
-- `content.js:261` **bechor**: firstborn animal
-- `content.js:262` **maaser beheimah**: animal tithe
-- `content.js:262` **maaser**: animal tithe
-- `content.js:262` **pesach**: Passover offering
-- `content.js:262` **pilgas**: in-between sheep
-- `content.js:263` **kohanim**: priests
-- `content.js:263` **kohen**: priest
-- `content.js:263` **Yerushalayim**: Jerusalem
-- `content.js:263` **Mikdash**: Temple
-- `content.js:263` **musaf**: additional festival offering
-- `content.js:264` **Shavuos**: the festival of Shavuos
-- `content.js:264` **nesachim**: wine libations
-- `content.js:264` **Heichal**: the Sanctuary building
-- `content.js:264` **chazeh**: breast
-- `content.js:264` **shok**: thigh
+- `content.js:259` **kodshei kodashim**: most holy offerings
+- `content.js:259` **kodashim kalim**: offerings of lesser holiness
+- `content.js:260` **kohen mashiach**: anointed High Priest
+- `content.js:260` **kohen gadol**: High Priest
+- `content.js:260` **se'iras izim**: female goat
+- `content.js:260` **se'ir izim**: male goat
+- `content.js:261` **mizbeach**: altar
+- `content.js:261` **chataos**: sin-offerings
+- `content.js:261` **chatas**: sin-offering
+- `content.js:261` **olos**: burnt-offerings
+- `content.js:125` **olah**: burnt-offering
+- `content.js:262` **ashamos**: guilt-offerings
+- `content.js:262` **asham**: guilt-offering
+- `content.js:262` **shelamim**: peace-offering
+- `content.js:262` **todah**: thanksgiving offering
+- `content.js:263` **Azarah**: Temple courtyard
+- `content.js:263` **tzihuv**: the neck feathers turning golden
+- `content.js:263` **zaken**: too old
+- `content.js:263` **lechatchilah**: ideally
+- `content.js:264` **mum**: blemish
+- `content.js:264` **eimurin**: the parts burned on the altar
+- `content.js:264` **alyah**: fat tail
+- `content.js:264` **tahor**: ritually pure
+- `content.js:264` **nasi**: ruler
+- `content.js:265` **kares**: spiritual cutting-off
+- `content.js:265` **shechitah**: slaughter
+- `content.js:265` **zerikah**: sprinkling the blood
+- `content.js:265` **bechor**: firstborn animal
+- `content.js:266` **maaser beheimah**: animal tithe
+- `content.js:266` **maaser**: animal tithe
+- `content.js:266` **pesach**: Passover offering
+- `content.js:266` **pilgas**: in-between sheep
+- `content.js:267` **kohanim**: priests
+- `content.js:267` **kohen**: priest
+- `content.js:267` **Yerushalayim**: Jerusalem
+- `content.js:267` **Mikdash**: Temple
+- `content.js:267` **musaf**: additional festival offering
+- `content.js:268` **Shavuos**: the festival of Shavuos
+- `content.js:268` **nesachim**: wine libations
+- `content.js:268` **Heichal**: the Sanctuary building
+- `content.js:268` **chazeh**: breast
+- `content.js:268` **shok**: thigh
 
 ## 13. Sources and their translations
 
@@ -1562,31 +1595,40 @@ Quoted in the Sefer under each entry.
 - `content.js:39` **Bamidbar 15:27**
   - וְאִם־נֶפֶשׁ אַחַת תֶּחֱטָא בִשְׁגָגָה וְהִקְרִיבָה עֵז בַּת־שְׁנָתָהּ לְחַטָּאת׃
   - If one person sins unintentionally, he shall bring a she-goat in her first year as a chatas.
-- `content.js:40` **Vayikra 4:28**
+- `content.js:40` **MK 1:5**
+  - קָרְבְּנוֹת הַצִּבּוּר הֵם שְׁנֵי תְּמִידִין שֶׁל כָּל יוֹם. וּמוּסְפֵי שַׁבָּתוֹת וְרָאשֵׁי חֳדָשִׁים וְהַמּוֹעֲדוֹת וּשְׂעִיר חַטָּאת שֶׁל יוֹם הַכִּפּוּרִים. וְכֵן אִם שָׁגְגוּ בֵּית דִּין וְהוֹרוּ בַּעֲבוֹדָה זָרָה מֵבִיא כָּל שֵׁבֶט וְשֵׁבֶט פַּר וְשָׂעִיר. הַפָּר עוֹלָה וְהַשָּׂעִיר חַטָּאת... וְאִם שָׁגְגוּ וְהוֹרוּ בִּשְׁאָר הַמִּצְוֹת מְבִיאִין פַּר לְחַטָּאת וְהוּא הַנִּקְרָא פַּר הֶעְלֵם דָּבָר שֶׁל צִבּוּר.
+  - The communal offerings are the two daily tamid offerings, the musafim of Shabbos, Rosh Chodesh and the festivals, and the chatas goat of Yom Kippur. And if the beis din erred and ruled to permit idolatry, each tribe brings a bull and a goat: the bull an olah, the goat a chatas. If they erred in any other mitzvah, they bring a bull as a chatas, the par he'elem davar of the community.
+- `content.js:41` **MK 1:6**
+  - ...וְכֵן אֵיל הָעוֹלָה וּפַר הַחַטָּאת שֶׁמַּקְרִיב כֹּהֵן גָּדוֹל מִשֶּׁלּוֹ בְּיוֹם הַכִּפּוּרִים הֲרֵי הֵן קָרְבַּן יָחִיד. וּפַר זֶה הוּא הַנִּקְרָא פַּר יוֹם הַכִּפּוּרִים.
+  - The ram for an olah and the bull for a chatas that the kohen gadol brings from his own funds on Yom Kippur are individual offerings. This bull is called the bull of Yom Kippur.
+- `content.js:42` **Shegagos 1:4**
+  - ...אִם שָׁגַג בַּעֲבוֹדָה זָרָה מֵבִיא עֵז בַּת שְׁנָתָהּ לְחַטָּאת... אֲבָל אִם שָׁגַג בְּאַחַת מִשְּׁאָר אַרְבָּעִים וּשְׁתַּיִם אִם הָיָה הֶדְיוֹט מֵבִיא שְׂעִירַת עִזִּים אוֹ נְקֵבָה מִן הַכְּבָשִׂים... וְאִם כֹּהֵן מָשׁוּחַ הוּא מֵבִיא פַּר בֶּן בָּקָר לְחַטָּאת וְהוּא נִשְׂרָף.
+  - One who worshipped idolatry by mistake brings a she-goat in her first year as a chatas. For any of the other forty-two sins, an ordinary person brings a female goat or a female sheep. A kohen mashiach brings a young bull as a chatas, and it is burned.
+- `content.js:43` **Vayikra 4:28**
   - וְהֵבִיא קָרְבָּנוֹ שְׂעִירַת עִזִּים תְּמִימָה נְקֵבָה עַל־חַטָּאתוֹ אֲשֶׁר חָטָא׃
   - He shall bring as his offering a female goat without blemish for the sin he committed.
-- `content.js:41` **Vayikra 4:32**
+- `content.js:44` **Vayikra 4:32**
   - וְאִם־כֶּבֶשׂ יָבִיא קָרְבָּנוֹ לְחַטָּאת נְקֵבָה תְמִימָה יְבִיאֶנָּה׃
   - If he brings a sheep as his chatas, he shall bring a female without blemish.
-- `content.js:42` **Vayikra 5:15**
+- `content.js:45` **Vayikra 5:15**
   - וְהֵבִיא אֶת־אֲשָׁמוֹ לַה׳ אַיִל תָּמִים מִן־הַצֹּאן בְּעֶרְכְּךָ כֶּסֶף־שְׁקָלִים בְּשֶׁקֶל־הַקֹּדֶשׁ לְאָשָׁם׃
   - He shall bring his asham to Hashem: a ram without blemish from the flock, by your valuation in silver shekels, for an asham.
-- `content.js:43` **Vayikra 7:8**
+- `content.js:46` **Vayikra 7:8**
   - וְהַכֹּהֵן הַמַּקְרִיב אֶת־עֹלַת אִישׁ עוֹר הָעֹלָה אֲשֶׁר הִקְרִיב לַכֹּהֵן לוֹ יִהְיֶה׃
   - The kohen who offers a person's olah: the hide of the olah he offered shall be the kohen's.
-- `content.js:44` **Vayikra 22:20**
+- `content.js:47` **Vayikra 22:20**
   - כֹּל אֲשֶׁר־בּוֹ מוּם לֹא תַקְרִיבוּ כִּי־לֹא לְרָצוֹן יִהְיֶה לָכֶם׃
   - Anything that has a blemish you shall not offer, for it will not be accepted for you.
-- `content.js:45` **Vayikra 22:27**
+- `content.js:48` **Vayikra 22:27**
   - שׁוֹר אוֹ־כֶשֶׂב אוֹ־עֵז כִּי יִוָּלֵד וְהָיָה שִׁבְעַת יָמִים תַּחַת אִמּוֹ וּמִיּוֹם הַשְּׁמִינִי וָהָלְאָה יֵרָצֶה לְקָרְבַּן אִשֶּׁה לַה׳׃
   - When an ox, a sheep or a goat is born, it shall stay seven days with its mother; from the eighth day on it is acceptable as a fire-offering to Hashem.
-- `content.js:46` **Chullin 1:5**
+- `content.js:49` **Chullin 1:5**
   - כָּשֵׁר בַּתּוֹרִין פָּסוּל בִּבְנֵי יוֹנָה, כָּשֵׁר בִּבְנֵי יוֹנָה פָּסוּל בַּתּוֹרִין. תְּחִלַּת הַצִּהוּב בָּזֶה וּבָזֶה פָּסוּל.
   - What is fit in turtledoves is unfit in young pigeons, and what is fit in young pigeons is unfit in turtledoves (grown turtledoves, young pigeons). At the start of the yellowing of the neck feathers, both are unfit.
-- `content.js:47` **Issurei Mizbeach 3:1**
+- `content.js:50` **Issurei Mizbeach 3:1**
   - תַּמּוּת וְזַכְרוּת בִּבְהֵמָה, וְאֵין תַּמּוּת וְזַכְרוּת בָּעוֹפוֹת.
   - (Chullin 23a, cited by the Rambam) "Blemish-free and male/female apply to animals, not to birds." The Rambam adds the limit: a bird whose wing has dried, whose eye is blinded or whose leg is severed (a missing limb) is unfit.
-- `content.js:48` **Shekalim 5:3**
+- `content.js:51` **Shekalim 5:3**
   - אַרְבָּעָה חוֹתָמוֹת הָיוּ בַּמִּקְדָּשׁ, וְכָתוּב עֲלֵיהֶן עֵגֶל, זָכָר, גְּדִי, חוֹטֵא. בֶּן עַזַּאי אוֹמֵר, חֲמִשָּׁה הָיוּ... עֵגֶל, זָכָר, גְּדִי, חוֹטֵא דַּל, וְחוֹטֵא עָשִׁיר.
   - There were four seals in the Mikdash, inscribed: egel, zachar, gedi, chotei. Ben Azzai says there were five: egel, zachar, gedi, chotei dal, and chotei ashir.
 
@@ -1594,7 +1636,7 @@ Quoted in the Sefer under each entry.
 
 Strings the sections above did not place. Most are labels or fragments.
 
-- `engine.js:853` sprite problems
+- `engine.js:867` sprite problems
 - `battle.js:8` Rambam, Maaseh HaKorbanos
 - `battle.js:11` Rambam, Hil. Maaseh HaKorbanos 
 - `battle.js:12` Rambam, Hil. 

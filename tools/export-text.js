@@ -98,7 +98,7 @@ const BLANKS = [
   [/G_\(q\.why\)/, 'explanation'], [/S\.hp <= 0/, '" That was your last one..." when no hearts are left'],
   [/LESSONS\[id\]\.who/, 'teachers not yet heard'], [/LESSONS\[id\]\.title/, 'lessons not yet heard'], [/^a\.tr$/, 'name'], [/^a\.he$/, 'Hebrew name'],
   [/^a\.en$/, 'English'], [/^it\.n$/, 'offering'], [/^(tr|spec)\.name$/, 'challenger'], [/^rc$/, 'number of names'], [/^correct$/, 'right'],
-  [/^done$/, 'asked'], [/TABS\[tab\]/, 'chapter'], [/entries\[sel\]\.num/, 'number'], [/=== 1 \? '' : 's'/, 's'], [/TABS\.map/, 'chapter tabs'], [/^L\.who$/, 'teacher'], [/^regN$/, 'number of names'], [/seals\.length$/, 'number of seals'], [/^L\.journal$/, 'journal summary'], [/^L\.title$/, 'lesson title'], [/^next$/, 'off/low/medium/loud'],
+  [/^done$/, 'asked'], [/TABS\[tab\]/, 'chapter'], [/entries\[sel\]\.num/, 'number'], [/=== 1 \? '' : 's'/, 's'], [/TABS\.map/, 'chapter tabs'], [/^L\.who$/, 'teacher'], [/^who$/, 'examiner'], [/^desc$/, 'species, male/female, age, blemish'], [/^regN$/, 'number of names'], [/seals\.length$/, 'number of seals'], [/^L\.journal$/, 'journal summary'], [/^L\.title$/, 'lesson title'], [/^next$/, 'off/low/medium/loud'],
 ];
 const blank = e => {
   const said = [...e.matchAll(/'((?:[^'\\]|\\.)*)'/g)].map(m => m[1].replace(/\\'/g, "'")).filter(x => /\w+ \w+/.test(x));
@@ -108,7 +108,7 @@ const holes = s => s.replace(/\$\{([^{}]*(?:\{[^{}]*\}[^{}]*)*)\}/g, (m, e) => b
 function htmlToText(s) {
   return s
     .replace(/<br\s*\/?>/g, '\n').replace(/<\/h[12]>/g, '\n').replace(/<\/(p|h3|tr|div)>/g, '\n').replace(/<(p|h3|tr)[^>]*>/g, '\n')
-    .replace(/<span class="tl-lbl">([^<]*)<\/span>/g, '$1: ').replace(/<\/span>/g, ' ').replace(/<\/t[hd]>/g, ' | ').replace(/<small>/g, ' — ').replace(/<\/i>/g, ' | ')
+    .replace(/<span class="tl-lbl">([^<]+)<\/span>/g, '$1: ').replace(/<\/span>/g, ' ').replace(/<\/t[hd]>/g, ' | ').replace(/<small>/g, ' — ').replace(/<\/i>/g, ' | ')
     .replace(/<[^>]+>/g, '').replace(/&middot;/g, '·').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&')
     .split('\n').map(l => l.replace(/\s+/g, ' ').replace(/(\s*\|\s*)+$/, '').trim()).filter(Boolean).join('\n');
 }
@@ -260,13 +260,14 @@ w('');
 // ---- 2. Elazar's house
 w('## 2. Elazar\'s house (the start)', '', '### Elazar HaKohen', '', WHERE.elazar_home, '', 'First visit:', '');
 const mentor = take('engine', 'mentor');
-const firstReturn = mentor.findIndex(x => /Rest\. There/.test(x.text));
+const firstReturn = mentor.findIndex(x => /Enter here to rest/.test(x.text));
 codeItems(mentor.slice(0, firstReturn));
+w('', 'Every later visit:', '');
+codeItems(mentor.slice(firstReturn));
+w('', '### The scrolls', '', 'On the table and the shelves in Elazar\'s house. The shelves in the Beis Midrash also teach this lesson if it has not been read yet.', '');
+codeItems(take('engine', 'readScrolls'));
 w('');
 lesson('five_species');
-w('Every later visit:', '');
-codeItems(mentor.slice(firstReturn));
-w('');
 
 // ---- 3. Pasture
 const P = M.pasture;
@@ -286,7 +287,7 @@ signs(P);
 // ---- 4. Sheep Gate
 w('## 4. The Sheep Gate test (Mevaker Shimon)', '', WHERE.mevaker, '');
 codeItems(take('engine', 'gatekeeper1'));
-w('', 'The test itself: five questions drawn at random from the Level 1 question bank (section 9), then one animal to name and judge, generated the same way as the animals in the tall grass (section 7). After you pass, Shimon gives this lesson:', '');
+w('', 'The test itself: five questions drawn at random from the Level 1 question bank (section 9), then three animals to name and judge, generated the same way as the animals in the tall grass (section 7). Goats are only judged, not named. After you pass, Shimon gives this lesson:', '');
 lesson('seals');
 
 // ---- 5. City
@@ -310,7 +311,7 @@ w('', 'The test itself: six questions drawn at random from the Level 2 question 
 // ---- 6. Shared lines
 w('## 6. Lines used in many places', '', '### Challenges against a character', '');
 codeItems(take('engine', 'trainerBattle'));
-codeItems(take('battle', 'run', x => /challenges you|Three mistakes|You passed|Correct!|Not quite/.test(x.text)));
+codeItems(take('battle', 'run', x => /challenges you|three mistakes|You passed|Correct!|Not quite/i.test(x.text)));
 w('', '### Teachers with more than one lesson', '');
 codeItems(take('engine', 'talkTo'));
 w('', '### Losing your last heart', '');
@@ -322,7 +323,7 @@ codeItems(take('engine', 'interact'));
 w('');
 
 // ---- 7. Wild animals
-w('## 7. Animals in the tall grass (Level 1)', '', 'Every encounter asks what the animal is called (not for birds), then whether it can be offered. Naming it correctly writes it into the Sefer. Mistakes here never cost a heart.', '', '### Encounter lines', '');
+w('## 7. Animals in the tall grass (Level 1)', '', 'Every encounter asks what the animal is called, then whether it can be offered. Birds and goats are not named: the sources use goat names loosely, so a goat or bird is written into the Sefer when you judge it correctly. Mistakes here never cost a heart. The panel with the animal\'s details flashes three times when the encounter starts, and again after every minute without an answer.', '', '### Encounter lines', '');
 codeItems(take('battle', 'run', x => /wanders|written into your Sefer|trots back|wanders off|WILD/.test(x.text)));
 codeItems(take('battle', 'usesLine'));
 w('- For the four animals the Torah never names for a particular korban, that list starts with ⚠ instead of "When is it brought?".');
@@ -345,7 +346,7 @@ for (const [k, f] of Object.entries(R.FIT)) {
   w(f.why ? `  - *Explanation:* ${f.why}` : '  - *Never the right answer; offered only as a wrong choice for birds.*');
 }
 w('', '### Gate test: the generated animal', '');
-codeItems(take('battle', 'run', x => /shows you a|The same animal/.test(x.text)));
+codeItems(take('battle', 'animalQuestions'));
 w('');
 
 // ---- 8. Level 2 generated
@@ -371,7 +372,8 @@ for (const lvl of [1, 2]) {
   w(`### Level ${lvl}`, '');
   for (const q of C.QUESTIONS.filter(x => x.lvl === lvl)) {
     question(q.id);
-    w(`  - *Used by:* ${[...(qUsers[q.id] || []), lvl === 1 ? 'Sheep Gate test pool' : 'Azarah gate test pool'].join('; ')}`);
+    const pool = q.gate === false ? [] : [lvl === 1 ? 'Sheep Gate test pool' : 'Azarah gate test pool'];
+    w(`  - *Used by:* ${[...(qUsers[q.id] || []), ...pool].join('; ')}`);
   }
   w('');
 }
