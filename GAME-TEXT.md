@@ -1247,14 +1247,14 @@ Written questions used by the characters who challenge you and by the two gate t
 
 #### keves כֶּבֶשׂ
 
-- `content.js:66` *Subtitle:* lamb (male, first year)
+- `content.js:66` *Subtitle:* lamb (male, first year) · also kesev — כֶּשֶׂב
 - `content.js:67` Wherever the Torah says keves it means a sheep in its first year.
 - `content.js:67` After the year ends it is a pilgas for thirty days, then an ayil.
 - *Box heading:* When is it brought?
 - `content.js:287` The daily tamid: two lambs every day, morning and afternoon.
 - `content.js:287` The korban pesach (a lamb or a kid).
 - `content.js:287` The olah of a wealthy yoledes; the asham of a nazir and of a metzora.
-- *Sources quoted:* MK 1:14
+- *Sources quoted:* MK 1:14, Vayikra 22:27
 
 #### kivsah כִּבְשָׂה
 
